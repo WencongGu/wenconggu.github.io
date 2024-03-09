@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Some uncommon linux commands usages.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux不基础用法">
+<meta property="og:url" content="https://wenconggu.github.io/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="Some uncommon linux commands usages.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-06T15:06:00.000Z">
+<meta property="article:modified_time" content="2024-03-09T13:25:13.767Z">
+<meta property="article:author" content="GU WENCONG">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/","path":"2023/10/06/Linux不基础用法/","title":"Linux不基础用法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux不基础用法 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">4</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Heredoc"><span class="nav-number">1.</span> <span class="nav-text">Heredoc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">2.</span> <span class="nav-text">sudo</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux不基础用法 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux不基础用法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-06 23:06:00" itemprop="dateCreated datePublished" datetime="2023-10-06T23:06:00+08:00">2023-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-09 21:25:13" itemprop="dateModified" datetime="2024-03-09T21:25:13+08:00">2024-03-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Some uncommon linux commands usages.</p>
+<span id="more"></span>
+
+
+<h2 id="Heredoc"><a href="#Heredoc" class="headerlink" title="Heredoc"></a>Heredoc</h2><p>作为输入重定向，heredoc具有很高的自由度。使用场景是在某些情况下需要给命令传入一个文本或者一系列内容作为参数，比如设置镜像时需要将一大堆的网站地址写入某个文件，这时在写脚本时就可以使用heredoc。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[COMMAND] &lt;&lt;[-] [&#x27;EOF&#x27; | EOF]</span><br><span class="line">  CONTEXT</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>在出入重定向符号 <code>&lt;&lt;</code> 后面加上减号 <code>-</code> 将使所有前导制表符被忽略。这样就可以在Shell程序脚本编写内容时使用缩进。不允许使用前导空格字符，只能使用制表符。</p>
+<p><code>EOF</code>是结束标识符，可以是任何字符串，但一般使用“EOF（End of File）”。单引号是可选的，表示是否转译变量。比如在<code>CONTEXT</code>中包含的环境变量，EOF不带单引号会被转换为相应的值，带单引号会将其视作一个字符串。</p>
+<p><code>CONTEXT</code> 的内容可以包含字符串，变量，命令和任何其他类型的输入。CONTEXT最后一行以结束标识符结尾。分隔符前面不允许有空格。</p>
+<p>作为输入重定向，它当然是与接受输入的<code>COMMAND</code>配合才能发挥作用，比如<code>tee</code>、<code>cat</code>等，结合输出重定向<code>&gt;</code>、<code>&gt;&gt;</code>将内容写入某些文档。</p>
+<p>需要注意的是，<code>echo</code>命令并不接受输入重定向，因此一般不与heredoc结合使用。但是<code>echo</code>也可以使用引号包含进换行符以达到相同的作用，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;this is line 1</span><br><span class="line">this is line \&#x27;2\&#x27;</span><br><span class="line">this is line 3&#x27; &gt;&gt; somefile.txt</span><br></pre></td></tr></table></figure>
+
+<p>其中出现了引号就要转译，这也是不方便的地方，需要使用诸如<code>\n</code>之类的还需要使用<code>-e</code>参数。</p>
+<h2 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h2><p>很多时候，非管理员时要写入某些管理员文件我们会想当然地认为使用<code>sudo</code>，即：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo echo &quot;something&quot; &gt;&gt; somefile</span><br></pre></td></tr></table></figure>
+
+<p>但是依然会发现有“Permission denied”的提醒。这是因为<code>sudo</code>仅仅给了<code>echo</code>命令管理员权限，<code>&gt;&gt;</code>重定向时依然没有相应权限。解决办法很多：</p>
+<ol>
+<li>切换到管理员身份<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br></pre></td></tr></table></figure></li>
+<li>使用管道和<code>tee</code><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;something&quot; | sudo tee somefile</span><br></pre></td></tr></table></figure></li>
+<li>使用<code>sh -c</code><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &quot;echo &quot;something&quot; &gt;&gt; somefile&quot;</span><br></pre></td></tr></table></figure>
+<code>sh</code>的<code>-c</code>选项就是<code>--cmd</code>，表示使用<code>sh</code>以命令格式运行后面的字符串，因此只要给<code>sh</code>权限即可。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/" rel="prev" title="基于链式安全多方计算的隐私保护联邦学习框架">
+                  <i class="fa fa-angle-left"></i> 基于链式安全多方计算的隐私保护联邦学习框架
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/01/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="next" title="在M1芯片的MacBook Air中配置Linux（ubuntu）">
+                  在M1芯片的MacBook Air中配置Linux（ubuntu） <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
