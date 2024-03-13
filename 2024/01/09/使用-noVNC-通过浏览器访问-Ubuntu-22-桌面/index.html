@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这个指南将向您展示如何设置一个运行 VNC 服务器和 noVNC 代理的 Ubuntu 22.04 EC2 实例。该代理允许您通过 Web 浏览器（或其他端口）访问 VNC 会话，同时也允许使用 SSL 证书加密会话！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 noVNC 通过浏览器访问 Ubuntu 22 桌面">
+<meta property="og:url" content="https://wenconggu.github.io/2024/01/09/%E4%BD%BF%E7%94%A8-noVNC-%E9%80%9A%E8%BF%87%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE-Ubuntu-22-%E6%A1%8C%E9%9D%A2/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="这个指南将向您展示如何设置一个运行 VNC 服务器和 noVNC 代理的 Ubuntu 22.04 EC2 实例。该代理允许您通过 Web 浏览器（或其他端口）访问 VNC 会话，同时也允许使用 SSL 证书加密会话！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wenconggu.github.io/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc1.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc2.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc3.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc4.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc5.png">
+<meta property="article:published_time" content="2024-01-09T04:42:24.000Z">
+<meta property="article:modified_time" content="2024-03-13T07:57:24.479Z">
+<meta property="article:author" content="GU WENCONG">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc1.png">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/01/09/%E4%BD%BF%E7%94%A8-noVNC-%E9%80%9A%E8%BF%87%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE-Ubuntu-22-%E6%A1%8C%E9%9D%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2024/01/09/%E4%BD%BF%E7%94%A8-noVNC-%E9%80%9A%E8%BF%87%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE-Ubuntu-22-%E6%A1%8C%E9%9D%A2/","path":"2024/01/09/使用-noVNC-通过浏览器访问-Ubuntu-22-桌面/","title":"使用 noVNC 通过浏览器访问 Ubuntu 22 桌面"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 noVNC 通过浏览器访问 Ubuntu 22 桌面 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">7</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">初始设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%9B%B4%E6%96%B0"><span class="nav-number">2.</span> <span class="nav-text">运行更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">安装桌面环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%80%E4%B8%AA-VNC-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">安装一个 VNC 服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E4%BD%A0%E7%9A%84-xstartup-%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">更新你的 xstartup 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-noVNC"><span class="nav-number">6.</span> <span class="nav-text">安装 noVNC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A9-VNC-%E6%9B%B4%E6%98%93%E4%BA%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">让 VNC 更易于使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E5%B1%95%E7%A4%BA"><span class="nav-number">8.</span> <span class="nav-text">样例展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%80%89%E7%9A%84%E5%A2%9E%E5%BC%BA%E5%8A%9F%E8%83%BD"><span class="nav-number">9.</span> <span class="nav-text">可选的增强功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E9%80%9F-noVNC"><span class="nav-number">9.1.</span> <span class="nav-text">加速 noVNC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%BD%91%E9%A1%B5%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-number">9.2.</span> <span class="nav-text">安装网页浏览器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">10.</span> <span class="nav-text">后记</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/01/09/%E4%BD%BF%E7%94%A8-noVNC-%E9%80%9A%E8%BF%87%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE-Ubuntu-22-%E6%A1%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 noVNC 通过浏览器访问 Ubuntu 22 桌面 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 noVNC 通过浏览器访问 Ubuntu 22 桌面
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-09 12:42:24" itemprop="dateCreated datePublished" datetime="2024-01-09T12:42:24+08:00">2024-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-13 15:57:24" itemprop="dateModified" datetime="2024-03-13T15:57:24+08:00">2024-03-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>这个指南将向您展示如何设置一个运行 VNC 服务器和 noVNC 代理的 Ubuntu 22.04 EC2 实例。该代理允许您通过 Web 浏览器（或其他端口）访问 VNC 会话，同时也允许使用 SSL 证书加密会话！</p>
+<span id="more"></span>
+
+<h2 id="初始设置"><a href="#初始设置" class="headerlink" title="初始设置"></a>初始设置</h2><p>创建 VPC，设置安全组，启动带有 Ubuntu 22.04 的 EC2 实例，并确保你将实例设置为公共 IP，因为稍后需要它来测试 noVNC。</p>
+<p>以上操作完成后，将开始安装所需工具。</p>
+<h2 id="运行更新"><a href="#运行更新" class="headerlink" title="运行更新"></a>运行更新</h2><p>更新 Ubuntu：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y upgrade</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装桌面环境"><a href="#安装桌面环境" class="headerlink" title="安装桌面环境"></a>安装桌面环境</h2><p>我们会为每个用户在显示器上安装轻量级的 XFCE 桌面环境（不推荐像 gdm 这样沉重的显示管理器）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y xfce4 xfce4-goodies</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装一个-VNC-服务器"><a href="#安装一个-VNC-服务器" class="headerlink" title="安装一个 VNC 服务器"></a>安装一个 VNC 服务器</h2><p>获取 VNC 服务器：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y tightvncserver</span><br></pre></td></tr></table></figure>
+
+<p>运行 VNC 服务器并设置登录密码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vncserver</span><br></pre></td></tr></table></figure>
+
+<p>运行过程案例展示（为了不与他人共享 VNC 会话，因此不创建只读密码）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">~$ </span><span class="language-bash">vncserver</span></span><br><span class="line"></span><br><span class="line">You will require a password to access your desktops.</span><br><span class="line"></span><br><span class="line">Password:</span><br><span class="line">Warning: password truncated to the length of 8.</span><br><span class="line">Verify:</span><br><span class="line">Would you like to enter a view-only password (y/n)? n</span><br><span class="line">xauth:  file /home/ubuntu/.Xauthority does not exist</span><br><span class="line"></span><br><span class="line">New &#x27;X&#x27; desktop is ip-172-31-28-185:1</span><br><span class="line"></span><br><span class="line">Creating default startup script /home/ubuntu/.vnc/xstartup</span><br><span class="line">Starting applications specified in /home/ubuntu/.vnc/xstartup</span><br><span class="line">Log file is /home/ubuntu/.vnc/ip-172-31-28-185:1.log</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新你的-xstartup-文件"><a href="#更新你的-xstartup-文件" class="headerlink" title="更新你的 xstartup 文件"></a>更新你的 <code>xstartup</code> 文件</h2><p>默认的 <code>xstartup</code> 文件在 vncserver 启动时不会运行 XFCE，所以需提前备份现有文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .vnc</span><br><span class="line">cp xstartup xstartup.bak</span><br></pre></td></tr></table></figure>
+
+<p>使用文本编辑器（如 vim）打开 <code>xstartup</code> 文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim xstartup</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：我们现在还在 <code>.vnc</code> 目录下。</p>
+</blockquote>
+<p>现在，清除文件的现有内容，并粘贴以下三行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">xrdb $HOME/Xresources</span><br><span class="line">startxfce4 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>以上操作完成后，在 VNC 服务器启动时将自动启动 XFCE。</p>
+<h2 id="安装-noVNC"><a href="#安装-noVNC" class="headerlink" title="安装 noVNC"></a>安装 noVNC</h2><p>网页浏览器访问 VNC 需要 noVNC 代理。获取 noVNC 的最佳方式是直接从 noVNC GitHub 仓库获取，而不是通过 Ubuntu 的 package repository。在获取仓库之前，先回到 ubuntu 用户的主目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/</span><br><span class="line">git clone https://github.com/novnc/noVNC.git</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>noVNC</code> 文件夹内创建一个新的自签名证书，以便通过 HTTPS 连接：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd noVNC</span><br><span class="line">openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem</span><br></pre></td></tr></table></figure>
+
+<p>可以忽略 openssl 要求我们填写的字段（因为这里仅为测试目的生成自签名证书）。如果想将桌面公开，可以用证书颁发机构（CA）如 letsencrypt 颁发的证书来替换。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">~/noVNC$ </span><span class="language-bash">openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem</span></span><br><span class="line">..........+......+......+.....+...............+.......+...+..+...+.......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+..+...+...+.+...+......+..+...+....+..+......+....+.........+.....+....+...+..+.............+...+...............+.....+.+.....+...+...+....+......+.....+.......+.....+...+............+...+...+.+...........+.......+...........+......+.+...+..+...+....+..+.+.....+.......+...+...+..+...+....+...+............+.....+...+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.........................+.+......+..+...+....+......+.....+.......+...+..+................+..+..........+..+...+.........+...+.......+......+..+.+.....+.+......+.........+...........+.......+....................+.+............+..+.+...........+...+.+......+...........+...+.........+...+...........................+.......+...+......+............+.....+...+....+..+.+........+.+.....+.+.....+...+....+..+...+......+......+.........+.........+.+.........+..+....+..+....+....................+.+..............+......+...+.+...+.....+............+.+.....+.......+..+.+...+..+....+...+..+....+..+...+..........+...............+.....+.+........+.+...........+......+...+....+......+.....+......+..........+...+.....+..........+...+............+..+...+.+.....+..........+.................+.......+..+.+...+...........+.....................+....+...+...+.........+...+..+.........+......+.+..+...+...+......+......+.............+..+..........+...+.........+...........+.+......+..+......+....+.....+.+......+.........+..+...+.......+..+............+.+...+.....+....+..+...+.+.........+..+....+..+...+.+...+............+...+.....+.+.....+.........+...+.......+...+.....+.........+....+.....+.....................+...+.......+.........+..+.........+.+..+......+...............................+......+..................+...........+..........+...+............+...+....................+.+.....+.+..............+.+..................+.....+.+..+....+........+...+............+..........+............+......+..+.+..+....+...+.....+......+.+.........+.........+........+.......+..+...+.......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><br><span class="line">...+.+........+.......+..+.+..+............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+....+...........+.......+...+..+...+...+....+..+.........+.+.....+.+..+.+.....+.+.....+.+....................+...+..........+......+...............+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+.........+............+..+...+...+....+..+....+......+.....+...+.......+...+..+.+.............................+...+...+.......+..+....+.....+.+........+.+.....+...............+......+....+......+...........+....+..................+......+..+...............+...+.+...........+....+........+......+......+.........+.+...+..+......+...+.+...+..+.........+....+..+.............+.....+.............+...+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><br><span class="line">-----</span><br><span class="line">You are about to be asked to enter information that will be incorporated</span><br><span class="line">into your certificate request.</span><br><span class="line">What you are about to enter is what is called a Distinguished Name or a DN.</span><br><span class="line">There are quite a few fields but you can leave some blank</span><br><span class="line">For some fields there will be a default value,</span><br><span class="line">If you enter &#x27;.&#x27;, the field will be left blank.</span><br><span class="line">-----</span><br><span class="line">Country Name (2 letter code) [AU]:</span><br><span class="line">State or Province Name (full name) [Some-State]:</span><br><span class="line">Locality Name (eg, city) []:</span><br><span class="line">Organization Name (eg, company) [Internet Widgits Pty Ltd]:</span><br><span class="line">Organizational Unit Name (eg, section) []:</span><br><span class="line">Common Name (e.g. server FQDN or YOUR name) []:</span><br><span class="line">Email Address []:</span><br></pre></td></tr></table></figure>
+
+<h2 id="让-VNC-更易于使用"><a href="#让-VNC-更易于使用" class="headerlink" title="让 VNC 更易于使用"></a>让 VNC 更易于使用</h2><p>为了方便，需要创建 <code>start.sh</code> 脚本。此脚本的目标是：</p>
+<p>在显示器 1（端口 <code>5901</code>）上启动我们的 vncserver。<br>启动 noVNC 并告诉它将端口 <code>8443</code> 的流量转发到端口 <code>5901</code>。<br>等待启动脚本被终止（使用 <code>Ctrl+C</code>），之后再关闭 vnc 服务器。<br><strong>为什么使用 <code>8443</code>？</strong>因为它是一个高端口号，因此使用此端口无需根权限。</p>
+<p><code>start.sh</code> 脚本如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)</span><br><span class="line">echo &quot;Connect with https://$IP:8443/vnc.html?host=$IP&amp;port=8443&quot;</span><br><span class="line">vncserver :1</span><br><span class="line">~/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 8443</span><br><span class="line">vncserver -kill :1</span><br></pre></td></tr></table></figure>
+
+<p>主目录中保存该脚本，然后运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod u+x start.sh</span><br></pre></td></tr></table></figure>
+
+<p>现在，无论何时启动 VNC 会话，只需运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen</span><br><span class="line">./start.sh</span><br></pre></td></tr></table></figure>
+
+<p>我们首先输入<code>screen</code>来启动一个 screen 会话，这将允许我们在后台保持脚本运行，即使我们退出了当前的 shell。</p>
+<p>可获得类似如下输出:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">~$ </span><span class="language-bash">./start.sh</span></span><br><span class="line">Connect with https://54.86.231.48:8443vnc.html?host=54.86.231.48&amp;port=8443</span><br><span class="line"></span><br><span class="line">New &#x27;X&#x27; desktop is ip-172-31-28-185:1</span><br><span class="line"></span><br><span class="line">Starting applications specified in /home/ubuntu/.vnc/xstartup</span><br><span class="line">Log file is /home/ubuntu/.vnc/ip-172-31-28-185:1.log</span><br><span class="line"></span><br><span class="line">Using local websockify at /home/ubuntu/noVNC/utils/websockify/run</span><br><span class="line">Starting webserver and WebSockets proxy on port 8443</span><br><span class="line">/home/ubuntu/noVNC/utils/websockify/websockify/websocket.py:31: UserWarning: no &#x27;numpy&#x27; module, HyBi protocol will be slower</span><br><span class="line">  warnings.warn(&quot;no &#x27;numpy&#x27; module, HyBi protocol will be slower&quot;)</span><br><span class="line">WebSocket server settings:</span><br><span class="line">  - Listen on :8443</span><br><span class="line">  - Web server. Web root: /home/ubuntu/noVNC</span><br><span class="line">  - SSL/TLS support</span><br><span class="line">  - proxying from :8443 to localhost:5901</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Navigate to this URL:</span><br><span class="line"></span><br><span class="line">    http://ip-172-31-28-185:8443vnc.html?host=ip-172-31-28-185&amp;port=8443</span><br><span class="line"></span><br><span class="line">Press Ctrl-C to exit</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>忽略底部的那一行</strong>。vncserver 和 noVNC 不知道 EC2 实例的公共 IP，所以尝试自动生成使用私有 IP 签署 URL。这不影响。相反，<strong>使用脚本输出开头的 URL</strong>，里面有“Connect with https:&#x2F;&#x2F;$IP:8443&#x2F;vnc.html?host&#x3D;$IP&amp;port&#x3D;8443″。</p>
+</blockquote>
+<p>在 EC2 实例连接和本地 SSH 会话中，单击左键或 <code>Ctrl</code>+<code>单击</code>该 URL 在浏览器中直接打开它。</p>
+<h2 id="样例展示"><a href="#样例展示" class="headerlink" title="样例展示"></a>样例展示</h2><p>因该样例使用的是自签名证书，所以访问 VNC 会话时会收到一些警告。下面是来自 Google Chrome 的样例：</p>
+<p><img src="/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc1.png" alt="alt text"></p>
+<p>点击“<strong>Advanced</strong>”，即可进入下一步：</p>
+<p><img src="/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc2.png" alt="alt text"></p>
+<p><img src="/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc3.png" alt="alt text"></p>
+<p>点击如图所示的链接，并用之前设置的 VNC 密码登录：</p>
+<p><img src="/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc4.png" alt="alt text"></p>
+<p>输入完成后，即可访问运行 VNC 桌面：</p>
+<p><img src="/image/novnc-web-desktop/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc5.png" alt="alt text"></p>
+<h2 id="可选的增强功能"><a href="#可选的增强功能" class="headerlink" title="可选的增强功能"></a>可选的增强功能</h2><p>按需选择增强功能，可使 noVNC 更快。</p>
+<h3 id="加速-noVNC"><a href="#加速-noVNC" class="headerlink" title="加速 noVNC"></a>加速 noVNC</h3><p>noVNC 的一部分依赖 Python 的 numpy 包加速，建议安装软件包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y python3-pip</span><br><span class="line">pip3 install numpy</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装网页浏览器"><a href="#安装网页浏览器" class="headerlink" title="安装网页浏览器"></a>安装网页浏览器</h3><p>Ubuntu Server 不包含 Web 浏览器，而 XFCE 也不会自动安装。若想在 XFCE 会话中浏览网页或查看文档，需通过安装 Firefox 来解决，然而，默认情况下，Ubuntu 22 会使用 snap 包来安装 Firefox，而一些权限问题会阻止 <code>snap</code> 包在 VNC 会话中正常工作。我们需要从 <code>apt</code> 包中安装 Firefox。解决方案请参考如下操作（该操作步骤取自这篇博客）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo snap remove firefox</span><br></pre></td></tr></table></figure>
+
+<p>然后：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:mozillateam/ppa</span><br></pre></td></tr></table></figure>
+
+<p>确保新的包优先于默认的 <code>snap</code> 包，使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;</span><br><span class="line">Package: *</span><br><span class="line">Pin: release o=LP-PPA-mozillateam</span><br><span class="line">Pin-Priority: 1001</span><br><span class="line">&#x27; | sudo tee /etc/apt/preferences.d/mozilla-firefox</span><br></pre></td></tr></table></figure>
+
+<p>确保无人值守的升级可以工作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;Unattended-Upgrade::Allowed-Origins:: &quot;LP-PPA-mozillateam:$&#123;distro_codename&#125;&quot;;&#x27; | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox</span><br></pre></td></tr></table></figure>
+
+<p>最后，我们可以运行安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y --allow-downgrades firefox</span><br></pre></td></tr></table></figure>
+
+<p>命令中的 <code>--allow-downgrades</code> 是因为如果在此之前已经安装了 Firefox <code>snap</code> 包，<code>apt</code> 可能将其视为试图进行降级操作。</p>
+<p>操作完成后，便可使用 EC2 桌面，可以通过 <code>8843</code> 端口的网页浏览器访问。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><blockquote>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/how-to-build-access-to-the-ubuntu-22-desktop-through-a-browser-using-novnc/">使用 noVNC 通过浏览器访问 Ubuntu 22 桌面的构建方法</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/01/09/%E5%A6%82%E4%BD%95%E5%9C%A8ubuntu22-04%E4%B8%8A%E9%85%8D%E7%BD%AEVNC/" rel="prev" title="如何在ubuntu22.04上配置VNC">
+                  <i class="fa fa-angle-left"></i> 如何在ubuntu22.04上配置VNC
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/10/docker%E5%A4%9A%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/" rel="next" title="docker多平台构建镜像">
+                  docker多平台构建镜像 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
