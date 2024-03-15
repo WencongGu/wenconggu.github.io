@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wenconggu.github.io/image/non-basic-linux/image.png">
 <meta property="article:published_time" content="2023-10-06T15:06:00.000Z">
-<meta property="article:modified_time" content="2024-03-13T04:36:13.431Z">
+<meta property="article:modified_time" content="2024-03-15T09:23:39.951Z">
 <meta property="article:author" content="GU WENCONG">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wenconggu.github.io/image/non-basic-linux/image.png">
@@ -113,7 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Heredoc"><span class="nav-number">1.</span> <span class="nav-text">Heredoc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">2.</span> <span class="nav-text">sudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%EF%BC%9Alvm"><span class="nav-number">3.</span> <span class="nav-text">磁盘管理：lvm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssh"><span class="nav-number">4.</span> <span class="nav-text">ssh</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Heredoc"><span class="nav-number">1.</span> <span class="nav-text">Heredoc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">2.</span> <span class="nav-text">sudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%EF%BC%9Alvm"><span class="nav-number">3.</span> <span class="nav-text">磁盘管理：lvm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssh"><span class="nav-number">4.</span> <span class="nav-text">ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81IP"><span class="nav-number">5.</span> <span class="nav-text">静态IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#if%E8%AF%AD%E5%8F%A5"><span class="nav-number">6.</span> <span class="nav-text">if语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E6%A0%BC%E5%BC%8F%EF%BC%9A"><span class="nav-number">6.1.</span> <span class="nav-text">条件判断格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%A4%E6%96%AD"><span class="nav-number">6.2.</span> <span class="nav-text">字符串判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#test-%E5%88%A4%E6%96%AD%E7%9A%84%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">6.3.</span> <span class="nav-text">test 判断的逻辑运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.</span> <span class="nav-text">文件判断</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -200,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-13 12:36:13" itemprop="dateModified" datetime="2024-03-13T12:36:13+08:00">2024-03-13</time>
+      <time title="修改时间：2024-03-15 17:23:39" itemprop="dateModified" datetime="2024-03-15T17:23:39+08:00">2024-03-15</time>
     </span>
 
   
@@ -265,6 +265,117 @@
 <p><code>key_name</code>是在使用<code>ssh-keygen</code>命令时指定的密钥名，如果没有指定名称就不需要配置上面的文件，但是如果下次再生成密钥时就会覆盖，所以一般是需要配置一次的。<code>ssh-keygen</code>可选参数常用的<code>-t</code>指定加密类型，<code>-b</code>指定比特位，<code>-m</code>指定描述信息。</p>
 <p>然后就可以使用<code>ssh-copy-id -i ~/.ssh/key_name nickname</code>命令方便地传输密钥，不需要手动复制公钥。输入命令后就可以完成传输，此后就可以使用<code>nickname</code>直接登陆主机。</p>
 <p>为了方便地实现主机与本机的文件交换，可以使用<code>scp [-r] src dist</code>。路径中服务端的路径要写全，比如<code>nickname:~/myfile</code>，复制目录时要使用参数<code>-r</code>。在mac段有一个可视化的工具叫做transmit,很方便。</p>
+<h2 id="静态IP"><a href="#静态IP" class="headerlink" title="静态IP"></a>静态IP</h2><p>静态IP的配置可以在路由器上设置，但是需要管理员权限。介绍一下ubuntu18以后的版本怎么配置，演示使用的是22.04的长期支持版，操作都相同。</p>
+<p>配置文件在<code>/etc/netplan</code>目录下的<code>00-installer-config.yaml</code>文件，查看和修改中这个文件需要管理员权限。默认的文件内容如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">~$ </span><span class="language-bash">sudo <span class="built_in">cat</span> /etc/netplan/00-installer-config.yaml</span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">This is the network config written by <span class="string">&#x27;subiquity&#x27;</span></span></span><br><span class="line">network:</span><br><span class="line">  ethernets:</span><br><span class="line">    ens160:</span><br><span class="line">      dhcp4: true</span><br><span class="line">  version: 2</span><br></pre></td></tr></table></figure>
+
+<p>可以看到使用了DHCP自动获取IP。将其修改为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">This is the network config written by <span class="string">&#x27;subiquity&#x27;</span></span></span><br><span class="line">network:</span><br><span class="line">  ethernets:</span><br><span class="line">    ens160:</span><br><span class="line">      dhcp4: false</span><br><span class="line">      addresses: </span><br><span class="line">        - 192.168.1.106/24</span><br><span class="line">      routes:</span><br><span class="line">        - to: default</span><br><span class="line">          via: 192.168.1.1</span><br><span class="line">      nameservers:</span><br><span class="line">          addresses: </span><br><span class="line">            - 8.8.8.8</span><br><span class="line">            - 114.114.114.114</span><br><span class="line">  version: 2</span><br></pre></td></tr></table></figure>
+
+<p>这是一个<code>.yaml</code>文件，注意空格和缩进。几个参数需要解释一下：</p>
+<ol>
+<li><p><code>dhcp4</code>，显然需要设定为<code>false</code>以关闭dhcp服务。</p>
+</li>
+<li><p><code>addresses</code>，需要设置的静态IP地址，最好和当前的IP地址一样。查看方法是使用<code>ifconfig</code>命令，如果现实没有该命令就使用<code>sudo apt install net-tools</code>安装。输入命令后需要找到正确的网卡，比如如下结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">~$ </span><span class="language-bash">ifconfig</span> </span><br><span class="line">ens160: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">     inet 192.168.1.106  netmask 255.255.255.0  broadcast 192.168.1.255</span><br><span class="line">     inet6 fe80::20c:29ff:fe9b:b6cb  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">     ether 00:0c:29:9b:b6:cb  txqueuelen 1000  (以太网)</span><br><span class="line">     RX packets 933  bytes 160830 (160.8 KB)</span><br><span class="line">     RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">     TX packets 261  bytes 45010 (45.0 KB)</span><br><span class="line">     TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line">     device interrupt 46  memory 0x3fe00000-3fe20000  </span><br><span class="line"></span><br><span class="line">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536</span><br><span class="line">     inet 127.0.0.1  netmask 255.0.0.0</span><br><span class="line">     inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><br><span class="line">     loop  txqueuelen 1000  (本地环回)</span><br><span class="line">     RX packets 112  bytes 8532 (8.5 KB)</span><br><span class="line">     RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">     TX packets 112  bytes 8532 (8.5 KB)</span><br><span class="line">     TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure>
+
+<p>就需要找到网卡<code>ens160</code>，找到其中的的配置。可以看到这里的IP是<code>192.168.1.106</code>，掩码为<code>255.255.255.0</code>，因此就在静态IP中配置为<code>192.168.1.106/24</code>。</p>
+</li>
+<li><p><code>routes</code>，配置网关，可以使用<code>route -n</code>查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">~$ </span><span class="language-bash">route -n</span></span><br><span class="line">内核 IP 路由表</span><br><span class="line">目标            网关            子网掩码        标志  跃点   引用  使用 接口</span><br><span class="line">0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 ens160</span><br><span class="line">192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 ens160</span><br></pre></td></tr></table></figure>
+
+<p>目标为<code>0.0.0.0</code>就代表“整个互联网”，它所对应的网关就是我们需要配置的网关。网关一般就是当前网段的1号IP，但是有一些特殊的路由器厂商会设置为其他的地址，最好还是看着命令来。</p>
+</li>
+<li><p><code>nameservers</code>，配置DNS服务器。</p>
+</li>
+</ol>
+<p>上述操作完成后再使用命令<code>sudo netplan apply</code>就可以使配置生效了。</p>
+<h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><p> shell脚本中的if条件判断看起来很乱，条件的判断语句有三种格式，逻辑运算符也有两套，字符串和数字的比较也有细微的差别。这些差别很容易让编写的脚本出问题。这里总结一下。</p>
+<h3 id="条件判断格式："><a href="#条件判断格式：" class="headerlink" title="条件判断格式："></a>条件判断格式：</h3><ol>
+<li><strong>单中括号<code>[ ]</code></strong></li>
+</ol>
+<ul>
+<li><p>bash的内部命令，<code>[</code>和<code>test</code>是等同的。如果我们不用绝对路径指明，通常我们用的都是bash自带的命令。<code>if/test</code>结构中的左中括号是调用<code>test</code>的命令标识，右中括号是关闭条件判断的。这个命令把它的参数作为比较表达式或者作为文件测试，并且根据比较的结果来返回一个退出状态码。基于此，<code>[ ]</code>中的内容都被视作是参数，因此必须插入空格。<code>if/test</code>结构中并不是必须右中括号，但是新版的Bash中要求<strong>必须</strong>这样。</p>
+</li>
+<li><p><code>test</code>和<code>[ ]</code>中可用的比较运算符只有<code>=</code>和<code>!=</code>，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用<code>-eq</code>，<code>-gt</code>这种形式。无论是字符串比较还是整数比较都不支持大于号小于号。如果实在想用，对于字符串比较可以使用转义形式，如果比较”ab”和”bc”：<code>[ ab \&lt; bc ]</code>，结果为真，也就是返回状态为0。<code>[ ]</code>中的逻辑与和逻辑或使用<code>-a</code>和<code>-o</code> 表示。</p>
+</li>
+<li><p><code>[ ]</code>也会在正则表达式中用于表示字符范围。用作正则表达式的一部分，描述一个匹配的字符范围。<strong>作为<code>test</code>用途的中括号内不能使用正则。</strong></p>
+</li>
+<li><p><code>[ ]</code>在数组中也用来引用数组中每个元素的编号。</p>
+</li>
+</ul>
+<ol start="2">
+<li><strong>双中括号<code>[[ ]]</code></strong></li>
+</ol>
+<ul>
+<li><p><code>[[</code>是bash程序语言的关键字，并不是一个命令，<code>[[ ]]</code>结构比<code>[ ]</code>结构更加通用。在<code>[[</code>和<code>]]</code>之间所有的字符都<strong>不会发生文件名扩展或者单词分割</strong>，但是会发生参数扩展和命令替换。</p>
+</li>
+<li><p>支持字符串的<strong>模式匹配</strong>，使用<code>=~</code>操作符时甚至支持shell的正则表达式。字符串比较时可以把右边的作为一个模式，而不仅仅是一个字符串，比如<code>[[ hello == hell? ]]</code>，结果为真。<code>[[ ]]</code>中匹配字符串或通配符，不需要引号。</p>
+</li>
+<li><p>使用<code>[[ ]]</code>条件判断结构，而不是<code>[ ]</code>，能够防止脚本中的许多逻辑错误。比如，<code>&amp;&amp;</code>、<code>||</code>、<code>&lt;</code>和<code>&gt;</code> 操作符能够正常存在于<code>[[ ]]</code>条件判断结构中，但是如果出现在<code>[ ]</code>结构中的话，会报错。</p>
+</li>
+<li><p>bash把双中括号中的表达式看作一个单独的元素，并返回一个退出状态码。</p>
+</li>
+</ul>
+<ol start="3">
+<li><strong>圆括号<code>( )</code>，<code>(())</code></strong></li>
+</ol>
+<p>   圆括号作为条件判断不常用，但是也会有。</p>
+<ul>
+<li><p><code>( )</code>会相当于一个子shell，执行括号中的命令，返回命令的执行状态。对于<code>$(cmd)</code>结构，便将$(cmd)中的cmd执行一次，得到其标准输出并返回。</p>
+</li>
+<li><p><code>(( ))</code>可以将命令扩展为一个数学表达式，计算并返回其结果。如果表达式的结果为0，那么返回的退出状态码为1，或者”false”，而一个非零值的表达式所返回的退出状态码将为0，或者是”true”。若是逻辑判断，表达式exp为真则为1,假则为0。<strong>这一点和<code>[[ ]]</code>判断时正好相反。</strong></p>
+</li>
+</ul>
+<p>   <code>(())</code>常用在其他地方，比如<code>for((i=0;i&lt;5;i++));do cmd;done</code>，在括号中不需要<code>$</code>来使用变量值。</p>
+<h3 id="字符串判断"><a href="#字符串判断" class="headerlink" title="字符串判断"></a>字符串判断</h3><p>以下表达式用来判断字符串。</p>
+<ul>
+<li><p><code>[ string ]</code>：如果<code>string</code>不为空（长度大于0），则判断为真。</p>
+</li>
+<li><p><code>[ -n string ]</code>：如果字符串<code>string</code>的长度大于零，则判断为真。</p>
+</li>
+<li><p><code>[ -z string ]</code>：如果字符串<code>string</code>的长度为零，则判断为真。</p>
+</li>
+<li><p><code>[ string1 = string2 ]</code>：如果<code>string1</code>和<code>string2</code>相同，则判断为真。</p>
+</li>
+<li><p><code>[ string1 != string2 ]</code>：如果<code>string1</code>和<code>string2</code>不相同，则判断为真。</p>
+</li>
+<li><p><code>[ string1 &#39;&gt;&#39; string2 ]</code>：如果按照字典顺序<code>string1</code>排列在string2之后，则判断为真。</p>
+</li>
+<li><p><code>[ string1 &#39;&lt;&#39; string2 ]</code>：如果按照字典顺序<code>string1</code>排列在<code>string2</code>之前，则判断为真。</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>引用字符串变量作逻辑比较时最好使用双引号</strong>，否则可能会出现错误，提示参数过多。而且如果变量为空，双目判断可能会变为其他的判断，引起难以察觉的逻辑错误，而使用引号可以很好地避免这个问题。比如<code>[ &quot;$var&quot; = &quot;String&quot; ]</code>，<code>[ - n &quot;$var&quot; ]</code><br>注意，<code>test</code>命令内部的<code>&gt;</code>和<code>&lt;</code>，必须用引号引起来（或者是用反斜杠转义）。否则，它们会被 shell 解释为重定向操作符。</p>
+</blockquote>
+<h3 id="test-判断的逻辑运算"><a href="#test-判断的逻辑运算" class="headerlink" title="test 判断的逻辑运算"></a>test 判断的逻辑运算</h3><p>通过逻辑运算，可以把多个<code>test</code>判断表达式结合起来，创造更复杂的判断。三种逻辑运算<code>AND</code>，<code>OR</code>，和<code>NOT</code>，都有自己的专用符号。</p>
+<ul>
+<li><p><code>AND</code>运算：符号<code>&amp;&amp;</code>，也可使用参数<code>-a</code>。</p>
+</li>
+<li><p><code>OR</code>运算：符号<code>||</code>，也可使用参数<code>-o</code>。</p>
+</li>
+<li><p><code>NOT</code>运算：符号<code>!</code>。</p>
+</li>
+</ul>
+<h3 id="文件判断"><a href="#文件判断" class="headerlink" title="文件判断"></a>文件判断</h3><p>文件状态的判断也很常用，简单罗列一部分：</p>
+<ul>
+<li><p><code>[ -d dir ]</code>：如果 <code>dir</code> 存在并且是一个目录，则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -e file ]</code>：如果 <code>file</code> 存在，则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -f file ]</code>：如果 <code>file</code> 存在并且是一个普通文件（不是块或者其他设备文件），则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -L file ]</code>：如果 <code>file</code> 存在并且是一个符号链接，则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -N file ]</code>：如果 <code>file</code> 存在并且自上次读取后已被修改，则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -r file ]</code>：如果 <code>file</code> 存在并且可读（当前用户有可读权限），则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -w file ]</code>：如果 <code>file</code> 存在并且可写（当前用户拥有可写权限），则为<code>true</code>。</p>
+</li>
+<li><p><code>[ -x file ]</code>：如果 <code>file</code> 存在并且可执行（有效用户有执行／搜索权限），则为<code>true</code>。</p>
+</li>
+</ul>
 
     </div>
 
