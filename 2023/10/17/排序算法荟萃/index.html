@@ -26,10 +26,12 @@
 <meta property="og:site_name" content="GU&#39;s Blog">
 <meta property="og:description" content="集中整理了经典的排序算法，主要关注算法的原理、时间和空间复杂度、python实现。 想整理这个主要是发现很多业务场景都需要对大量数据进行处理，在遍历数组、列表时的策略就显得很重要。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wenconggu.github.io/image/sorting-algorithms/sort2.png">
 <meta property="article:published_time" content="2023-10-17T15:55:55.000Z">
-<meta property="article:modified_time" content="2024-03-18T13:42:39.133Z">
+<meta property="article:modified_time" content="2024-03-19T16:38:30.879Z">
 <meta property="article:author" content="GU WENCONG">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/sorting-algorithms/sort2.png">
 
 
 <link rel="canonical" href="https://wenconggu.github.io/2023/10/17/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E8%8D%9F%E8%90%83/">
@@ -86,7 +88,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a></li>
   </ul>
 </nav>
 
@@ -98,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -111,6 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A1%E9%87%8F%E6%80%A7%E8%B4%A8"><span class="nav-number">1.</span> <span class="nav-text">衡量性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.3.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">算法概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">2.1.</span> <span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">详解与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">3.2.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">3.3.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="nav-number">3.4.</span> <span class="nav-text">希尔排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">3.5.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">3.6.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="nav-number">3.7.</span> <span class="nav-text">堆排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="nav-number">3.8.</span> <span class="nav-text">计数排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">3.9.</span> <span class="nav-text">桶排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="nav-number">3.10.</span> <span class="nav-text">基数排序</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -125,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -197,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-18 21:42:39" itemprop="dateModified" datetime="2024-03-18T21:42:39+08:00">2024-03-18</time>
+      <time title="修改时间：2024-03-20 00:38:30" itemprop="dateModified" datetime="2024-03-20T00:38:30+08:00">2024-03-20</time>
     </span>
 
   
@@ -213,8 +216,132 @@
 <p>想整理这个主要是发现很多业务场景都需要对大量数据进行处理，在遍历数组、列表时的策略就显得很重要。</p>
 <span id="more"></span>
 
-
-
+<h2 id="衡量性质"><a href="#衡量性质" class="headerlink" title="衡量性质"></a>衡量性质</h2><h3 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h3><p><strong>稳定性</strong>是指相等的元素经过排序之后相对顺序是否发生了改变。</p>
+<p>拥有稳定性这一特性的算法会让原本有相等键值的纪录维持相对次序，即如果一个排序算法是稳定的，当有两个相等键值的纪录 R 和 S，且在原本的列表中 R 出现在 S 之前，在排序过的列表中 R 也将会是在 S 之前。</p>
+<ul>
+<li><p>基数排序、计数排序、插入排序、冒泡排序、归并排序是稳定排序。</p>
+</li>
+<li><p>选择排序、堆排序、快速排序、希尔排序不是稳定排序。</p>
+</li>
+</ul>
+<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p><strong>时间复杂度</strong>用来衡量一个算法的运行时间和输入规模的关系，通常用 O 表示。</p>
+<p>简单计算复杂度的方法一般是统计「简单操作」的执行次数，有时候也可以直接数循环的层数来近似估计。</p>
+<p>时间复杂度分为最优时间复杂度、平均时间复杂度和最坏时间复杂度。OI 竞赛中要考虑的一般是最坏时间复杂度，因为它代表的是算法运行水平的下界，在评测中不会出现更差的结果了。</p>
+<p>基于比较的排序算法的时间复杂度下限是 $O(n\log n)$ 的。</p>
+<p>当然也有不是 $O(n\log n)$ 的。例如，计数排序 的时间复杂度是 $O(n+w)$，其中 $w$ 代表输入数据的值域大小。</p>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>指算法排序算法过程中所需要的内存大小，用以描述算法内存消耗的规模。</p>
+<h2 id="算法概述"><a href="#算法概述" class="headerlink" title="算法概述"></a>算法概述</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>排序算法可以按照数据记录的位置分为：</p>
+<ul>
+<li><p>内部排序：数据记录在内存中进行排序。</p>
+<p>如：插入排序、希尔排序、选择排序、冒泡排序、归并排序、快速排序、堆排序、基数排序等。</p>
+</li>
+<li><p>外部排序：因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。</p>
+</li>
+</ul>
+<p>还可以按照排序时的是否要比较分类，如下图：</p>
+<p><img src="/image/sorting-algorithms/sort2.png" alt="alt text"></p>
+<p>排序算法也经常按照稳定性分类，若被排序对象中有 $n$ 个记录，$k$ 个不同键值，各个算法的分类与时间复杂度如下表：</p>
+<ul>
+<li><p>稳定排序</p>
+<table>
+<thead>
+<tr>
+<th align="center">算法名</th>
+<th align="center">时间复杂度</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">冒泡排序</td>
+<td align="center">$O(n^2)$</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">插入排序</td>
+<td align="center">$O(n^2)$</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">桶排序</td>
+<td align="center">$O(n)$</td>
+<td align="center">需要$O(k)$额外空间</td>
+</tr>
+<tr>
+<td align="center">计数排序</td>
+<td align="center">$O(n+k)$</td>
+<td align="center">需要$O(n+k)$额外空间</td>
+</tr>
+<tr>
+<td align="center">归并排序</td>
+<td align="center">$O(n \mathrm{log} n)$</td>
+<td align="center">需要$O(n)$额外空间</td>
+</tr>
+<tr>
+<td align="center">原地归并排序</td>
+<td align="center">$O(n \mathrm{log}^2 n)$</td>
+<td align="center">（最佳版本）</td>
+</tr>
+<tr>
+<td align="center">二叉树排序</td>
+<td align="center">期望$O(n \mathrm{log} n)$，最坏$O(n^2)$</td>
+<td align="center">需要$O(n)$额外空间</td>
+</tr>
+<tr>
+<td align="center">鸽巢排序</td>
+<td align="center">$O(n+k)$</td>
+<td align="center">需要$O(k)$额外空间</td>
+</tr>
+<tr>
+<td align="center">基数排序</td>
+<td align="center">$O(nk)$</td>
+<td align="center">需要$O(n)$额外空间</td>
+</tr>
+<tr>
+<td align="center">Tim 排序</td>
+<td align="center">期望和最坏$O(n \mathrm{log} n)$，最优$O(n)$</td>
+<td align="center">需要$O(n)$额外空间，目前最快算法，Python、Swift、Rust等语言内置排序函数的默认算法</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>不稳定排序</p>
+<table>
+<thead>
+<tr>
+<th align="center">算法名</th>
+<th align="center">时间复杂度</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">选择排序</td>
+<td align="center">$O(n^2)$</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">希尔排序</td>
+<td align="center">$O(n \mathrm{log}^2 n)$</td>
+<td align="center">（最佳版本）</td>
+</tr>
+<tr>
+<td align="center">堆排序</td>
+<td align="center">$O(n \mathrm{log} n)$</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">快速排序</td>
+<td align="center">期望$O(n \mathrm{log} n)$，最坏$O(n^2)$</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">内省排序</td>
+<td align="center">$O(n \mathrm{log} n)$</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="详解与分析"><a href="#详解与分析" class="headerlink" title="详解与分析"></a>详解与分析</h2><p>（…待补充）</p>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><h3 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h3><h3 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h3><h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3>
     </div>
 
     
@@ -294,7 +421,7 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
