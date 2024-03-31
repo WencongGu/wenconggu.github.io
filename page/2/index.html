@@ -84,7 +84,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">13</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">16</span></a></li>
   </ul>
 </nav>
 
@@ -123,7 +123,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -149,6 +149,259 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/01/01/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/01/01/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/" class="post-title-link" itemprop="url">在M1芯片的MacBook Air中配置Linux（ubuntu）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-01 19:17:20" itemprop="dateCreated datePublished" datetime="2024-01-01T19:17:20+08:00">2024-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-12 22:52:45" itemprop="dateModified" datetime="2024-03-12T22:52:45+08:00">2024-03-12</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>前段时间研究隐私计算，涉及联邦学习，要配置环境。我是用的是国内微众银行的FATE框架，设备是m1 MacBook Air。配置过程有两大问题，第一是FATE框架只支持linux，第二是只支持x86处理器架构。感觉就像是对Mac判了死刑。但是经过我一番折腾，发现还是可以在docker中跑起来的，虽然花费一些精力。折腾光是折腾Linux也花了小白不少时间，所以写文来记录一下。</p>
+<p>arm架构的处理器要安装centos实属有些状况，会发现下载来的安装包安装不了。网络上有关于这个问题的探讨可以参考，<a target="_blank" rel="noopener" href="https://blog.csdn.net/feixiang3839/article/details/80857138/">arm64(aarch64)安装centos 7.5.1804</a>。当然可以选择下载民间制作的镜像，只是我觉得centos7官方似乎“不再维护”了，没必要（虽然它的确是目前国内应用最多的linux）；而且我们arm党在装好后就会发现，centos下的包管理器国内镜像源也相对很少。</p>
+<p>于是我来投向Ubuntu。为什么？因为用的人多，社区活跃，配套软件支持丰富，相对也足够稳定。</p>
+<p>总结地讲，遇到的困难主要就是国内网络配置问题，其次就是arm架构的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/01/01/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/11/30/leetcode%E5%88%B7%E9%A2%98%E5%B0%8F%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/11/30/leetcode%E5%88%B7%E9%A2%98%E5%B0%8F%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">leetcode刷题小总结</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-11-30 21:26:43" itemprop="dateCreated datePublished" datetime="2023-11-30T21:26:43+08:00">2023-11-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-31 23:54:30" itemprop="dateModified" datetime="2024-03-31T23:54:30+08:00">2024-03-31</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧，但是并不记录高超的算法设计，算法设计不适合用博客记录，我都记在自己的小本本上。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/30/leetcode%E5%88%B7%E9%A2%98%E5%B0%8F%E6%80%BB%E7%BB%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/10/17/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E8%8D%9F%E8%90%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/17/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E8%8D%9F%E8%90%83/" class="post-title-link" itemprop="url">排序算法荟萃</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-17 23:55:55" itemprop="dateCreated datePublished" datetime="2023-10-17T23:55:55+08:00">2023-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-20 00:38:30" itemprop="dateModified" datetime="2024-03-20T00:38:30+08:00">2024-03-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>集中整理了经典的排序算法，主要关注算法的原理、时间和空间复杂度、python实现。</p>
+<p>想整理这个主要是发现很多业务场景都需要对大量数据进行处理，在遍历数组、列表时的策略就显得很重要。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/10/17/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E8%8D%9F%E8%90%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -194,7 +447,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-15 17:27:23" itemprop="dateModified" datetime="2024-03-15T17:27:23+08:00">2024-03-15</time>
+      <time title="修改时间：2024-03-31 23:54:30" itemprop="dateModified" datetime="2024-03-31T23:54:30+08:00">2024-03-31</time>
     </span>
 
   
@@ -207,7 +460,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><strong>Some uncommon yet helpful Linux skills and command usage.</strong></p>
+          <p><strong>Some uncommon linux commands usages.</strong></p>
 <ul>
 <li>Heredoc</li>
 <li>sudo bash -c</li>

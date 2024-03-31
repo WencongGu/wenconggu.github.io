@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="魔术命令（Magic Command）是常规python代码的增强版，这些命令通常由IPython的内核（kernel）提供，以%字符为前缀。简单来说，这些命令是为了解决常见问题设置的，同时也给代码提供了一些快捷方式。 魔术命令似乎不大常见，但是如果能恰当使用可以使得代码效率有很大提升。本文汇总了一些比较实用的魔术命令。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python进阶-魔术命令">
+<meta property="og:url" content="https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="魔术命令（Magic Command）是常规python代码的增强版，这些命令通常由IPython的内核（kernel）提供，以%字符为前缀。简单来说，这些命令是为了解决常见问题设置的，同时也给代码提供了一些快捷方式。 魔术命令似乎不大常见，但是如果能恰当使用可以使得代码效率有很大提升。本文汇总了一些比较实用的魔术命令。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-31T15:24:43.000Z">
+<meta property="article:modified_time" content="2024-03-31T15:54:30.708Z">
+<meta property="article:author" content="GU WENCONG">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4/","path":"2024/01/31/python进阶-魔术命令/","title":"python进阶-魔术命令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>python进阶-魔术命令 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">16</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">魔术命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#magic%EF%BC%9A%E6%98%BE%E7%A4%BA%E6%89%80%E6%9C%89%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4%E7%9A%84%E8%AF%A6%E7%BB%86%E6%96%87%E6%A1%A3"><span class="nav-number">1.1.</span> <span class="nav-text">%magic：显示所有魔术命令的详细文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#run%EF%BC%9A%E8%BF%90%E8%A1%8C%E5%A4%96%E9%83%A8%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">%run：运行外部文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time%EF%BC%9A%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%97%B6%E9%97%B4"><span class="nav-number">1.3.</span> <span class="nav-text">%time：代码执行时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matplotlib%EF%BC%9A%E5%86%85%E8%81%94%E6%98%BE%E7%A4%BA-matplotlib-%E5%9B%BE%E5%BD%A2"><span class="nav-number">1.4.</span> <span class="nav-text">%matplotlib：内联显示 matplotlib 图形</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cd%E3%80%81-pwd%E3%80%81-ls%E3%80%81-ll%E3%80%81-history"><span class="nav-number">1.5.</span> <span class="nav-text">%cd、%pwd、%ls、%ll、%history</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">1.6.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="python进阶-魔术命令 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python进阶-魔术命令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-31 23:24:43" itemprop="dateCreated datePublished" datetime="2024-01-31T23:24:43+08:00">2024-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-31 23:54:30" itemprop="dateModified" datetime="2024-03-31T23:54:30+08:00">2024-03-31</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>魔术命令</strong>（<strong>Magic Command</strong>）是常规python代码的增强版，这些命令通常由<strong>IPython</strong>的内核（kernel）提供，以<code>%</code>字符为前缀。简单来说，这些命令是为了解决常见问题设置的，同时也给代码提供了一些快捷方式。</p>
+<p>魔术命令似乎不大常见，但是如果能恰当使用可以使得代码效率有很大提升。本文汇总了一些比较实用的魔术命令。</p>
+<span id="more"></span>
+
+<h2 id="魔术命令"><a href="#魔术命令" class="headerlink" title="魔术命令"></a>魔术命令</h2><p>一共有两种魔术命令：<code>%</code>前缀和<code>%%</code>前缀的。<code>%</code>前缀表示这个命令会在一行代码上运行，而<code>%%</code>前缀表示该命令会在整个单元上运行。</p>
+<h3 id="magic：显示所有魔术命令的详细文档"><a href="#magic：显示所有魔术命令的详细文档" class="headerlink" title="%magic：显示所有魔术命令的详细文档"></a><code>%magic</code>：显示所有魔术命令的详细文档</h3><p>不了解或者暂时忘记了某个命令或不知道有什么命令时，使用这个命令查看当前解释器支持的所有命令。这个命令的输出可能会很长。</p>
+<h3 id="run：运行外部文件"><a href="#run：运行外部文件" class="headerlink" title="%run：运行外部文件"></a><code>%run</code>：运行外部文件</h3><p>当我们想要在jupyter notebooks中运行一些代码片段时，我们想运行位于某目录里的外部代码文件。<code>%run</code>能让你在jupyter notebook中运行任何外部的python文件。</p>
+<p>基本用法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%run script.py</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>script.py</code> 是要运行的外部 Python 脚本文件的路径。在执行这个命令后，Jupyter Notebook 会加载并执行 <code>script.py</code> 中的代码。如果脚本中有输出，也会显示在 Notebook 中。</p>
+<p>如果需要传递参数给外部脚本，可以在 <code>%run</code> 命令后面添加参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%run script.py arg1 arg2</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，<code>arg1</code> 和 <code>arg2</code> 会作为参数传递给 <code>script.py</code> 中的脚本。在脚本中可以通过 <code>sys.argv</code> 或其他方式获取这些参数。</p>
+<p>在使用 <code>%run </code>命令时，外部脚本中定义的变量和函数会在 Jupyter Notebook 的命名空间中保留，可以在 Notebook 中继续使用这些变量和函数。这使得 <code>%run</code> 命令非常适合在 Jupyter Notebook 中调试和测试外部脚本。</p>
+<h3 id="time：代码执行时间"><a href="#time：代码执行时间" class="headerlink" title="%time：代码执行时间"></a><code>%time</code>：代码执行时间</h3><p>使用 <code>%time</code> 命令在 IPython 或 Jupyter Notebook 中执行代码时，会输出一个时间统计，通常包括以下两部分信息：</p>
+<ul>
+<li><p><strong><code>Wall time</code></strong>: 这表示代码块执行的总时间，包括实际运行代码的时间以及任何系统资源等待时间（例如，如果代码在等待 I&#x2F;O 操作完成）。这个时间是用户最关心的，因为它反映了代码执行的实际耗时。<br>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Wall time: <span class="number">0.12</span> s</span><br></pre></td></tr></table></figure>
+<p>这就是说代码块执行所需的总时间是 0.12 秒。</p>
+</li>
+<li><p><strong><code>CPU times</code></strong>: 这个部分（如果显示）会列出几个不同的时间指标，通常包括：</p>
+<ul>
+<li><strong>user</strong>: 代码执行过程中用户态CPU消耗的时间。</li>
+<li><strong>sys</strong>: 代码执行过程中系统态CPU消耗的时间。</li>
+<li><strong>total</strong>: 用户态和系统态CPU消耗的总时间。<br>比如：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPU times: user <span class="number">0.01</span> s, sys: <span class="number">0.02</span> s, total: <span class="number">0.03</span> s</span><br></pre></td></tr></table></figure>
+这意味着代码执行过程中，用户态CPU消耗了 0.01 秒，系统态CPU消耗了 0.02 秒，总共消耗了 0.03 秒的CPU时间。</li>
+</ul>
+</li>
+</ul>
+<p>有时候，如果你只关心 <code>%time</code> 的输出，你可以这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%time result = some_function()</span><br></pre></td></tr></table></figure>
+<p>这里，<code>result</code> 是函数 <code>some_function()</code> 的返回值，而 <code>%time</code> 会给出执行 <code>some_function()</code> 的时间统计。</p>
+<p>请注意，<code>%time</code> 命令的输出格式可能会根据你的 <strong>IPython</strong> 或 <strong>Jupyter Notebook</strong> 版本略有不同。此外，如果你使用的是 <strong><code>%timeit</code></strong> 命令，它将执行代码块多次以获得更准确的时间统计，并且输出会包括每次迭代的<strong>平均时间</strong>。</p>
+<p>另外，<code>%%time</code>命令可以用来计算整个单元格的执行时间。</p>
+<h3 id="matplotlib：内联显示-matplotlib-图形"><a href="#matplotlib：内联显示-matplotlib-图形" class="headerlink" title="%matplotlib：内联显示 matplotlib 图形"></a><code>%matplotlib</code>：内联显示 matplotlib 图形</h3><p>在 Jupyter Notebook 中使用 <code>%matplotlib</code> 魔术命令可以让你在代码块中直接显示 <code>matplotlib</code> 绘制的图形，而不需要使用 <code>plt.show()</code> 来显示图形。</p>
+<p>它主要有三种形式：</p>
+<ul>
+<li><code>%matplotlib inline</code>: 这是最常用的用法，它会在 Jupyter Notebook 中内联显示 matplotlib 图形，即在代码块下方直接显示图形，而不是弹出一个新窗口显示图形。这样可以使得图形更加直观地与代码交互。</li>
+<li><code>%matplotlib notebook</code>: 这个用法会在 Jupyter Notebook 中启用交互式图形，允许用户对图形进行交互操作，比如缩放、平移等。这个模式对于需要交互式探索数据的情况非常有用。</li>
+<li><code>%matplotlib qt</code>: 这个用法会在 Jupyter Notebook 外部弹出一个独立的窗口显示 matplotlib 图形，而不是在 Notebook 中显示。这种方式适用于需要在独立窗口中查看图形的情况。</li>
+</ul>
+<h3 id="cd、-pwd、-ls、-ll、-history"><a href="#cd、-pwd、-ls、-ll、-history" class="headerlink" title="%cd、%pwd、%ls、%ll、%history"></a><code>%cd</code>、<code>%pwd</code>、<code>%ls</code>、<code>%ll</code>、<code>%history</code></h3><p>类似Linux中的命令。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><code>%who</code> 和 <code>%whos</code>: 列出当前命名空间中定义的变量。<br><code>%reset</code>: 重置 IPython 命名空间。<br><code>%load</code>: 加载外部脚本或模块。<br><code>%store</code>: 在 IPython 会话之间存储变量，接收其他会话的变量时使用<code>-r</code>参数，比如<code>%store -r shared_var</code>。<br><code>%debug</code>: 进入交互式调试器。<br><code>%%writefile</code>: 将所在单元格内容（通常是代码、注释）写入文件：<code>%%writefile myfile</code>，<code>myfile</code>不存在会创建，存在会覆盖。<br><code>%%html</code>、<code>%%svg</code>: 渲染单元格中的 <code>HTML</code> 或 <code>SVG</code>。<br><code>%%bash</code>、<code>%%perl</code>、<code>%%ruby</code>、<code>%%sql</code> 等等：在单元格中运行其他语言的代码。</p>
+<p>可以看到，python中的魔术命令还是十分强大的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/01/19/Dynamic-Programming/" rel="prev" title="Dynamic Programming">
+                  <i class="fa fa-angle-left"></i> Dynamic Programming
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/02/01/python%E8%BF%9B%E9%98%B6-collections/" rel="next" title="python进阶-collections">
+                  python进阶-collections <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
