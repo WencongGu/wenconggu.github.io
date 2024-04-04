@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="python中的魔术方法在自定义类时比较有用。在涉及深度学习的模块中常常需要自己设计模型结构，而模型的各个结构都是用类定义，这时就会需要对类的操作有一定了解。同时熟悉python中的类也有助于设计不同的模块或者数据结构来满足不同的需求。 相关的用法我已经有很多实践了，这篇文章只是简单总结整理，便于查找，同时加入一些新的内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python进阶-魔术方法">
+<meta property="og:url" content="https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="python中的魔术方法在自定义类时比较有用。在涉及深度学习的模块中常常需要自己设计模型结构，而模型的各个结构都是用类定义，这时就会需要对类的操作有一定了解。同时熟悉python中的类也有助于设计不同的模块或者数据结构来满足不同的需求。 相关的用法我已经有很多实践了，这篇文章只是简单总结整理，便于查找，同时加入一些新的内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-31T05:26:56.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:58:52.828Z">
+<meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/","path":"2024/01/31/python进阶-魔术方法/","title":"python进阶-魔术方法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>python进阶-魔术方法 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">20</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="python进阶-魔术方法 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python进阶-魔术方法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-31 13:26:56" itemprop="dateCreated datePublished" datetime="2024-01-31T13:26:56+08:00">2024-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-04 23:58:52" itemprop="dateModified" datetime="2024-04-04T23:58:52+08:00">2024-04-04</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>python中的魔术方法在自定义类时比较有用。在涉及深度学习的模块中常常需要自己设计模型结构，而模型的各个结构都是用类定义，这时就会需要对类的操作有一定了解。同时熟悉python中的类也有助于设计不同的模块或者数据结构来满足不同的需求。</p>
+<p>相关的用法我已经有很多实践了，这篇文章只是简单总结整理，便于查找，同时加入一些新的内容。</p>
+<span id="more"></span>
+
+<p>在 Python 中，<strong>魔术方法</strong>（<strong>Magic Methods</strong>）是以双下划线 <code>__</code> 开头和结尾的特殊方法，用于实现类的特定行为和操作。这些方法在 Python 中被广泛使用，可以让我们自定义类的行为，使其更符合我们的需求。以下是一些常用的魔术方法：</p>
+<ul>
+<li><strong><code>__str__(self) -&gt; str</code></strong>: 返回对象的字符串表示，通常用于 print(obj) 时调用。</li>
+<li><strong><code>__repr__(self) -&gt; str</code></strong>: 返回对象的 “官方” 字符串表示，通常用于调试和日志记录。</li>
+<li><strong><code>__len__(self) -&gt; int</code></strong>: 返回对象的长度，通常用于内置函数 len(obj)。</li>
+<li><strong><code>__getitem__(self, key) -&gt; Any</code></strong>: 使用索引值获取对象或者某个值，通常用于支持索引操作。</li>
+<li><strong><code>__setitem__(self, key, value) -&gt; None</code></strong>: 设置对象的索引值，通常用于支持赋值操作。</li>
+<li><strong><code>__delitem__(self, key) -&gt; None</code></strong>: 删除对象的索引值，通常用于支持 <code>del obj[key]</code> 操作。</li>
+<li><strong><code>__iter__(self)</code></strong>: 返回一个迭代器对象，通常用于支持对象的迭代。<blockquote>
+<p>迭代器对象必须实现 <code>__iter__()</code> 和 <code>__next__()</code> 方法，这样它们就可以被 <code>for</code> 循环或者 <code>next()</code> 函数使用。Python中还有一个可迭代对象（Iterable）的概念，可迭代对象是实现了 <code>__iter__()</code> 方法的对象，通过调用 <code>iter()</code> 函数可以获取对应的迭代器对象。因此，迭代器是可迭代对象的一种特殊形式，它不仅可以遍历集合元素，还可以保持迭代状态。</p>
+</blockquote>
+</li>
+<li><strong><code>__next__(self)</code></strong>: 返回迭代器的下一个元素，通常与 <code>__iter__</code> 方法一起使用。</li>
+<li><strong><code>__contains__(self, item) -&gt; bool</code></strong>: 判断对象是否包含某个元素，通常用于支持 <code>in</code> 操作符。</li>
+<li><strong><code>__call__(self, ...)</code></strong>: 当对象被调用时调用，使对象可以像函数一样被调用。</li>
+<li><strong>数学运算符重载</strong><ul>
+<li><strong><code>__add__(self, other)</code></strong>: 定义对象的加法操作，通常用于支持 <code>+</code> 操作符。</li>
+<li><strong><code>__sub__(self, other)</code></strong>: 定义对象的减法操作，通常用于支持 <code>-</code> 操作符。</li>
+<li><strong><code>__mul__(self, other)</code></strong>: 用于实现对象的乘法运算，即使用 <code>*</code> 运算符对对象进行乘法操作时调用该方法。</li>
+<li><strong><code>__mod__(Self, other)</code></strong>: 用于实现对象的取模运算，即使用 <code>%</code> 运算符对对象进行取模操作时调用该方法。</li>
+</ul>
+</li>
+<li>**比较运算符重载  <code>-&gt; None</code>**：<ul>
+<li><strong><code>__lt__(self, other)</code></strong>: 定义对象的小于比较，通常用于支持 <code>&lt;</code> 操作符。</li>
+<li><strong><code>__le__(self, other)</code></strong>: 定义对象的小于等于比较，通常用于支持 <code>&lt;=</code> 操作符。</li>
+<li><strong><code>__gt__(self, other)</code></strong>: 定义对象的大于比较，通常用于支持 <code>&gt;</code> 操作符。</li>
+<li><strong><code>__ge__(self, other)</code></strong>: 定义对象的大于等于比较，通常用于支持 <code>&gt;=</code> 操作符。<blockquote>
+<p>定义以上4个比较运算多魔术方法的类，其对象就支持排序操作了，对象的数组就可以使用 <code>sort()</code> 方法了，类似 Java 中的 <code>Comparable</code> 接口。</p>
+</blockquote>
+</li>
+<li><strong><code>__eq__(self, other)</code></strong>: 定义对象的相等比较，通常用于支持 <code>==</code> 操作符。</li>
+<li><strong><code>__ne__(self, other)</code></strong>: 定义对象的不等比较，通常用于支持 <code>!=</code> 操作符。</li>
+</ul>
+</li>
+</ul>
+<p>未完，但是够用了，有需求再查资料，因为很多其他的方法基本只会用于设计自己的库时才会使用，作为库的调用者、问题解决者一般用不到。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/01/19/Dynamic-Programming/" rel="prev" title="Dynamic Programming">
+                  <i class="fa fa-angle-left"></i> Dynamic Programming
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/31/python%E8%BF%9B%E9%98%B6-%E9%AD%94%E6%9C%AF%E5%91%BD%E4%BB%A4/" rel="next" title="python进阶-魔术命令">
+                  python进阶-魔术命令 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

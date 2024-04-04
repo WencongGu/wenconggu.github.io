@@ -26,12 +26,15 @@
 <meta property="og:site_name" content="GU&#39;s Blog">
 <meta property="og:description" content="集中整理了经典的排序算法，主要关注算法的原理、时间和空间复杂度、python实现。 想整理这个主要是发现很多业务场景都需要对大量数据进行处理，在遍历数组、列表时的策略就显得很重要。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wenconggu.github.io/image/sorting-algorithms/sort.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/sorting-algorithms/0B319B38-B70E-4118-B897-74EFA7E368F9.png">
 <meta property="og:image" content="https://wenconggu.github.io/image/sorting-algorithms/sort2.png">
 <meta property="article:published_time" content="2023-10-17T15:55:55.000Z">
-<meta property="article:modified_time" content="2024-03-19T16:38:30.879Z">
+<meta property="article:modified_time" content="2024-04-04T15:58:52.832Z">
 <meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wenconggu.github.io/image/sorting-algorithms/sort2.png">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/sorting-algorithms/sort.png">
 
 
 <link rel="canonical" href="https://wenconggu.github.io/2023/10/17/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E8%8D%9F%E8%90%83/">
@@ -88,7 +91,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">16</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">20</span></a></li>
   </ul>
 </nav>
 
@@ -113,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A1%E9%87%8F%E6%80%A7%E8%B4%A8"><span class="nav-number">1.</span> <span class="nav-text">衡量性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.3.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">算法概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">2.1.</span> <span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">详解与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">3.2.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">3.3.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="nav-number">3.4.</span> <span class="nav-text">希尔排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">3.5.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">3.6.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="nav-number">3.7.</span> <span class="nav-text">堆排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="nav-number">3.8.</span> <span class="nav-text">计数排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">3.9.</span> <span class="nav-text">桶排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="nav-number">3.10.</span> <span class="nav-text">基数排序</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E7%BA%A6%E5%AE%9A"><span class="nav-number">1.</span> <span class="nav-text">符号约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A1%E9%87%8F%E6%80%A7%E8%B4%A8"><span class="nav-number">2.</span> <span class="nav-text">衡量性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.3.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">算法概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">3.1.</span> <span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">4.</span> <span class="nav-text">内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">4.1.</span> <span class="nav-text">冒泡排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.1.1.</span> <span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-number">4.1.2.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AF%81%E6%98%8E"><span class="nav-number">4.1.3.</span> <span class="nav-text">原理与证明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%B4%A8"><span class="nav-number">4.1.4.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">4.2.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-1"><span class="nav-number">4.2.2.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AF%81%E6%98%8E-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">原理与证明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%B4%A8-1"><span class="nav-number">4.2.4.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">4.3.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">4.3.1.</span> <span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-2"><span class="nav-number">4.3.2.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AF%81%E6%98%8E-2"><span class="nav-number">4.3.3.</span> <span class="nav-text">原理与证明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%B4%A8-2"><span class="nav-number">4.3.4.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="nav-number">4.4.</span> <span class="nav-text">希尔排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">4.4.1.</span> <span class="nav-text">算法描述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">4.5.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">4.6.</span> <span class="nav-text">快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-4"><span class="nav-number">4.6.1.</span> <span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-3"><span class="nav-number">4.6.2.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AF%81%E6%98%8E-3"><span class="nav-number">4.6.3.</span> <span class="nav-text">原理与证明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%B4%A8-3"><span class="nav-number">4.6.4.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="nav-number">4.7.</span> <span class="nav-text">堆排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="nav-number">4.8.</span> <span class="nav-text">计数排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">4.9.</span> <span class="nav-text">桶排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="nav-number">4.10.</span> <span class="nav-text">基数排序</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -128,9 +131,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
@@ -200,7 +207,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-20 00:38:30" itemprop="dateModified" datetime="2024-03-20T00:38:30+08:00">2024-03-20</time>
+      <time title="修改时间：2024-04-04 23:58:52" itemprop="dateModified" datetime="2024-04-04T23:58:52+08:00">2024-04-04</time>
     </span>
 
   
@@ -215,7 +222,30 @@
     <div class="post-body" itemprop="articleBody"><p>集中整理了经典的排序算法，主要关注算法的原理、时间和空间复杂度、python实现。</p>
 <p>想整理这个主要是发现很多业务场景都需要对大量数据进行处理，在遍历数组、列表时的策略就显得很重要。</p>
 <span id="more"></span>
-
+<h2 id="符号约定"><a href="#符号约定" class="headerlink" title="符号约定"></a>符号约定</h2><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$n$</td>
+<td align="center">数据规模，要被排序的记录数量</td>
+</tr>
+<tr>
+<td align="center">$k$</td>
+<td align="center">不同键值的数量，“桶”的数量</td>
+</tr>
+<tr>
+<td align="center">$in-place$</td>
+<td align="center">占用常数内存，不占用额外内存</td>
+</tr>
+<tr>
+<td align="center">$out-place$</td>
+<td align="center">占用额外内存</td>
+</tr>
+</tbody></table>
 <h2 id="衡量性质"><a href="#衡量性质" class="headerlink" title="衡量性质"></a>衡量性质</h2><h3 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h3><p><strong>稳定性</strong>是指相等的元素经过排序之后相对顺序是否发生了改变。</p>
 <p>拥有稳定性这一特性的算法会让原本有相等键值的纪录维持相对次序，即如果一个排序算法是稳定的，当有两个相等键值的纪录 R 和 S，且在原本的列表中 R 出现在 S 之前，在排序过的列表中 R 也将会是在 S 之前。</p>
 <ul>
@@ -238,6 +268,10 @@
 <li><p>外部排序：因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。</p>
 </li>
 </ul>
+<p>内部排序有经典的十大算法，如图：</p>
+<p><img src="/image/sorting-algorithms/sort.png" alt="alt text"></p>
+<p>下图来自维基百科，作参考：</p>
+<p><img src="/image/sorting-algorithms/0B319B38-B70E-4118-B897-74EFA7E368F9.png" alt="alt text"></p>
 <p>还可以按照排序时的是否要比较分类，如下图：</p>
 <p><img src="/image/sorting-algorithms/sort2.png" alt="alt text"></p>
 <p>排序算法也经常按照稳定性分类，若被排序对象中有 $n$ 个记录，$k$ 个不同键值，各个算法的分类与时间复杂度如下表：</p>
@@ -264,17 +298,17 @@
 <tr>
 <td align="center">桶排序</td>
 <td align="center">$O(n)$</td>
-<td align="center">需要$O(k)$额外空间</td>
+<td align="center">需要 $O(k)$ 额外空间</td>
 </tr>
 <tr>
 <td align="center">计数排序</td>
 <td align="center">$O(n+k)$</td>
-<td align="center">需要$O(n+k)$额外空间</td>
+<td align="center">需要 $O(n+k)$ 额外空间</td>
 </tr>
 <tr>
 <td align="center">归并排序</td>
 <td align="center">$O(n \mathrm{log} n)$</td>
-<td align="center">需要$O(n)$额外空间</td>
+<td align="center">需要 $O(n)$ 额外空间</td>
 </tr>
 <tr>
 <td align="center">原地归并排序</td>
@@ -283,23 +317,23 @@
 </tr>
 <tr>
 <td align="center">二叉树排序</td>
-<td align="center">期望$O(n \mathrm{log} n)$，最坏$O(n^2)$</td>
-<td align="center">需要$O(n)$额外空间</td>
+<td align="center">期望 $O(n \mathrm{log} n)$，最坏 $O(n^2)$</td>
+<td align="center">需要 $O(n)$ 额外空间</td>
 </tr>
 <tr>
 <td align="center">鸽巢排序</td>
 <td align="center">$O(n+k)$</td>
-<td align="center">需要$O(k)$额外空间</td>
+<td align="center">需要 $O(k)$ 额外空间</td>
 </tr>
 <tr>
 <td align="center">基数排序</td>
 <td align="center">$O(nk)$</td>
-<td align="center">需要$O(n)$额外空间</td>
+<td align="center">需要 $O(n)$ 额外空间</td>
 </tr>
 <tr>
 <td align="center">Tim 排序</td>
-<td align="center">期望和最坏$O(n \mathrm{log} n)$，最优$O(n)$</td>
-<td align="center">需要$O(n)$额外空间，目前最快算法，Python、Swift、Rust等语言内置排序函数的默认算法</td>
+<td align="center">期望和最坏 $O(n \mathrm{log} n)$，最优 $O(n)$</td>
+<td align="center">需要 $O(n)$ 额外空间，目前最快算法，Python、Swift、Rust等语言内置排序函数的默认算法</td>
 </tr>
 </tbody></table>
 </li>
@@ -329,7 +363,7 @@
 </tr>
 <tr>
 <td align="center">快速排序</td>
-<td align="center">期望$O(n \mathrm{log} n)$，最坏$O(n^2)$</td>
+<td align="center">期望 $O(n \mathrm{log} n)$，最坏 $O(n^2)$</td>
 <td align="center"></td>
 </tr>
 <tr>
@@ -340,8 +374,63 @@
 </tbody></table>
 </li>
 </ul>
-<h2 id="详解与分析"><a href="#详解与分析" class="headerlink" title="详解与分析"></a>详解与分析</h2><p>（…待补充）</p>
-<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><h3 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h3><h3 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h3><h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3>
+<h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><strong>冒泡排序</strong>（<strong>Bubble Sort</strong>）也是一种简单直观的排序算法。遍历要排序的数列，一次比较两个元素，如果顺序错误就交换二者位置。重复地进行直到不再需要交换则排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢”浮”到数列的顶端。</p>
+<p>我开始学习计算机算法后第一个接触到的排序算法就是冒泡排序了。在当时没有培养起任何算法概念的我看来，这个算法直观又简单，当时我使用的是 C++，所以排序的效率也十分可观，当时天真地感觉自己无敌了。</p>
+<p>现在略加思考就能意识到这个算法的时间复杂度比较高，在对效率要求较高时不太实用。但是它作为计算机初学者打开算法思想的脚手架也值得被认真分析对待。</p>
+<h4 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h4><p>每次遍历时逐个比较相邻的两个元素，调整位置，遍历 $n$ 次，所有元素排列完毕。</p>
+<h4 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span> ... n:</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">1</span> ... n - <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">if</span> nums[j] &gt; nums[j+<span class="number">1</span>]:</span><br><span class="line">      Swap(nums[i], nums[j])</span><br></pre></td></tr></table></figure>
+
+<h4 id="原理与证明"><a href="#原理与证明" class="headerlink" title="原理与证明"></a>原理与证明</h4><p>算法很简单，就不必使用过于死板的数学证明了。稍加思考可以想到，第 $i$ 次遍历过后，最后的 $i$ 个元素一定是排列好的。而这也可以作为一种优化策略。</p>
+<h4 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h4><p><strong>时间复杂度</strong></p>
+<p>在最好情况下，即序列完全有序时，冒泡排序只需遍历一遍数组，不用执行任何交换操作，时间复杂度为 $O(n)$。</p>
+<p>在最坏情况下，冒泡排序要执行 $\frac{(n-1)n}{2}$ 次交换操作，时间复杂度为 $O(n^2)$。</p>
+<p>平均时间复杂度为 $O(n^2)$。</p>
+<p><strong>稳定性</strong></p>
+<p>稳定。</p>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p><strong>选择排序</strong>（<strong>Selection Sort</strong>）是一种简单直观的排序算法。它的工作原理是，每次遍历都找到当前未排序数组中的最小元素，将其排列到正确的位置，直到所有元素位置正确。</p>
+<h4 id="算法描述-1"><a href="#算法描述-1" class="headerlink" title="算法描述"></a>算法描述</h4><p>第$i$次遍历找出第 $i$ 小的元素，然后将这个元素与数组第 $i$ 个位置上的元素交换，遍历 $n$ 次，所有元素位置正确。</p>
+<h4 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span> ... n:</span><br><span class="line">  ith = i</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> i ... n:</span><br><span class="line">    <span class="keyword">if</span> nums[j] &lt; nums[ith]:</span><br><span class="line">      ith = j</span><br><span class="line">  Swap(nums[i], nums[ith])</span><br></pre></td></tr></table></figure>
+
+<h4 id="原理与证明-1"><a href="#原理与证明-1" class="headerlink" title="原理与证明"></a>原理与证明</h4><p>直观且明了，无须多言。第 $i$ 次循环过后，数组中第 $i$ 小的元素一定被放置正确的位置。</p>
+<h4 id="性质-1"><a href="#性质-1" class="headerlink" title="性质"></a>性质</h4><p><strong>时间复杂度</strong></p>
+<p>第 $i$ 次循环需要遍历 $n-i$ 个元素，总共需要遍历 $\frac{(n-1+1)(n-1)}{2}&#x3D;\frac{n^2}{2}-\frac{n}{2}$次，时间复杂度为 $O(n^2)$，且与数组本身没有关系，因此最好、最坏情况都是一样。</p>
+<p><strong>稳定性</strong></p>
+<p>不稳定。</p>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p><strong>插入排序</strong>(<strong>Insertion Sort</strong>)，一般也被称为直接插入排序。插入排序也是一种最简单直观的排序算法，它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
+<h4 id="算法描述-2"><a href="#算法描述-2" class="headerlink" title="算法描述"></a>算法描述</h4><p>我们递归地描述算法，在第 $i$ 次排序中，假设前 $i$ 个数是排好序的，得到第 $i+1$ 个数后，扫描前面排好序的部分，找到这个数的正确位置，将其插入到这个正确位置中。总共循环 $n-2$ 次。</p>
+<h4 id="伪代码-2"><a href="#伪代码-2" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">2</span> ... n:</span><br><span class="line">  temp = nums[i]</span><br><span class="line">  j = i - <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> j &gt; <span class="number">0</span> <span class="keyword">and</span> nums[j] &gt; temp:</span><br><span class="line">    nums[j+<span class="number">1</span>] = nums[j]</span><br><span class="line">    j = j - <span class="number">1</span></span><br><span class="line">  nums[j+<span class="number">1</span>]=temp  </span><br></pre></td></tr></table></figure>
+
+<h4 id="原理与证明-2"><a href="#原理与证明-2" class="headerlink" title="原理与证明"></a>原理与证明</h4><p>直观明了，算法保证了第 $i$ 次排序前，前 $i$ 个数据是排好序的，而第 $i+1$ 个数据也可以确保放入正确位置。</p>
+<h4 id="性质-2"><a href="#性质-2" class="headerlink" title="性质"></a>性质</h4><p><strong>时间复杂度</strong></p>
+<p>插入排序的最优时间复杂度为 $O(n)$，在数列几乎有序时效率很高。</p>
+<p>插入排序的最坏时间复杂度和平均时间复杂度都为 $O(n^2)$。</p>
+<p><strong>稳定性</strong></p>
+<p>稳定。</p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p><strong>希尔排序</strong>（<strong>Shell Sort</strong>），也称递减增量排序算法，是<strong>插入排序</strong>的一种改进版本，以它的发明者希尔（英语：Donald Shell）命名。</p>
+<p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
+<ul>
+<li>对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率；</li>
+<li>一般来说是低效的，因为插入排序每次只能将数据移动一位；</li>
+</ul>
+<p>希尔排序的基本思想是：先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，待整个序列中的记录”基本有序”时，再对全体记录进行依次直接插入排序。</p>
+<h4 id="算法描述-3"><a href="#算法描述-3" class="headerlink" title="算法描述"></a>算法描述</h4><h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>!!! 重要</p>
+<p><strong>快速排序</strong>（<strong>Quicksort</strong>），又称<strong>分区交换排序</strong>（<strong>partition-exchange sort</strong>），简称“快排”，是一种被广泛运用的排序算法。</p>
+<p>快速排序的最坏运行情况是 $O(n²)$，比如说顺序数列的快排。但它的平摊期望时间是 $O(n\mathrm{log}n)$，且 $O(n\mathrm{log}n)$ 记号中隐含的常数因子很小，比复杂度稳定等于 $O(n\mathrm{log}n)$ 的归并排序要小很多。所以，对绝大多数顺序性较弱的随机数列而言，快速排序总是优于归并排序。</p>
+<p>事实上，快速排序通常明显比其他 $Ο(n\mathrm{log}n)$ 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来。</p>
+<p>快速排序使用<strong>分治法</strong>（Divide and conquer）策略来把一个串行（list）分为两个子串行（sub-lists）。本质上来看，快速排序应该算是在冒泡排序基础上的递归分治法。</p>
+<h4 id="算法描述-4"><a href="#算法描述-4" class="headerlink" title="算法描述"></a>算法描述</h4><p>首先选定一个基准值（pivot），将数列划分为两部分，但是与归并排序不同的是，这个划分要保证前半部分的值都不大于这个基准值，后半部分都不小于这个基准值，也就是保证<strong>前后相对大小</strong>关系。然后递归地对前后两部分进行相同的操作，以完成排序。</p>
+<p>这是一个明显的分治策略，同时很容易使用递归实现。关于基准值的选取，通常会为了保证算法的平均复杂度而选取一个随机值。</p>
+<h4 id="伪代码-3"><a href="#伪代码-3" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">quickSort</span>(<span class="params">nums, left, right</span>):</span><br><span class="line">  <span class="comment"># 终止条件</span></span><br><span class="line">  <span class="keyword">if</span> left &gt;= right:</span><br><span class="line">    <span class="keyword">return</span> </span><br><span class="line"></span><br><span class="line">  <span class="comment"># 划分</span></span><br><span class="line">  pivot = nums[left] <span class="comment"># 选定基准为随机值，这里使用每个分组最左边的值</span></span><br><span class="line">  pointer = left + <span class="number">1</span> <span class="comment"># 左侧元素位置指针</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> left+<span class="number">1</span> ... right:</span><br><span class="line">    <span class="keyword">if</span> nums[i] &lt; pivot: <span class="comment"># 当元素小于基准时，就将其放置在左侧pointer对应位置</span></span><br><span class="line">      Swap(nums[i], nums[pointer])</span><br><span class="line">      pointer = pointer + <span class="number">1</span></span><br><span class="line">  Swap(nums[left], nums[pointer-<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 递归</span></span><br><span class="line">  quickSort(nums, left, pointer-<span class="number">1</span>)</span><br><span class="line">  quickSort(nums, pointer, right)</span><br></pre></td></tr></table></figure>
+
+<h4 id="原理与证明-3"><a href="#原理与证明-3" class="headerlink" title="原理与证明"></a>原理与证明</h4><p>根据算法实现过程，其原理是很明显的。使用分治思路，每次都将待排序的数组长度缩减为原来的一半，不过相较于归并排序，这里的两半数组大小关系是明确的，也正是因此，只要保证两半都是排好序的，再将两半拼接起来就好了。</p>
+<p>将数组分成有大小关系的两半的操作实际上也是一种弱排序操作。可以想象，如果数组只有3个元素，那么经过这一步的数组就已经是有序的了，分成的两部分数组分别只有一个元素。考虑到这一点，显然就可以使用递归来实现这个算法，每次递归都将数组长度缩减为一半，而其递归终止条件就是当数组元素为1时。</p>
+<h4 id="性质-3"><a href="#性质-3" class="headerlink" title="性质"></a>性质</h4><p><strong>时间复杂度</strong></p>
+<p>对于最优情况，每一次选择的分界值都是序列的中位数，此时算法时间复杂度满足的递推式为 $T(n) &#x3D; 2T(\dfrac{n}{2}) + \Theta(n)$，可以推出，$T(n) &#x3D; \Theta(n\log n)$。</p>
+<p>对于最坏情况，每一次选择的分界值都是序列的最值，此时算法时间复杂度满足的递推式为 $T(n) &#x3D; T(n - 1) + \Theta(n)$，累加可得 $T(n) &#x3D; \Theta(n^2)$。</p>
+<p>对于平均情况，每一次选择的分界值可以看作是等概率随机的。</p>
+<p><strong>稳定性</strong></p>
+<p>它的稳定性由拆分数组时的元素交换策略决定。不稳定。</p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><h3 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h3><h3 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h3><h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3>
     </div>
 
     
@@ -349,6 +438,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Algorithm/" rel="tag"><i class="fa fa-tag"></i> Algorithm</a>
+          </div>
 
         
 

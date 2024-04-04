@@ -19,16 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧，但是并不记录高超的算法设计，算法设计不适合用博客记录，我都记在自己的小本本上。">
+    <meta name="description" content="算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。 这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧和编程实现方式，但是并不记录高超的算法设计，大的或者精妙的算法设计不适合用博客记录，我都记在自己的小本本上。 格式也乱七八糟的，总体而言是比较随性的博客。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode刷题小总结">
 <meta property="og:url" content="https://wenconggu.github.io/2023/11/30/leetcode%E5%88%B7%E9%A2%98%E5%B0%8F%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="GU&#39;s Blog">
-<meta property="og:description" content="算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧，但是并不记录高超的算法设计，算法设计不适合用博客记录，我都记在自己的小本本上。">
+<meta property="og:description" content="算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。 这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧和编程实现方式，但是并不记录高超的算法设计，大的或者精妙的算法设计不适合用博客记录，我都记在自己的小本本上。 格式也乱七八糟的，总体而言是比较随性的博客。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-30T13:26:43.000Z">
-<meta property="article:modified_time" content="2024-03-31T15:54:30.708Z">
+<meta property="article:modified_time" content="2024-04-04T15:58:52.828Z">
 <meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="Coding, Algorithm">
 <meta name="twitter:card" content="summary">
 
 
@@ -86,7 +87,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">16</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">20</span></a></li>
   </ul>
 </nav>
 
@@ -98,7 +99,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -111,6 +112,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#python%E4%BB%A3%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">python代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91"><span class="nav-number">2.</span> <span class="nav-text">逻辑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3"><span class="nav-number">3.</span> <span class="nav-text">编程思想</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -125,9 +127,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
@@ -197,7 +203,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-31 23:54:30" itemprop="dateModified" datetime="2024-03-31T23:54:30+08:00">2024-03-31</time>
+      <time title="修改时间：2024-04-04 23:58:52" itemprop="dateModified" datetime="2024-04-04T23:58:52+08:00">2024-04-04</time>
     </span>
 
   
@@ -209,21 +215,90 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧，但是并不记录高超的算法设计，算法设计不适合用博客记录，我都记在自己的小本本上。</p>
+    <div class="post-body" itemprop="articleBody"><p>算法学得再好要是要最终落地解决问题的。但是想要解决好实际问题并不容易。提高自己的代码能力也是一个不断积累的过程。一个知名且有效的刷题网站当然非leetcode莫属。</p>
+<p>这篇文章就是想要记录一下我在刷题过程中遇到的一些能够有效提高代码水平的小技巧和编程实现方式，但是并不记录高超的算法设计，大的或者精妙的算法设计不适合用博客记录，我都记在自己的小本本上。</p>
+<p>格式也乱七八糟的，总体而言是比较随性的博客。</p>
 <span id="more"></span>
 
-<p>python代码</p>
-<p>列表根据值获取索引：l.index(v)</p>
-<p>字典的键集：d.keys()，值集：d.values()，键值对：d.items()</p>
+<h4 id="python代码"><a href="#python代码" class="headerlink" title="python代码"></a>python代码</h4><p>$\bullet$<br>列表根据值获取索引：<code>l.index(v)</code></p>
+<p>列表、集合元素的删除都可以使用 <code>remove(value)</code>，如果 <code>value</code> 不在集合或者列表中则抛出异常。</p>
+<p>对于列表，可以根据索引值删除：<code>popped = l.pop(index)</code>，就是说它不只是可以用作栈，而且返回值是抛出的元素。</p>
+<p>对于集合，可以使用 <code>discard(value)</code> 删除对应值，不过这个值即使不存在也不会抛出异常。</p>
+<p>$\bullet$ <strong><code>dict</code> 字典</strong><br>字典的键集：<code>d.keys()</code>，值集：<code>d.values()</code>，键值对：<code>d.items()</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d=&#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">1</span>,<span class="string">&#x27;b&#x27;</span>:<span class="number">2</span>,<span class="string">&#x27;c&#x27;</span>:<span class="number">3</span>&#125;</span><br><span class="line"><span class="built_in">list</span>(d.items())</span><br><span class="line"></span><br><span class="line">[(<span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>), (<span class="string">&#x27;b&#x27;</span>, <span class="number">2</span>), (<span class="string">&#x27;c&#x27;</span>, <span class="number">3</span>)]</span><br></pre></td></tr></table></figure>
 <p>可以直接用<code>in</code>检查元素是不是在某个集合里，不必使用list。放心用，在Java里也有类似的方法，属于是哈希表的特性了。</p>
-<p>使用for循环时有时会既要遍历元素又要遍历索引，直接用<code>enumerate</code>即可。</p>
+<p>但是判断某个键是否在字典中直接用 <code>in</code> 就行了，不用再用 <code>keys()</code>，比如 <code>string in my_dict</code>。</p>
+<p>删除键值对使用 <code>pop()</code> 函数或者 <code>del</code> 关键字，比如 <code>my_dict.pop(&#39;my_key&#39;)</code>，<code>del my_dict[&#39;my_key&#39;]</code></p>
+<p>$\bullet$ <strong><code>set</code> 集合</strong></p>
+<p>特点：</p>
+<ul>
+<li><code>set</code> 中的元素是无序的，即没有索引，不能通过索引访问元素。</li>
+<li><code>set</code> 中的元素是唯一的，不会重复。</li>
+<li><code>set</code> 中只能存储不可变（immutable，或者可哈希的 hashable）的对象，如数字、字符串、元组等，不能存储可变对象如列表、字典。</li>
+</ul>
+<p>操作：</p>
+<ul>
+<li>增：使用 <code>add()</code> 方法向 <code>set</code> 中添加元素，如果元素已经存在，则不会重复添加。</li>
+<li>删：使用 <code>remove()</code> 或 <code>discard()</code> 方法删除指定元素，如果元素不存在，<code>remove()</code> 会抛出 <code>KeyError</code> 异常，而 <code>discard()</code> 不会。</li>
+<li>运算：可以对 <code>set</code> 进行并集、交集、差集等操作，如 <code>union()</code>, <code>intersection()</code>, <code>difference()</code> 等：<ul>
+<li>$\mathrm{A}\cap \mathrm{B}$<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.intersaction(B)</span><br></pre></td></tr></table></figure></li>
+<li>$\mathrm{A}\cup \mathrm{B}$<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.union(B)</span><br></pre></td></tr></table></figure></li>
+<li>$\mathrm{A} - \mathrm{B}$<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.difference(B)</span><br></pre></td></tr></table></figure></li>
+<li>$?: \mathrm{A}\subset \mathrm{B}$<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.issuperset(B)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>查：一般使用 <code>for</code> 循环遍历集合</li>
+</ul>
+<p>Python 中还有一种不可变集合 <code>frozenset</code>，使用 <code>frozenset()</code> 函数创建，与 <code>set</code> 不同的是，<code>frozenset</code> 是不可变的，即不能添加、删除或修改元素。</p>
+<p>$\bullet$<br>使用<code>for</code>循环时有时会既要遍历元素又要遍历索引，直接用<code>enumerate()</code>即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(nums):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 
-<p>在求最值的问题中常常需要去二者的极大值，比如类似以下逻辑：</p>
+<p>$\bullet$ <strong><code>del</code> 关键字</strong><br>python 中 <code>del</code> 关键字用于<strong>删除对象的引用</strong>。<code>del</code> 可以用于删除变量、列表中的元素、字典中的键值对等。它常用于：</p>
+<ul>
+<li>删除变量<br>使用 <code>del</code> 可以删除一个变量，释放其所引用的对象，让变量不再指向任何对象。示例：<code>del my_var</code>，但是此时对象本身依然存在，只是引用计数减1。</li>
+<li>删除列表中的元素：<br>使用 <code>del</code> 可以删除列表中指定索引位置的元素。示例：<code>my_list = [1, 2, 3]</code>，<code>del my_list[1]</code> 将删除列表中索引为 1 的元素。</li>
+<li>删除字典中的键值对：<br>使用 <code>del</code> 可以删除字典中指定键值对。示例：<code>my_dict = &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</code>，<code>del my_dict[&#39;a&#39;]</code> 将删除字典中键为 <code>&#39;a&#39;</code> 的键值对。</li>
+<li>删除对象属性：<br>使用 <code>del</code> 可以删除对象的属性。示例：<code>class MyClass: pass</code>，<code>obj = MyClass()</code>，<code>obj.attr = 10</code>，<code>del obj.attr</code> 将删除对象 <code>obj</code> 的属性 <code>attr</code>。</li>
+</ul>
+<p>Python 会自动管理内存，当一个对象没有任何引用时，Python 的垃圾回收机制会自动回收这部分内存。</p>
+<p>$\bullet$<br>使用 <code>ord(my_char)</code> 获取 <code>my_char</code> 对应的 unicode 编码号。注意，<code>my_char</code> 只能是单个字符。返回值是一个 int。</p>
+<p>在 unicode 中，大写字母对应编码为 65-90，小写字母为 97-122。可以根据这个获取字母在字母表中的排序，比如 <code>order_a=ord(&#39;a&#39;)-97 # 0</code>。</p>
+<h4 id="逻辑"><a href="#逻辑" class="headerlink" title="逻辑"></a>逻辑</h4><p>$\bullet$<br>在求最值的问题中常常需要去二者的极大值，比如类似以下逻辑：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">max_value = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a_list:</span><br><span class="line">    max_value = <span class="built_in">max</span>(max_value, i)</span><br></pre></td></tr></table></figure>
 <p>这里使用<code>max</code>是每次都会调用的，显然它的效率不如：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">max_value = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a_list:</span><br><span class="line">    <span class="keyword">if</span> max_value&lt;i:</span><br><span class="line">        max_value=i</span><br></pre></td></tr></table></figure>
+
+<p>很弱的“优化”。</p>
+<p>$\bullet$<br>使用双指针时，想要使得left始终在right左边，循环条件是 <code>left &lt; right - 1</code> 或者 <code>right &gt; left + 1</code>，注意要有 <code>+ 1</code>，是个容易忽视的小细节。</p>
+<p>$\bullet$<br>使用 <code>while</code> 循环时，循环条件要尤其注意边界值。</p>
+<p>可以是 <code>while i &lt; n</code> 也可能是 <code>while i &lt; n+1</code>。</p>
+<p>$\bullet$<br><strong>合并 <code>if</code> 语句时要谨慎</strong></p>
+<p>比如下面两个 <code>if</code> 语句<strong>不等价</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Statement 1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> name:</span><br><span class="line">    <span class="keyword">if</span> i==<span class="string">&#x27;..&#x27;</span>:</span><br><span class="line">        <span class="keyword">if</span> stack:</span><br><span class="line">            stack.pop()</span><br><span class="line">    <span class="keyword">elif</span> i <span class="keyword">and</span> i!=<span class="string">&#x27;.&#x27;</span>:</span><br><span class="line">        stack.append(i)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Statement 2</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> name:</span><br><span class="line">    <span class="keyword">if</span> i==<span class="string">&#x27;..&#x27;</span> <span class="keyword">and</span> stack:</span><br><span class="line">            stack.pop()</span><br><span class="line">    <span class="keyword">elif</span> i <span class="keyword">and</span> i!=<span class="string">&#x27;.&#x27;</span>:</span><br><span class="line">        stack.append(i)</span><br></pre></td></tr></table></figure>
+
+
+<p>这是因为 <code>if</code> 语句的判定在进入一个分支后不会进入另一个，但是对于 <code>if-else</code> 语句如果没有进入一个分支就会进行第二个判断。</p>
+<p>对于第1个写法，如果变量 <code>i</code> 为 <code>&#39;..&#39;</code> 但是 <code>stack</code> 为空，会进入第一个分支，但是不会进入里面的 <code>if</code> 判断，所以循环最终什么也不做。</p>
+<p>但是同样的情况对与第二种写法就不一样了，不满足第一个判断分支后就会进行第二个分支判断，而它恰好满足第二个分支，因为 <code>i</code> 是 <code>&#39;..&#39;</code>，显然满足 <code>i and i!=&#39;.&#39;</code>，会运行分支语句，造成错误。</p>
+<p>因此做代码优化时一定要注意谨慎。</p>
+<p>$\bullet$<br>下列总结来自<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-all-anagrams-in-a-string/solutions/1123971/zhao-dao-zi-fu-chuan-zhong-suo-you-zi-mu-xzin/?envType=study-plan-v2&envId=top-100-liked">找到字符串中所有字母异位词</a></p>
+<p>在判断字母异位词（两个字符串包含的字母及其个数相同）时，一个很重要的问题就是如何判断两个字符串是不是异构的，朴素的想法就是对两个字符串直接排序，然后直接比较是否相等即可。显然这样会有效率问题。</p>
+<p>一种简单的想法是维护两个哈希表，分别记录目标字符串和当前字符串出现的字符及其数量。这完全可行，新加入字符时如果它在表中就加1，不在表中就置0，删除字符时就减1，最后比较两个哈希表就行。但是对于滑动窗口这种做法很麻烦，因为对于某个字符，或许它根本不在目标字符串中，而在某个字符串中出现，因此哈希表中就有这个键，随后滑动窗口时这个字符数量变为0，而此时这个哈希表需要删除这个键值对，否则它和目标字符串的哈希表一定不同，即使字符串相同。这就对于判断逻辑造成一定的麻烦。</p>
+<p>一种比较优秀的想法是维护一个长度为 26 的数组，分别记录每个元素对应的数量，初始化为0即可。这与哈希表的思路没有本质上的不同，只是操作更加方便。判断时直接比较数组即可。</p>
+<p>比较方法也有很多，或者可以赋予数组不同含义。上面的数组含义就是每个字母出现的次数。也可以这样维护这个数组：对于第一个字符串，存储它与目标字符串每个字符的差异，某个元素为 $n$ 表示对应字符在当前字符串的出现次数比目标字符串多 $n$次，$-n$ 表示少 $n$ 次，为 0 则相等。于是两个字符串的差异可以用不为 0 的元素个数来表示。</p>
+<h4 id="编程思想"><a href="#编程思想" class="headerlink" title="编程思想"></a>编程思想</h4><p>武器库。没有思路的时候就想想看自己掌握了什么。</p>
+<p><strong>双指针</strong></p>
+<p>这个挺常见的，还是比较容易想到的。第一次看到这个用法惊为天人。</p>
+<p><strong>(单调)栈</strong></p>
+<p>栈的数据结构很奇妙。不容易想到。单调栈更是迷。leetcode知名题目<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/trapping-rain-water/description/?envType=study-plan-v2&envId=top-interview-150">接雨水</a>，但是也会用于数学表达式分析，比如<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/evaluate-reverse-polish-notation/description/?envType=study-plan-v2&envId=top-interview-150">计算后缀表达式</a>，或者将前缀表达式转化为后缀表达式，或者<a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/huffman-tree/">霍夫曼编码</a></p>
+<p><strong>哈希表</strong></p>
+<p>主要是这种数据结构能够快速查找元素，主要是能够轻松使用它构造一个集合，用来检查某元素是否在这个集合中，所以常常被用来做一些去重操作。</p>
+<p>虽然多占空间，但是一般空间复杂度要求是比较低的，所以大胆用。</p>
+<p><strong>滑动窗口</strong></p>
+<p>想要检查的元素集长度可控（定长、单调、有限）时，可以使用一个窗口，逐个检查窗口内元素是否符合要求。优化是可以的，但是通常效果不会很明显。直接遍历就行。</p>
+<p><strong>动态规划</strong></p>
+<p>一大算法思想。</p>
+
     </div>
 
     
@@ -231,6 +306,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Coding-Algorithm/" rel="tag"><i class="fa fa-tag"></i> Coding, Algorithm</a>
+          </div>
 
         
 
@@ -241,8 +319,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/01/01/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="next" title="在M1芯片的MacBook Air中配置Linux（ubuntu）">
-                  在M1芯片的MacBook Air中配置Linux（ubuntu） <i class="fa fa-angle-right"></i>
+                <a href="/2023/12/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80Python%E5%AE%9E%E7%8E%B0/" rel="next" title="数据结构基础Python实现">
+                  数据结构基础Python实现 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -303,7 +381,7 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
