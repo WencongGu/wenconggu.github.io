@@ -16,8 +16,10 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="Some uncommon linux commands usages.  Heredoc sudo bash -c lvm static IP if eval">
 <meta property="og:type" content="article">
@@ -27,7 +29,7 @@
 <meta property="og:description" content="Some uncommon linux commands usages.  Heredoc sudo bash -c lvm static IP if eval">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-06T15:06:00.000Z">
-<meta property="article:modified_time" content="2024-04-04T15:58:52.520Z">
+<meta property="article:modified_time" content="2024-04-05T16:16:54.666Z">
 <meta property="article:author" content="GU WENCONG">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -76,6 +78,7 @@
       <p class="site-title">GU's Blog</p>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">Welcome''</p>
   </div>
 
   <div class="site-nav-right">
@@ -87,7 +90,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">20</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a></li>
   </ul>
 </nav>
 
@@ -127,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -203,7 +206,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-04 23:58:52" itemprop="dateModified" datetime="2024-04-04T23:58:52+08:00">2024-04-04</time>
+      <time title="修改时间：2024-04-06 00:16:54" itemprop="dateModified" datetime="2024-04-06T00:16:54+08:00">2024-04-06</time>
     </span>
 
   
@@ -278,6 +281,11 @@
 <p>然后就可以使用<code>ssh-copy-id -i ~/.ssh/key_name nickname</code>命令方便地传输密钥，不需要手动复制公钥。输入命令后就可以完成传输，此后就可以使用<code>nickname</code>直接登陆主机。</p>
 <p>为了方便地实现主机与本机的文件交换，可以使用<code>scp [-r] src dist</code>。路径中服务端的路径要写全，比如<code>nickname:~/myfile</code>，复制目录时要使用参数<code>-r</code>。在mac段有一个可视化的工具叫做transmit,很方便。</p>
 <p>还有一个实用命令 <code>rsync [-r] src dist</code>，它的使用方式与 <code>scp</code> 命令十分相似，其作用是同步文件，如果文件不存在就创建，使用 <code>-r</code> 参数以同步多个文件。注意，针对目录的操作中，如果目录后面带有 <code>/</code> 则表示同步目录中的每一个文件，而目录本身不会传输，操作后目标位置仅会同步几个文件，不带 <code>/</code> 则表示传输整个目录，操作过后目标目录下会多出一个源目录。</p>
+<p>在 Mac 系统中传输文件时总会多出一个 <code>.DS_Store</code> 文件，这时 Mac 系统特有的，每个文件夹下都会存在的文件，如果简单使用 <code>-r</code> 参数就会连带着这个文件一同复制。为了忽视这个文件，可以使用下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync  --exclude=<span class="string">&quot;.DS_Store&quot;</span> -r src dist</span><br></pre></td></tr></table></figure>
+
+<p>可以将 <code>alias rsync=&quot;rsync --exclude=&#39;.DS_Store&#39;&quot;</code> 写入 <code>~/.bashrc</code> 或者 <code>~/.zshrc</code> 中，以方便使用。Mac 中默认的 Terminal 是 zsh，所以一般写入 <code>~/.zshrc</code> 即可。</p>
+<p>这个命令还有几个比较好用的参数：<code>-z</code>传输时压缩文件，减少传输数据量。<code>-u</code>仅传输更新过的文件。<code>-e</code> 参数用于指定要使用的远程 shell 程序。通常情况下默认使用 SSH 来进行远程传输，因此 <code>-e</code> 参数通常用于指定 SSH 连接的相关选项，比如指定端口号、指定私钥等。</p>
 <p><strong>注意事项</strong>：</p>
 <p>在 <code>config</code> 文件中设置了主机别名后，要注意这个文件是放在哪个用户根目录中。比如在 <code>user1</code> 的根目录也就是 <code>/home/user1/.ssh</code> 目录下的 <code>config</code> 文件仅对 <code>user1</code> 用户有效，在使用别名时会在用户根目录下的 <code>.ssh</code> 目录中寻找 <code>config</code> 文件并解析，因此在一个用户目录下配置的别名其他用户就无法使用。要配置所有用户都可以使用的别名，要在 <code>/etc/ssh/</code> 目录下寻找类似的对应配置文件。</p>
 <h3 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h3><p>在使用远程登录 shell 时，可能会遇到某些权限问题。比如我遇到过使用 ssh 链接时，推送更改到 Github 时会出现无仓库权限的提示，但是本地推送就没有问题。我的 GitHub 配置也绝对没有问题。</p>
@@ -460,6 +468,9 @@
     <span>0%</span>
   </div>
   <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -468,13 +479,14 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
 
   
 
 
 
 
+  <script src="/js/third-party/pace.js"></script>
 
 
   

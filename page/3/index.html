@@ -24,7 +24,7 @@
     <meta name="description" content="May everything goes fine always">
 <meta property="og:type" content="website">
 <meta property="og:title" content="GU&#39;s Blog">
-<meta property="og:url" content="https://wenconggu.github.io/archives/2023/index.html">
+<meta property="og:url" content="https://wenconggu.github.io/page/3/index.html">
 <meta property="og:site_name" content="GU&#39;s Blog">
 <meta property="og:description" content="May everything goes fine always">
 <meta property="og:locale" content="zh_CN">
@@ -32,14 +32,14 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://wenconggu.github.io/archives/2023/">
+<link rel="canonical" href="https://wenconggu.github.io/page/3/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2023/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/3/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | GU's Blog</title>
+<title>GU's Blog</title>
   
 
 
@@ -155,149 +155,97 @@
 
     </div>
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner index posts-expand">
+
+    
 
 
+<div class="post-block">
   
   
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 21 篇日志。 继续努力。</span>
-      </div>
 
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/06/06/%E5%9C%A8arm-mac%E4%B8%8A%E6%90%AD%E5%BB%BAhexo%E5%B9%B6%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/06/%E5%9C%A8arm-mac%E4%B8%8A%E6%90%AD%E5%BB%BAhexo%E5%B9%B6%E9%83%A8%E7%BD%B2/" class="post-title-link" itemprop="url">在arm ubuntu上搭建hexo并部署</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-06 23:08:52" itemprop="dateCreated datePublished" datetime="2023-06-06T23:08:52+08:00">2023-06-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-04 14:12:12" itemprop="dateModified" datetime="2024-04-04T14:12:12+08:00">2024-04-04</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>为什么写这篇看起来很小众的文章? 其实也只是想着记录一下自己的操作过程. 这个过程说实话还是很繁琐的, 因为碰到任何不懂的地方都要从头开始查起, 在查资料的过程中又会遇到不懂的名词, 又会再去查, 活像人肉递归. 不过总体而言, 折腾linux的过程还是很欢乐的, 真的能学到不少的东西, 而且学到的东西也能很快得到检验, 正负反馈都很及时, 能清楚地感到自己在进步.</p>
+<p>几年前的我还没想过要深耕计算机领域. 那时的我只是喜欢“理论研究”. 不得不说, 我的确很享受站在高层理论指导实践, 而对这种应用性过强的技能曾经看不上眼. 我怎么一步一步踏进计算机技术的世界的呢? 我自己说不清, 但感觉上是被信息时代推着走进的. 不过如今我其实也很享受现在的学习, 对自己掌握的技术保持骄傲, 对不了解的技术、理论保持好奇.</p>
+<p>apple刚发布m1芯片的macbook的时候, 我刚好在那种对计算机不感兴趣的阶段. 网络上铺天盖地地夸macbook的优秀, 我并没有被骗, 我认识到了m1的不足, 那就是软件生态差. 但是我当时作为数学系的学生, 我的需求就只是它可以跑matlab、mathematica, 平时写论文, 查资料. 而这些它都能满足. 我就高兴地下单了. 在相当长的时间内, 它的确没有辜负我, 用起来很舒适. 但是现在我开始了解计算机技术了, 尤其是专注学习深度学习领域后, 我才清楚地看到” 软件生态差 “的真正含义. 于是在折腾的过程中受了不少苦. 虽然也学到了不少, 但是的确苦.</p>
+<p>文章的几个系列就记录一下在我的这台arm(arrch) mac上折腾的各种应用过程吧. 技术都是从网上学来的, 现在我来回馈一下网络.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/06/%E5%9C%A8arm-mac%E4%B8%8A%E6%90%AD%E5%BB%BAhexo%E5%B9%B6%E9%83%A8%E7%BD%B2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-12-04T13:32:46+08:00"
-              content="2023-12-04">
-          12-04
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/12/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80Python%E5%AE%9E%E7%8E%B0/" itemprop="url">
-          <span itemprop="name">数据结构基础Python实现</span>
-        </a>
-      </div>
-
+    <footer class="post-footer">
+        <div class="post-eof"></div>
       
-    </header>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-11-30T21:26:43+08:00"
-              content="2023-11-30">
-          11-30
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/11/30/leetcode%E5%88%B7%E9%A2%98%E5%B0%8F%E6%80%BB%E7%BB%93/" itemprop="url">
-          <span itemprop="name">leetcode刷题小总结</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-10-17T23:55:55+08:00"
-              content="2023-10-17">
-          10-17
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/10/17/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E8%8D%9F%E8%90%83/" itemprop="url">
-          <span itemprop="name">排序算法荟萃</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-10-06T23:06:00+08:00"
-              content="2023-10-06">
-          10-06
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/" itemprop="url">
-          <span itemprop="name">Linux不基础用法</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-09-06T22:59:22+08:00"
-              content="2023-09-06">
-          09-06
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/" itemprop="url">
-          <span itemprop="name">基于链式安全多方计算的隐私保护联邦学习框架</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-06-06T23:08:52+08:00"
-              content="2023-06-06">
-          06-06
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/06/06/%E5%9C%A8arm-mac%E4%B8%8A%E6%90%AD%E5%BB%BAhexo%E5%B9%B6%E9%83%A8%E7%BD%B2/" itemprop="url">
-          <span itemprop="name">在arm ubuntu上搭建hexo并部署</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </div>
   </main>
