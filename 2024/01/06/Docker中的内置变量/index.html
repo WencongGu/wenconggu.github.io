@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文根据官方文档整理了Docker中常用的一些环境变量。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker中的内置变量">
+<meta property="og:url" content="https://wenconggu.github.io/2024/01/06/Docker%E4%B8%AD%E7%9A%84%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="本文根据官方文档整理了Docker中常用的一些环境变量。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-06T15:35:45.000Z">
+<meta property="article:modified_time" content="2024-04-07T10:11:53.194Z">
+<meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/01/06/Docker%E4%B8%AD%E7%9A%84%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2024/01/06/Docker%E4%B8%AD%E7%9A%84%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F/","path":"2024/01/06/Docker中的内置变量/","title":"Docker中的内置变量"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker中的内置变量 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-CLI"><span class="nav-number">1.</span> <span class="nav-text">Docker CLI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARG-build-arg"><span class="nav-number">2.</span> <span class="nav-text">ARG &amp; --build-arg</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">Docker 预定义变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%B9%B3%E5%8F%B0%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">全局平台变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BuildKit-%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">2.3.</span> <span class="nav-text">BuildKit 内置变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Daemon-CLI"><span class="nav-number">3.</span> <span class="nav-text">Daemon CLI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/01/06/Docker%E4%B8%AD%E7%9A%84%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker中的内置变量 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker中的内置变量
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-06 23:35:45" itemprop="dateCreated datePublished" datetime="2024-01-06T23:35:45+08:00">2024-01-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-07 18:11:53" itemprop="dateModified" datetime="2024-04-07T18:11:53+08:00">2024-04-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文根据官方文档整理了Docker中常用的一些环境变量。</p>
+<span id="more"></span>
+
+<h2 id="Docker-CLI"><a href="#Docker-CLI" class="headerlink" title="Docker CLI"></a>Docker CLI</h2><p>下面是 docker cli 支持环境变量列表：</p>
+<table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>DOCKER_API_VERSION</code></td>
+<td align="center">覆盖用于调试的协商API版本（例如1.19）</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_CERT_PATH</code></td>
+<td align="center">验证密钥的位置。这个变量 docker CLI 和 Dockerd Daemon 都会使用。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_CONFIG</code></td>
+<td align="center">客户端配置文件的位置。默认情况下，Docker命令行将其配置文件存储在 <code>$HOME</code> 目录中名为 <code>.docker</code> 的目录中。还可以使用 <code>config.json</code> 中的选项来修改一些相同的行为。如果设置了环境变量和 <code>--config</code> 标志，则该标志将优先于环境变量。命令行选项覆盖环境变量，环境变量覆盖您在 <code>config.json</code> 文件中指定的属性。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_CONTENT_TRUST_SERVER</code></td>
+<td align="center">要使用的公证服务器的URL。默认为与注册表相同的URL。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_CONTENT_TRUST</code></td>
+<td align="center">设置后，Docker 使用公证人来签名和验证镜像。等同于构建(<code>build</code>)、创建(<code>create</code>)、拉动(<code>pull</code>)、推送(<code>push</code>)、运行(<code>run</code>)时使用 <code>--disable-content-trust=false</code> 参数。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_CONTEXT</code></td>
+<td align="center">使用的 docker context 名称。(覆盖 <code>DOCKER_HOST</code> 环境变量，和使用 <code>docker context use</code> 命令设置的默认 context)</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_DEFAULT_PLATFORM</code></td>
+<td align="center">采用 <code>--platform</code> 标志的命令的默认平台。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_HIDE_LEGACY_COMMANDS</code></td>
+<td align="center">设置后 (<code>true</code>), Docker 在 <code>docker help</code> 输出中隐藏“传统”顶层命令（例如 <code>docker rm</code> 和 <code>docker pull</code>），只打印每个对象类型（例如 <code>docker container</code>）的管理命令。这可能会成为未来版本的默认设置。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_HOST</code></td>
+<td align="center">要连接的守护程序套接字。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_TLS</code></td>
+<td align="center">启用 Docker CLI 发起的连接的 TLS（相当于 <code>--tls</code> 命令行选项）。设置为非空值以启用 TLS。请注意，如果设置了任何其他TLS选项，则TLS会自动启用。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_TLS_VERIFY</code></td>
+<td align="center">设置后， Docker 使用 Docker 会使用 TLS 并验证远程。这个变量 Docker CLI 和 Dockerd Daemon 都会使用。</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDKIT_PROGRESS</code></td>
+<td align="center">当使用<code>BuildKit</code> 后端构建时设置进度输出类型（<code>auto</code>、<code>plain</code>、<code>tty</code>、<code>rawjson</code>）。使用 <code>plain</code> 显示容器输出（默认 <code>auto</code>）。</td>
+</tr>
+</tbody></table>
+<p>同时由于 Docker 是使用 GO 语言编写的，所以 Docker 还支持 GO 语言运行时的所有环境变量，比如：</p>
+<table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>HTTP_PROXY</code></td>
+<td align="center">HTTP 请求的代理 URL，除非被 <code>NoProxy</code> 覆盖，在 <code>docker build</code> 时作为 <code>--build-arg</code> 的 <code>http_proxy</code> 变量。</td>
+</tr>
+<tr>
+<td align="center"><code>HTTPS_PROXY</code></td>
+<td align="center">HTTPS 请求的代理 URL，除非被 <code>NoProxy</code> 覆盖，在 <code>docker build</code> 时作为 <code>--build-arg</code> 的 <code>https_proxy</code> 变量。</td>
+</tr>
+<tr>
+<td align="center"><code>NO_PROXY</code></td>
+<td align="center">逗号分隔值，指定应从代理中排除的主机。在 <code>docker build</code> 时作为 <code>--build-arg</code> 的 <code>no_proxy</code> 变量。</td>
+</tr>
+<tr>
+<td align="center">…</td>
+<td align="center">…</td>
+</tr>
+</tbody></table>
+<p>GO 语言运行时环境变量更多的应当去查询<a target="_blank" rel="noopener" href="https://pkg.go.dev/golang.org/x/net/http/httpproxy#Config">GO 语言规范</a></p>
+<p>这些变量是直接在构建的环境中定义的，比如要修改docker默认的客户端配置文件的位置，就可以使用下面的语句:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> DOCKER_CONFIG=/path/to/config.json</span><br></pre></td></tr></table></figure>
+
+<p>当然可以写入bash配置文件 <code>~/.bashrc</code> 中，以永久生效。</p>
+<p>单次配置时，docker 还提供了 <code>--config</code> 参数，可以指定配置文件的位置，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker --config ~/testconfigs/ ps</span><br></pre></td></tr></table></figure>
+
+<p>这个命令使用 <code> ~/testconfigs/</code> 目录下的 <code>config.json</code> 文件覆盖了 <code>docker ps</code> 命令。对于其他环境变量，docker也提供了相似的 参数，比如 <code>--tls</code> 参数可以覆盖 <code>DOCKER_TLS</code> 环境变量。</p>
+<p>Docker 的配置文件默认在 <code>~/.docker/config.json</code>，还可以进行更加详细的配置，可以查看<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/cli/#docker-cli-configuration-file-configjson-properties">官方文档</a>详细了解。</p>
+<h2 id="ARG-build-arg"><a href="#ARG-build-arg" class="headerlink" title="ARG &amp; --build-arg"></a><code>ARG</code> &amp; <code>--build-arg</code></h2><p>在 <code>Dockerfile</code> 中，<code>ARG</code> 可以用来声明变量，使得镜像能够更好地被他人理解和使用，也可以用来定义构建时变量，同样便于其他使用者理解，但是镜像构建完成后，这些变量就不再存在了。它定义的变量在构建镜像时，可以通过 <code>--build-arg</code> 参数来覆盖。</p>
+<h3 id="Docker-预定义变量"><a href="#Docker-预定义变量" class="headerlink" title="Docker 预定义变量"></a>Docker 预定义变量</h3><p>Docker有一组预定义的ARG变量，您可以在Dockerfile中不使用相应的ARG指令的情况下使用这些变量。</p>
+<ul>
+<li><code>HTTP_PROXY</code> 等价于 <code>http_proxy</code></li>
+<li><code>HTTPS_PROXY</code> 等价于 <code>https_proxy</code></li>
+<li><code>FTP_PROXY</code> 等价于 <code>ftp_proxy</code></li>
+<li><code>NO_PROXY</code> 等价于 <code>no_proxy</code></li>
+<li><code>ALL_PROXY</code> 等价于 <code>all_proxy</code></li>
+</ul>
+<p>默认情况下，这些预定义的变量被排除在 <code>docker history</code> 命令的输出之外。排除它们可以降低意外泄露 <code>HTTP_PROXY</code> 等变量中敏感身份验证信息的风险。如果在在 <code>Dockerfile</code> 中添加 <code>ARG</code> 语句，则这些变量将被保留在输出中。</p>
+<p>可以为每个环境设置以下属性：</p>
+<table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>httpProxy</code></td>
+<td align="center">容器的 <code>HTTP_PROXY</code> 和 <code>http_proxy</code> 的默认值，以及在 <code>docker build</code> 时作为 <code>--build-arg</code> 的默认值。</td>
+</tr>
+<tr>
+<td align="center"><code>httpsProxy</code></td>
+<td align="center">容器的 <code>HTTPS_PROXY</code> 和 <code>https_proxy</code> 的默认值，以及在 <code>docker build</code> 时作为 <code>--build-arg</code> 的默认值。</td>
+</tr>
+<tr>
+<td align="center"><code>ftpProxy</code></td>
+<td align="center">容器的 <code>FTP_PROXY</code> 和 <code>ftp_proxy</code> 的默认值，以及在 <code>docker build</code> 时作为 <code>--build-arg</code> 的默认值。</td>
+</tr>
+<tr>
+<td align="center"><code>noProxy</code></td>
+<td align="center">容器的 <code>NO_PROXY</code> 和 <code>no_proxy</code> 的默认值，以及在 <code>docker build</code> 时作为 <code>--build-arg</code> 的默认值。</td>
+</tr>
+<tr>
+<td align="center"><code>allProxy</code></td>
+<td align="center">容器的 <code>ALL_PROXY</code> 和 <code>all_proxy</code> 的默认值，以及在 <code>docker build</code> 时作为 <code>--build-arg</code> 的默认值。</td>
+</tr>
+</tbody></table>
+<p>这些设置用于配置容器的代理设置，而不是用于配置 CLI 或守护程序的代理设置。</p>
+<blockquote>
+<p>警告：代理设置可能包含敏感信息（例如，如果代理需要身份验证）。环境变量在容器的配置中以纯文本形式存储，因此可以通过远程API进行检查，或者在使用docker commit时提交到映像。</p>
+</blockquote>
+<h3 id="全局平台变量"><a href="#全局平台变量" class="headerlink" title="全局平台变量"></a>全局平台变量</h3><p>如果使用 <code>BuildKit</code> 构建镜像，则 Docker 还有一组预定义的 <code>ARG</code> 变量，其中包含执行构建的节点平台（构建平台）和结果映像平台（目标平台）上的信息。这些信息包含在下面的 <code>ARG</code> 变量中：</p>
+<table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>TARGETPLATFORM</code></td>
+<td align="center">构建目标平台。其值例如<code>linux/amd64</code>，<code>linux/arm/v7</code>，<code>windows/amd64</code>。</td>
+</tr>
+<tr>
+<td align="center"><code>TARGETOS</code></td>
+<td align="center"><code>TARGETPLATFORM</code> 指定的平台的操作系统</td>
+</tr>
+<tr>
+<td align="center"><code>TARGETARCH</code></td>
+<td align="center"><code>TARGETPLATFORM</code> 指定的平台的CPU架构</td>
+</tr>
+<tr>
+<td align="center"><code>TARGETVARIANT</code></td>
+<td align="center"><code>TARGETPLATFORM</code> 指定的平台的变量</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDPLATFORM</code></td>
+<td align="center">执行构建的当前节点的平台</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDOS</code></td>
+<td align="center"><code>BUILDPLATFORM</code> 指定的平台的操作系统</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDARCH</code></td>
+<td align="center"><code>BUILDPLATFORM</code> 指定的平台的架构</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDVARIANT</code></td>
+<td align="center"><code>BUILDPLATFORM</code> 指定的平台的变量</td>
+</tr>
+</tbody></table>
+<p>但是，这些变量并不是自动可用的，要使用 <code>--build-arg</code> 定义这些变量，需要在 <code>Dockerfile</code> 中使用 <code>ARG</code> 指令来生命这些变量，并且不赋值。</p>
+<h3 id="BuildKit-内置变量"><a href="#BuildKit-内置变量" class="headerlink" title="BuildKit 内置变量"></a><code>BuildKit</code> 内置变量</h3><table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>BUILDKIT_CACHE_MOUNT_NS</code></td>
+<td align="center">String</td>
+<td align="center">设置可选的缓存 ID 命名空间。在 Docker 中，可以通过设置缓存 ID 命名空间来区分不同的缓存，以便更好地管理和控制缓存的使用。</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDKIT_CONTEXT_KEEP_GIT_DIR</code></td>
+<td align="center">Bool</td>
+<td align="center">触发 Git 上下文以保留 <code>.git</code> 目录。在 Docker 中，当构建镜像时，通常会将源代码从 Git 存储库中复制到镜像中进行构建。通过触发 Git 上下文并保留 <code>.git</code> 目录，可以在构建过程中保留 Git 仓库的信息，包括提交历史、分支信息等。</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDKIT_INLINE_CACHE2</code></td>
+<td align="center">Bool</td>
+<td align="center">是否将内联缓存元数据存储到镜像配置中。将缓存元数据内联到镜像配置中可以提高构建效率，因为在下一次构建时，Docker 可以更快地确定哪些步骤可以重用缓存，不过内联缓存元数据可能会增加镜像的大小.</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDKIT_MULTI_PLATFORM</code></td>
+<td align="center">Bool</td>
+<td align="center">是否让输出结果具有确定性，而不考虑多平台输出。构建镜像时可以选择输出多个不同平台的镜像，这些镜像可以在不同架构的计算机上运行。然而，有时候用户可能更关心镜像构建的结果是否具有确定性，即无论在哪个平台上构建，输出结果都是相同的。如果选择让输出结果具有确定性，那么无论在哪个平台上构建镜像，输出结果都将是相同的。这样做的好处是可以确保在不同环境中运行镜像时的一致性，但可能会牺牲多平台输出的灵活性。需要根据具体需求来权衡是否选择让输出结果具有确定性。</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDKIT_SANDBOX_HOSTNAME</code></td>
+<td align="center">String</td>
+<td align="center">用于指定在构建过程中用于运行构建操作的沙盒容器的主机名(默认 <code>buildkitsandbox</code>)，以增加安全性和隔离性。</td>
+</tr>
+<tr>
+<td align="center"><code>BUILDKIT_SYNTAX</code></td>
+<td align="center">String</td>
+<td align="center">用于指定 Dockerfile 的语法版本。</td>
+</tr>
+<tr>
+<td align="center"><code>SOURCE_DATE_EPOCH</code></td>
+<td align="center">Int</td>
+<td align="center">为创建的镜像和层设置 Unix 时间戳。这个功能与可重现构建有关。从 <code>Dockerfile 1.5</code>、<code>BuildKit 0.11</code> 起开始支持。镜像的构建过程可能涉及多个层，每个层都有自己的创建时间戳。通过设置创建时间戳，可以使得构建的镜像和镜像层在不同时间构建时具有相同的时间戳，从而实现可重现构建的功能。可重现构建是指无论何时构建镜像，输出结果都是相同的，这有助于确保构建的一致性和可验证性。</td>
+</tr>
+</tbody></table>
+<h2 id="Daemon-CLI"><a href="#Daemon-CLI" class="headerlink" title="Daemon CLI"></a><code>Daemon CLI</code></h2><p>下面是由 <code>Daemon CLI</code> 提供的变量：</p>
+<table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>DOCKER_CERT_PATH</code></td>
+<td align="center">验证密钥的位置。这个变量 Docker CLI 和 Dockerd Daemon 都会使用。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_DRIVER</code></td>
+<td align="center">要使用的存储驱动程序，它会影响 Docker 如何管理镜像和容器的存储。常见的 Docker 存储驱动程序包括 <code>aufs</code>、<code>overlay2</code>、<code>btrfs</code>、<code>zfs</code> 等，具体支持的存储驱动程序取决于您所使用的 Docker 版本和操作系统。注意这个不是 <code>build driver</code>，<code>build driver</code> 是 <code>buildx</code> 构建时的驱动，主要用于多平台镜像构建。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_RAMDISK</code></td>
+<td align="center">如果设置此设置，将禁用 <code>pivot_root</code>。<code>pivot_root</code> 是一个 Linux 系统调用，用于更改进程的根文件系统。这个环境变量的作用是指定 Docker 容器的临时文件系统是否应该使用 RAM 磁盘。当设置 <code>DOCKER_RAMDISK=true</code> 时，Docker 将使用 RAM 磁盘来存储容器的临时文件系统，这可能会提高容器的性能。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_TLS_VERIFY</code></td>
+<td align="center">设置后，Docker 使用Docker会使用TLS并验证远程。这个变量 Docker CLI 和 Dockerd Daemon都会使用。</td>
+</tr>
+<tr>
+<td align="center"><code>DOCKER_TMPDIR</code></td>
+<td align="center">守护进程创建的临时文件的位置。</td>
+</tr>
+<tr>
+<td align="center"><code>MOBY_DISABLE_PIGZ</code></td>
+<td align="center">禁用 <code>unpigz</code> 的使用，在拉取图像时并行解压图层。</td>
+</tr>
+<tr>
+<td align="center"><code>HTTP_PROXY</code></td>
+<td align="center">用于设置 HTTP 代理的地址</td>
+</tr>
+<tr>
+<td align="center"><code>HTTPS_PROXY</code></td>
+<td align="center">用于设置 HTTPS 代理的地址</td>
+</tr>
+<tr>
+<td align="center"><code>NO_PROXY</code></td>
+<td align="center">用于设置不使用代理的主机列表</td>
+</tr>
+</tbody></table>
+<p>使用时也是直接在构建环境中定义即可。更多详细的设置一般使用 <code>dockerd [OPTIONS]</code> 命令行参数进行设置，详细内容在<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/cli/dockerd/#description">文档</a>中。</p>
+<p>需要注意的是，为了输出 debug 内容，需要使用 <code>dockerd --debug</code> 或者在 <code>daemon.json</code> 文件中添加 <code>&quot;debug&quot;: true</code>。同时这个用法时实验特性，因此还需要添加 <code>&quot;experimental&quot;: true</code>，或者使用 <code>dockerd --experimental</code>命令。</p>
+<p>文档中提到，Docker Daemon默认配置文件在 <code>/etc/docker/daemon.json</code> 中（可以使用<code>--config-file</code> 参数指定其他位置），这个文件中可以设置很多参数，比如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;allow-nondistributable-artifacts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;api-cors-header&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;authorization-plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;bip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;bridge&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;builder&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;gc&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;defaultKeepStorage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10GB&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;policy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span> <span class="attr">&quot;keepStorage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10GB&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;filter&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;unused-for=2200h&quot;</span><span class="punctuation">]</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span> <span class="attr">&quot;keepStorage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;50GB&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;filter&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;unused-for=3300h&quot;</span><span class="punctuation">]</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span> <span class="attr">&quot;keepStorage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;100GB&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;all&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cgroup-parent&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;containerd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/run/containerd/containerd.sock&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;containerd-namespace&quot;</span><span class="punctuation">:</span> <span class="string">&quot;docker&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;containerd-plugins-namespace&quot;</span><span class="punctuation">:</span> <span class="string">&quot;docker-plugins&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;data-root&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;debug&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-address-pools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;base&quot;</span><span class="punctuation">:</span> <span class="string">&quot;172.30.0.0/16&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">24</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;base&quot;</span><span class="punctuation">:</span> <span class="string">&quot;172.31.0.0/16&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">24</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-cgroupns-mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;private&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-gateway&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-gateway-v6&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-network-opts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-runtime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;runc&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-shm-size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;64M&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default-ulimits&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;nofile&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Hard&quot;</span><span class="punctuation">:</span> <span class="number">64000</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;nofile&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Soft&quot;</span><span class="punctuation">:</span> <span class="number">64000</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dns&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dns-opts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dns-search&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exec-opts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exec-root&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;experimental&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;features&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;fixed-cidr&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;fixed-cidr-v6&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;group&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;host-gateway-ip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;hosts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;proxies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;http-proxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://proxy.example.com:80&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;https-proxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://proxy.example.com:443&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;no-proxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*.test.example.com,.example.org&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;icc&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;init&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;init-path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/libexec/docker-init&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;insecure-registries&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ip-forward&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ip-masq&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;iptables&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ip6tables&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ipv6&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;labels&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;live-restore&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;log-driver&quot;</span><span class="punctuation">:</span> <span class="string">&quot;json-file&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;log-level&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;log-opts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;cache-disabled&quot;</span><span class="punctuation">:</span> <span class="string">&quot;false&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cache-max-file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cache-max-size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20m&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cache-compress&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="string">&quot;os,customer&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;labels&quot;</span><span class="punctuation">:</span> <span class="string">&quot;somelabel&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;max-file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;max-size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10m&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;max-concurrent-downloads&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;max-concurrent-uploads&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;max-download-attempts&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;mtu&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;no-new-privileges&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;node-generic-resources&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;NVIDIA-GPU=UUID1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;NVIDIA-GPU=UUID2&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;oom-score-adjust&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;pidfile&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;raw-logs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;runtimes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;cc-runtime&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/bin/cc-runtime&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;custom&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/local/bin/my-runc-replacement&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;runtimeArgs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;--debug&quot;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;seccomp-profile&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;selinux-enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;shutdown-timeout&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;storage-driver&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;storage-opts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;swarm-default-advertise-addr&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tls&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tlscacert&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tlscert&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tlskey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tlsverify&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;userland-proxy&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;userland-proxy-path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/libexec/docker-proxy&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;userns-remap&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>以上环境变量包含了Docker使用中大部分会用到的变量，但是仍然不全，有一些其他的变量，比如 <code>DOCKER_BUILDKIT</code>、<code>DOCKER_OPTS</code>、<code>DOCKER_REGISTRY</code>、<code>DOCKER_NETWORK_MODE</code>、<code>DOCKER_VERSION</code>等，无法全部罗列，在需要使用时只需要查找资料即可。另外对于每一个环境变量都会在有关的配置文件中存在一个配置项等价于配置这个环境变量，或者在对应的 CLI 中有相关的命令行参数。命令行参数一般是对于单次运行而言的，它的优先级最高，也就是会覆盖其他配置。卸载配置文件中会在每次运行时都起作用。环境变量则介于两者之间，它可以写入bash配置以便每次运行起作用，也可以在它存在时都起作用。不过在配置文件和命令行参数中存在的选项不一定有环境变量对应。但是如果了解了环境变量的主要内容，大部分操作应该都不成问题。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/01/06/%E4%BF%A1%E6%81%AF%E7%86%B5%E7%AE%80%E8%BF%B0/" rel="prev" title="信息熵简述">
+                  <i class="fa fa-angle-left"></i> 信息熵简述
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/07/%E7%AE%80%E8%BF%B0Docker%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%B9%E5%99%A8%E7%94%9F%E6%80%81/" rel="next" title="简述Docker架构与容器生态">
+                  简述Docker架构与容器生态 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

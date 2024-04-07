@@ -21,15 +21,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="May everything goes fine always">
+    <meta name="description" content="深度优先搜索（Depth First Search，DFS）和广度优先搜索（Breadth First Search，BFS）是两种常用的图遍历算法，用于在图中搜索节点。 本文梳理总结了两种算法的思路、原理、代码实现、应用场景以及示例。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DFS &amp; BFS">
 <meta property="og:url" content="https://wenconggu.github.io/2024/02/04/DFS-BFS/index.html">
 <meta property="og:site_name" content="GU&#39;s Blog">
-<meta property="og:description" content="May everything goes fine always">
+<meta property="og:description" content="深度优先搜索（Depth First Search，DFS）和广度优先搜索（Breadth First Search，BFS）是两种常用的图遍历算法，用于在图中搜索节点。 本文梳理总结了两种算法的思路、原理、代码实现、应用场景以及示例。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-02-04T06:05:54.000Z">
-<meta property="article:modified_time" content="2024-04-05T16:16:54.666Z">
+<meta property="article:modified_time" content="2024-04-07T10:11:53.194Z">
 <meta property="article:author" content="GU WENCONG">
 <meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
@@ -78,7 +78,7 @@
       <p class="site-title">GU's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Welcome''</p>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
   </div>
 
   <div class="site-nav-right">
@@ -90,7 +90,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a></li>
   </ul>
 </nav>
 
@@ -102,7 +102,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -115,6 +115,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%EF%BC%88DFS%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">深度优先搜索（DFS）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%EF%BC%88BFS%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">广度优先搜索（BFS）</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -129,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -205,7 +206,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-06 00:16:54" itemprop="dateModified" datetime="2024-04-06T00:16:54+08:00">2024-04-06</time>
+      <time title="修改时间：2024-04-07 18:11:53" itemprop="dateModified" datetime="2024-04-07T18:11:53+08:00">2024-04-07</time>
     </span>
 
   
@@ -217,7 +218,11 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><p><strong>深度优先搜索</strong>（<strong>Depth First Search</strong>，<strong>DFS</strong>）和<strong>广度优先搜索</strong>（<strong>Breadth First Search</strong>，<strong>BFS</strong>）是两种常用的图遍历算法，用于在图中搜索节点。</p>
+<p>本文梳理总结了两种算法的思路、原理、代码实现、应用场景以及示例。</p>
+<span id="more"></span>
+
+<h2 id="深度优先搜索（DFS）"><a href="#深度优先搜索（DFS）" class="headerlink" title="深度优先搜索（DFS）"></a>深度优先搜索（DFS）</h2><h2 id="广度优先搜索（BFS）"><a href="#广度优先搜索（BFS）" class="headerlink" title="广度优先搜索（BFS）"></a>广度优先搜索（BFS）</h2>
     </div>
 
     

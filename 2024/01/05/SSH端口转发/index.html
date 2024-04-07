@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://wenconggu.github.io/image/SSH-port/%E7%94%BB%E5%9B%BE2.001.png">
 <meta property="og:image" content="https://wenconggu.github.io/image/SSH-port/%E7%94%BB%E5%9B%BE.002.png">
 <meta property="article:published_time" content="2024-01-05T06:15:14.000Z">
-<meta property="article:modified_time" content="2024-04-05T12:40:37.060Z">
+<meta property="article:modified_time" content="2024-04-07T10:11:53.194Z">
 <meta property="article:author" content="GU WENCONG">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -84,7 +84,7 @@
       <p class="site-title">GU's Blog</p>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Welcome''</p>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
   </div>
 
   <div class="site-nav-right">
@@ -96,7 +96,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a></li>
   </ul>
 </nav>
 
@@ -121,7 +121,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">本地转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">远程端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">动态端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-%E5%8F%82%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">-N 参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E7%9A%84%E5%81%9C%E6%AD%A2"><span class="nav-number">5.</span> <span class="nav-text">端口转发的停止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">6.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E6%98%93-VPN"><span class="nav-number">6.1.</span> <span class="nav-text">简易 VPN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%BA%A7%E8%B7%B3%E6%9D%BF"><span class="nav-number">6.2.</span> <span class="nav-text">两级跳板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">本地转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">远程端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">动态端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-%E5%8F%82%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">-N 参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E7%9A%84%E5%81%9C%E6%AD%A2"><span class="nav-number">5.</span> <span class="nav-text">端口转发的停止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">6.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E6%98%93-VPN"><span class="nav-number">6.1.</span> <span class="nav-text">简易 VPN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%BA%A7%E8%B7%B3%E6%9D%BF"><span class="nav-number">6.2.</span> <span class="nav-text">两级跳板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">6.3.</span> <span class="nav-text">访问虚拟机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -136,7 +136,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-05 20:40:37" itemprop="dateModified" datetime="2024-04-05T20:40:37+08:00">2024-04-05</time>
+      <time title="修改时间：2024-04-07 18:11:53" itemprop="dateModified" datetime="2024-04-07T18:11:53+08:00">2024-04-07</time>
     </span>
 
   
@@ -290,6 +290,13 @@
 
 <p>上面命令将第一台跳板机 <code>tunnel1-host</code> 的 <code>2999</code> 端口，通过第二台跳板机 <code>tunnel2-host</code>，连接到目标服务器 <code>target-host</code> 的 <code>7999</code> 端口。</p>
 <p>最终效果就是，访问本机的 <code>7999</code> 端口，就会转发到 <code>target-host</code> 的 <code>7999</code> 端口。</p>
+<h3 id="访问虚拟机"><a href="#访问虚拟机" class="headerlink" title="访问虚拟机"></a>访问虚拟机</h3><p>在我的mac上创建了一些ubuntu虚拟机，最开始用来学习 k8s，但是当我在这些虚拟机上提供了一些服务后，却发现无法通过外网测试访问这些服务。</p>
+<p>虚拟机默认的网络模式是共享模式，mac相当于网关，虚拟机是mac的内网，外网是无法访问这些虚拟机的。</p>
+<p>为什么不把虚拟机网络设置为桥接模式呢？主要是为了方便管理。</p>
+<p>为了访问这些虚拟机，我使用SSH端口转发，在mac上执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 7999:172.17.0.1:80 root@172.17.0.1</span><br></pre></td></tr></table></figure>
+
+<p>上面命令将本机的 <code>7999</code> 端口绑定到虚拟机提供服务的 <code>80</code> 端口，这样就可以通过 <code>http://localhost:7999</code> 访问虚拟机了。当然事先要让ssh服务器监听 <code>80</code> 端口。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>知乎上<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148825449">这篇文章</a>写得很好，举了更多例子。阮一峰老师的<a target="_blank" rel="noopener" href="https://wangdoc.com/ssh/">SSH 教程</a>也有相关讲解，非常通俗易懂。</p>
 
     </div>
