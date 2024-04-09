@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="紧接着上一篇，继续谈谈Git在数据恢复时使用 git reset 和使用 git checkout 都发生了什么。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git进阶-重置揭秘">
+<meta property="og:url" content="https://wenconggu.github.io/2023/09/21/Git%E8%BF%9B%E9%98%B6-%E9%87%8D%E7%BD%AE%E6%8F%AD%E7%A7%98/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="紧接着上一篇，继续谈谈Git在数据恢复时使用 git reset 和使用 git checkout 都发生了什么。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%203.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%204.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%205.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%206.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%207.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%208.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%209.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%2010.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%2011.png">
+<meta property="article:published_time" content="2023-09-21T15:13:18.000Z">
+<meta property="article:modified_time" content="2024-04-09T16:20:25.062Z">
+<meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%203.png">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2023/09/21/Git%E8%BF%9B%E9%98%B6-%E9%87%8D%E7%BD%AE%E6%8F%AD%E7%A7%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2023/09/21/Git%E8%BF%9B%E9%98%B6-%E9%87%8D%E7%BD%AE%E6%8F%AD%E7%A7%98/","path":"2023/09/21/Git进阶-重置揭秘/","title":"Git进阶-重置揭秘"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git进阶-重置揭秘 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">11</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%A3%B5%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">三棵树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E7%9A%84%E6%8F%90%E4%BA%A4%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">典型的提交过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%BD%AE%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">重置操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reset"><span class="nav-number">3.1.</span> <span class="nav-text">reset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#checkout"><span class="nav-number">3.2.</span> <span class="nav-text">checkout</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/09/21/Git%E8%BF%9B%E9%98%B6-%E9%87%8D%E7%BD%AE%E6%8F%AD%E7%A7%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git进阶-重置揭秘 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git进阶-重置揭秘
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-21 23:13:18" itemprop="dateCreated datePublished" datetime="2023-09-21T23:13:18+08:00">2023-09-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-10 00:20:25" itemprop="dateModified" datetime="2024-04-10T00:20:25+08:00">2024-04-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>紧接着上一篇，继续谈谈Git在数据恢复时使用 <code>git reset</code> 和使用 <code>git checkout</code> 都发生了什么。</p>
+<span id="more"></span>
+
+<h2 id="三棵树"><a href="#三棵树" class="headerlink" title="三棵树"></a>三棵树</h2><p>理解 <code>reset</code> 和 <code>checkout</code> 的最简方法，就是以 Git 的思维框架（将其作为内容管理器）来管理三棵不同的树。 “树” 在我们这里的实际意思是 “文件的集合”，而不是指特定的数据结构。</p>
+<p>git作为一个数据管理系统，一般会操作三棵树：</p>
+<ul>
+<li>工作目录（Working Directory）：当前工作目录，沙盒</li>
+<li>暂存区（Index）：预期的下一次提交的快照，暂存</li>
+<li>HEAD：上一次提交的快照，下一次提交的父结点，仓库</li>
+</ul>
+<p>HEAD指针比较难以捉摸。HEAD 是当前分支引用的指针，它的含义是该分支上的「最后」一次提交，「最后」的意思是 HEAD 将是下一次提交的父结点。但是实际上，HEAD 指向的可能并不是时间上的最后一次提交。</p>
+<h2 id="典型的提交过程"><a href="#典型的提交过程" class="headerlink" title="典型的提交过程"></a>典型的提交过程</h2><p>经典的 Git 工作流程是通过操纵这三个区域来以更加连续的状态记录项目快照的。</p>
+<p><img src="/image/Git-Objects/image%20copy%203.png" alt="alt text"></p>
+<ol>
+<li>工作区作出修改<br><img src="/image/Git-Objects/image%20copy%204.png" alt="alt text"></li>
+<li>将修改添加到暂存区，使用 <code>git add</code> 命令<br><img src="/image/Git-Objects/image%20copy%205.png" alt="alt text"></li>
+<li>提交修改，使用 <code>git commit</code> 命令，移动HEAD指针指向的引用<br><img src="/image/Git-Objects/image%20copy%206.png" alt="alt text"><br>命令使用暂存区中的内容和提交信息创建一个提交对象，将提交对象放入仓库中，并更新 HEAD 指向的引用master，将master指向该提交对象。</li>
+</ol>
+<p>这是一个完整的操作过程。现在我们修改了工作区并提交，使得数据系统变成下面的样子：</p>
+<p><img src="/image/Git-Objects/image%20copy%207.png" alt="alt text"></p>
+<p>现在考虑 <code>reset</code> 命令，它有三种模式：<code>--soft</code>、<code>--mixed</code> 和 <code>--hard</code>，分别相当于撤销一个提交过程的三个操作的更进一步。</p>
+<h2 id="重置操作"><a href="#重置操作" class="headerlink" title="重置操作"></a>重置操作</h2><h3 id="reset"><a href="#reset" class="headerlink" title="reset"></a><code>reset</code></h3><p>撤销时：</p>
+<ol>
+<li>移动HEAD指针指向的引用<br><img src="/image/Git-Objects/image%20copy%208.png" alt="alt text"><br>这一步相当于在仓库中的状态被撤销，到这一步如果就需要停止，就使用 <code>git reset --soft</code> 命令，执行这个命令只会将仓库中的HEAD指针移动到上次提交之前到位置，其他内容不受影响。</li>
+<li>撤销暂存区<br><img src="/image/Git-Objects/image%20copy%209.png" alt="alt text"><br>如果使用 <code>git reset --mixed HEAD~</code> 命令，它会撤销一上次提交，但还会取消暂存所有的东西。 于是，我们回滚到了所有 <code>git add</code> 和 <code>git commit</code> 的命令执行之前。这个参数是默认值。</li>
+<li>撤销工作目录<br><img src="/image/Git-Objects/image%20copy%2010.png" alt="alt text"><br>如果使用 <code>git reset --hard HEAD~</code> 命令，它会撤销一上次提交，并取消暂存所有的东西，然后将工作目录中的所有内容也恢复到和仓库中相同的状态。这是一个很危险的命令，可能会破坏工作区已有的更改。相当于在上一个命令的基础上更进一步。</li>
+</ol>
+<p>总结一下 <code>reset</code> 命令会以特定的顺序重写这三棵树，在你指定以下选项时停止：</p>
+<ul>
+<li><p>移动 HEAD 分支的指向 （若指定了 <code>--soft</code>，则到此停止）</p>
+</li>
+<li><p>使索引看起来像 HEAD （若未指定 <code>--hard</code>，则到此停止）</p>
+</li>
+<li><p>使工作目录看起来像索引</p>
+</li>
+</ul>
+<p><code>reset</code> 命令还可以单独操作某一个文件，此时它不再操作HEAD指针，而且只有 <code>--mixed</code>模式。这方面没有什么特别内容，不再赘述。</p>
+<h3 id="checkout"><a href="#checkout" class="headerlink" title="checkout"></a><code>checkout</code></h3><p><code>checkout</code> 命令也操作着3棵树，但是有些不太一样的地方。当传入的参数是一个branch时，它会更新3棵树，但是与 <code>reset --hard</code> 不同的是，它对工作目录是安全的，而且会尝试将工作目录的文件与branch中的文件简单合并以更新。<code>reset --hrad</code> 会不加检查地更改内容，因此可能导致工作区内容丢失。</p>
+<p>在对HEAD指针的操作上二者也有不同。如果传入一个branch参数给 <code>checkout</code> 命令，它会移动HEAD指针自己，使得HEAD指向该branch，但是不会移动branch引用的指向。如图所示：</p>
+<p><img src="/image/Git-Objects/image%20copy%2011.png" alt="alt text"></p>
+<p>另外一个不同就是，<code>checkout</code> 命令接收branch参数后还可以接收一个文件路径参数，此时它会将3棵树中该文件都恢复到指定branch中的状态。而 <code>reset</code> 命令不能这样，它接收一个路径参数后不能使用 <code>--hard</code>。</p>
+<p>除此之外，<code>checkout</code> 命令还有其他一些功能，比如可以传入一个commit id，此时它会将HEAD指针指向该commit id，然后将3棵树恢复到该commit id的状态，此时的HEAD指针就处于分离头指针的状态，简单讲就是此时所有的提交都不会被保存，属于演练，想要保存可以在新的提交上新建一个分支。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，就总结完了 <code>reset</code> 和 <code>checkout</code> 命令都主要差别。下面的表格简单总结了在实际应用中二者的主要区别：</p>
+<p>“HEAD” 一列中的 “REF” 表示该命令移动了 HEAD 指向的分支引用，而 “HEAD” 则表示只移动了 HEAD 自身。 特别注意 ‘SAFE?’ 一列，如果它标记为 NO，那么运行该命令之前就需要考虑一下。</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">HEAD</th>
+<th align="center">Index</th>
+<th align="center">Working Dir</th>
+<th align="center">SAFE?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>reset --soft [commitId branch]</code></td>
+<td align="center">ref</td>
+<td align="center">no</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center"><code>reset [--mixed] [commitId branch]</code></td>
+<td align="center">ref</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center"><code>reset --hard [commitId branch]</code></td>
+<td align="center">ref</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center"><strong>NO</strong></td>
+</tr>
+<tr>
+<td align="center"><code>checkout &lt;commitId&gt;</code></td>
+<td align="center">HEAD</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center"><code>reset [commitId branch] &lt;paths&gt;</code></td>
+<td align="center">NO</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center"><code>checkout [commitId branch] &lt;paths&gt;</code></td>
+<td align="center">HEAD</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center"><strong>NO</strong></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"><i class="fa fa-tag"></i> Git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/20/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/" rel="prev" title="Git内部原理">
+                  <i class="fa fa-angle-left"></i> Git内部原理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/" rel="next" title="Linux不基础用法">
+                  Linux不基础用法 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+<!-- 网站运行时间的设置 -->
+<span id="Welcome">Hello:-)</span>
+<span id="timeDate">载入时间中...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/06/2023 00:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("Welcome").innerHTML = "欢迎访问我的博客，欢迎一起交流学习:-)"
+	document.getElementById("timeDate").innerHTML = "博客始于 "+dnum+" 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒前";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="版本控制工具在实际开发中应该只是很小的一个工具，很多人应该都不会太关注它。但是其实如果稍微了解多一点，Git还是很有趣的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git内部原理">
+<meta property="og:url" content="https://wenconggu.github.io/2023/09/20/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="版本控制工具在实际开发中应该只是很小的一个工具，很多人应该都不会太关注它。但是其实如果稍微了解多一点，Git还是很有趣的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Git-Objects/image%20copy%202.png">
+<meta property="article:published_time" content="2023-09-20T09:42:56.000Z">
+<meta property="article:modified_time" content="2024-04-09T16:20:25.062Z">
+<meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/Git-Objects/image.png">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2023/09/20/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2023/09/20/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/","path":"2023/09/20/Git内部原理/","title":"Git内部原理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git内部原理 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">11</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">Git中的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.</span> <span class="nav-text">对象数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">树对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.3.</span> <span class="nav-text">提交对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E5%BC%95%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">Git引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%BC%95%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">本地引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HEAD%E5%BC%95%E7%94%A8"><span class="nav-number">2.2.</span> <span class="nav-text">HEAD引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E5%BC%95%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">标签引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E5%BC%95%E7%94%A8"><span class="nav-number">2.4.</span> <span class="nav-text">远程引用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">小问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/09/20/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git内部原理 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git内部原理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-20 17:42:56" itemprop="dateCreated datePublished" datetime="2023-09-20T17:42:56+08:00">2023-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-10 00:20:25" itemprop="dateModified" datetime="2024-04-10T00:20:25+08:00">2024-04-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>版本控制工具在实际开发中应该只是很小的一个工具，很多人应该都不会太关注它。但是其实如果稍微了解多一点，Git还是很有趣的。</p>
+<span id="more"></span>
+
+<h2 id="Git中的数据"><a href="#Git中的数据" class="headerlink" title="Git中的数据"></a>Git中的数据</h2><h3 id="对象数据"><a href="#对象数据" class="headerlink" title="对象数据"></a>对象数据</h3><p>Git在设计数据存储模式时十分有智慧。Git 是一个内容寻址文件系统，听起来很酷。这意味着，Git 的核心部分是一个简单的键值对数据库（key-value data store）。 你可以向 Git 仓库中插入任意类型的内容，Git 会对存储的数据外加一个头部信息（header）一起做 SHA-1 校验运算，会返回一个校验和，这就是这个数据文件的键，这个校验和一般是40位，通过该键可以在任意时刻再次取回该内容。而git会将这些键值对存储在 <code>.git/objects</code> 目录下，校验和的前两个字符用于命名子目录，余下的 38 个字符则用作文件名。</p>
+<p>生成头部信息时，Git 首先会以识别出的对象的类型作为开头来构造一个头部信息，比如blob对象就是一个“blob”字符串，接着 Git 会在头部的第一部分添加一个空格，随后是数据内容的字节数，也就是大小信息，最后是一个空字节（null byte）。Git 会将上述头部信息和原始数据拼接起来，并计算出这条新内容的 SHA-1 校验和。另两种对象类型的头部信息以字符串“commit”或“tree”开头。虽然数据对象的内容几乎可以是任何东西，但提交对象和树对象的内容却有各自固定的格式。</p>
+<p>比如，在一个git仓库中添加一个文件 <code>1.txt</code>，内容为 <code>hello git</code>，可以使用 <code>git hash-object -w 1.txt</code>，其中 <code>-w</code> 参数表示将文件写入数据库。命令返回一个hash值，比如是 <code>8d0e41234f24b6da002d962a26c2495ea16a425f</code>，那么在 <code>.git/objects</code> 目录下就会存在一个 <code>8d/0e41234f24b6da002d962a26c2495ea16a425f</code> 文件，这个文件是保存着 <code>1.txt</code> 内容的有关信息。可以通过 <code>cat-file</code> 命令从 Git 那里取回数据。 这个命令简直就是一把剖析 Git 对象的瑞士军刀。 为 <code>cat-file</code> 指定 <code>-p</code> 选项可指示该命令自动判断内容的类型，并为我们显示大致的内容。比如 <code>git cat-file -p 8d0e41234f24b6da002d962a26c2495ea16a425f</code> 输出会 <code>hello git</code>。</p>
+<p>但是上面的操作中，文件名并没有被保存，我们仅保存了文件的内容。上述类型的对象我们称之为<strong>数据对象</strong>（<strong>blob object</strong>）。利用 <code>git cat-file -t</code> 命令，可以让 Git 告诉我们其内部存储的任何对象类型，只要给定该对象的 SHA-1 值。</p>
+<h3 id="树对象"><a href="#树对象" class="headerlink" title="树对象"></a>树对象</h3><p><strong>树对象</strong>（<strong>tree object</strong>）能解决文件名保存的问题，也允许我们将多个文件组织到一起。Git 以一种类似于 UNIX 文件系统的方式存储内容，但作了些许简化。 所有内容均以树对象（tree）和数据对象（blob）的形式存储，其中树对象（tree）对应了 UNIX 中的目录项，数据对象（blob）则大致上对应了 inodes 或文件内容。 一个树对象包含了一条或多条树对象记录（tree entry），每条记录都包含一个SHA-1 值，这个哈希值或者指向数据对象（blob），或者指向子树对象（blob），这些记录还会包含相应的模式、类型、文件名等信息。</p>
+<p>简单地讲，就是一个树对象相当于于git存储结构中的目录，但是这个目录并不真的存储文件，而是存储了blob对象和其对应的文件名等信息，当然还可以存储子目录。</p>
+<p>一个典型的tree对象如图所示：</p>
+<p><img src="/image/Git-Objects/image.png" alt="alt text"></p>
+<p>这里的 <code>lib</code> 记录就是指向另一个tree对象的指针，也就是这个tree对象的hash值。一个目录中的子目录都会被存储为子树。</p>
+<p>通常，Git 根据某一时刻的暂存区（即 <code>index</code> 区域，下同）来创建并记录一个对应的树对象。 因此，为创建一个树对象，首先需要暂存一些文件创建一个暂存区。 可以通过底层命令 <code>git update-index</code> 为一个单独文件创建一个暂存区。 利用该命令，可以文件人为地加入一个新的暂存区。 </p>
+<p>在上一节我们认为地将 <code>1.txt</code>文件加入了git仓库中，要操作这个文件，必须为上述命令指定 <code>--add</code> 选项，因为此前该文件并不在暂存区中（我们甚至都还没来得及创建一个暂存区呢）； 同样必需的还有 <code>--cacheinfo</code> 选项，因为将要添加的文件位于 Git 数据库中，而不是位于当前目录下。 同时，需要指定文件模式、SHA-1 与文件名。命令示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git update-index --add --cacheinfo 100644 \</span><br><span class="line">  8d0e41234f24b6da002d962a26c2495ea16a425f test.txt</span><br></pre></td></tr></table></figure>
+
+<p>我们指定的文件模式为 100644，表明这是一个普通文件，不过多介绍这些。现在，可以通过 <code>git write-tree</code> 命令将暂存区内容写入一个树对象。命令返回一个hash值，可以使用 <code>git cat-file -p</code> 命令查看这个树对象的内容，或者使用 <code>git cat-file</code> 命令验证一下它确实是一个树对象。还可以将第一个树对象加入第二个树对象，使其成为新的树对象的一个子目录。 通过调用 <code>git read-tree</code> 命令，可以把树对象读入暂存区，通过指定 <code>--prefix</code> 选项将已有的树对象作为子树读入暂存区，并命名。</p>
+<h3 id="提交对象"><a href="#提交对象" class="headerlink" title="提交对象"></a>提交对象</h3><p>当我们构建好了tree对象后，技术上就可以根据每个tree的hash值来完整地重现项目，这个项目就是构建tree对象时所用的项目快照。但是tree对象包含的信息也太少了，比如我们希望知道每次构建时的作者、时间，对于构建者来说还可能想要保存构建原因、修改内容等信息，这些tree对象都不包含。</p>
+<p>而以上这些，正是<strong>提交对象</strong>（<strong>commit object</strong>）能为你保存的基本信息。</p>
+<p>可以通过调用 <code>commit-tree</code> 命令创建一个提交对象，为此需要指定一个树对象的 SHA-1 值，以及该提交的父提交对象（如果有的话）。这个命令通过指定 <code>-p</code> 参数来引用一个提交对象（hash值）作为父对象。</p>
+<p>提交对象的格式很简单：它先指定一个顶层树对象，代表当前项目快照； 然后是可能存在的父提交； 之后是作者&#x2F;提交者信息（依据你的 <code>user.name</code> 和 <code>user.email</code> 配置来设定，外加一个时间戳）； 留空一行，最后是提交注释。</p>
+<p>每次我们运行 git add 和 git commit 命令时，Git 所做的工作实质就是将被改写的文件保存为数据对象、更新暂存区、记录树对象，最后创建一个指明了顶层树对象和父提交的提交对象。这三种主要的 Git 对象，数据对象、树对象、提交对象，最初均以单独文件的形式保存在 <code>.git/objects</code> 目录下。</p>
+<p>一个可能的提交示意图比如：</p>
+<p><img src="/image/Git-Objects/image%20copy.png" alt="alt text"></p>
+<p>这张图显示出这样的历史：第一次提交时向仓库中保存了 <code>test.txt</code> 文件，构建起一个tree对象，创建一个提交对象注释为 <code>first commit</code>；第二次提交前新建了一个 <code>new.txt</code> 文件，并修改了 <code>test.txt</code> 文件得到第2个版本，二者构建起一个tree对象，创建了一个提交对象注释为 <code>second commit</code>；第三次提交前在缓存区加入第一次提交的tree对象，作为 <code>bak</code> 子树构建起一个新的tree对象，创建了一个提交对象注释为 <code>third commit</code>。通常情况下子树都是一个目录的子目录。</p>
+<h2 id="Git引用"><a href="#Git引用" class="headerlink" title="Git引用"></a>Git引用</h2><p>在git仓库中，我们常常对某一个特定的提交感兴趣，除了使用这个提交的hash值，我们还可以使用一个<strong>引用</strong>（<strong>reference</strong>，简写为<strong>refs</strong>）文件来指向这个提交。</p>
+<p>可以在 .git&#x2F;refs 目录下找到这类含有 SHA-1 值的文件。 这个目录包含了一个简单的目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/refs</span><br><span class="line">.git/refs</span><br><span class="line">.git/refs/heads</span><br><span class="line">.git/refs/tags</span><br></pre></td></tr></table></figure>
+
+<h3 id="本地引用"><a href="#本地引用" class="headerlink" title="本地引用"></a>本地引用</h3><p>若要创建一个新引用，从技术上讲我们只需将某个提交的hash值写入一个文件中，这个文件名就是引用名。可以简单地做如下操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> 1a410ef &gt; .git/refs/heads/myrefs</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以在 Git 命令中使用这个新引用来代替 SHA-1 值了。但是不提倡直接编辑引用文件，如果想更新某个引用，Git 提供了一个更加安全的命令 <code>update-ref</code> 来完成此事：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git update-ref refs/heads/master 1a410ef</span><br></pre></td></tr></table></figure>
+<p>这基本就是 Git 分支的本质：一个指向某一系列提交之首的指针或引用。若想在第二个提交上创建一个分支，可以这么做：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git update-ref refs/heads/test cac0ca</span><br></pre></td></tr></table></figure>
+
+<p>此时的git数据库基本如下所示：</p>
+<p><img src="/image/Git-Objects/image%20copy%202.png" alt="alt text"></p>
+<p>当运行类似于 <code>git branch &lt;branch&gt;</code> 这样的命令时，Git 实际上会运行 <code>update-ref</code> 命令，取得当前所在分支最新提交对应的 SHA-1 值，并将其加入你想要创建的任何新引用中。</p>
+<h3 id="HEAD引用"><a href="#HEAD引用" class="headerlink" title="HEAD引用"></a>HEAD引用</h3><p>问题是如何获取当前最新提交的 hash 值。答案是HEAD引用，就是 <code>.git/HEAD</code> 文件。HEAD 文件通常是一个符号引用（symbolic reference），指向目前所在的分支。 所谓符号引用，表示它是一个指向其他引用的指针。</p>
+<p>查看这个文件内容为：<code>ref: refs/heads/master</code>，表示当前所处的「最新提交」是 <code>refs/heads/master</code> 所指向的提交。所谓「最新」，不见得是时间上的最新，而仅仅是我们希望在这个提交的基础上进行操作。</p>
+<p>不过在分离头指针的情况下，这个文件的内容也会变成一个提交的hash值。不作过多讨论。</p>
+<p>当我们执行 <code>git checkout newbranch</code> 命令时，Git 会将 HEAD 文件内容更新为 <code>ref: refs/heads/newbranch</code>。</p>
+<p>也可以使用 <code>git symbolic-ref</code> 命令来修改HEAD引用的值。</p>
+<h3 id="标签引用"><a href="#标签引用" class="headerlink" title="标签引用"></a>标签引用</h3><p>我们知道git可以设置标签（tag）。实际上标签也是git中的一种对象。 标签对象（tag object） 非常类似于一个提交对象——它包含一个标签创建者信息、一个日期、一段注释信息，以及一个指针。 主要的区别在于，标签对象通常指向一个提交对象，而不是一个树对象。 它像是一个永不移动的分支引用——永远指向同一个提交对象，只不过给这个提交对象加上一个更友好的名字罢了。</p>
+<p>标签对象也像其他三种对象一样在 <code>.git/objects</code> 中按相似的规则存储，即以40位的hash值作为目录，其中存放着名为其他38位数字的文件。不过在 <code>.git/refs/tags</code> 目录下还会存放一个文件，这个文件是标签值，其内容是标签对象对应的提交对象的hash值。当然标签对象不一定指向提交对象，也可以指向树对象（tree）或者数据对象（blob）。</p>
+<h3 id="远程引用"><a href="#远程引用" class="headerlink" title="远程引用"></a>远程引用</h3><p>还有一种引用是远程引用（remote reference）。 远程引用是 Git 用来表示来自其他仓库的引用的一种方式。 </p>
+<p>如果你添加了一个远程版本库并对其执行过推送操作，或者clone了一个仓库，Git 会记录下最近一次操作时每一个分支所对应的值，并保存在 <code>.git/refs/remotes</code> 目录下。</p>
+<p>例如，你可以添加一个叫做 origin 的远程版本库，然后把 master 分支推送上去，使用 <code>git remote add origin git@github.com:schacon/simplegit-progit.git &amp;&amp; git push origin master</code> 命令，此时在 <code>.git/refs/remotes</code> 目录下会多出一个 <code>origin</code> 目录，其中存放着一个名为 <code>master</code> 的文件，其内容就是 origin 远程版本库的 master 分支所对应的 SHA-1 值。</p>
+<p>远程引用和分支（位于 <code>.git/refs/heads</code> 目录下的引用）之间最主要的区别在于，远程引用是只读的。因此，你永远不能通过 commit 命令来更新远程引用。Git 将这些远程引用作为记录远程服务器上各分支最后已知位置状态的书签来管理。</p>
+<h2 id="小问题"><a href="#小问题" class="headerlink" title="小问题"></a>小问题</h2><blockquote>
+<p>我在查阅官方文档时，对远程引用的介绍中有这样一句话：「虽然可以 <code>git checkout</code> 到某个远程引用，但是 Git 并不会将 HEAD 引用指向该远程引用。」我不太清楚，如果不移动HEAD引用，那么如何 <code>checkout</code> 到这个引用？怎么判定当前引用的？有什么实际效果吗？还是说只是可以运行这个命令，但是实际没有任何改变？</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"><i class="fa fa-tag"></i> Git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/" rel="prev" title="基于链式安全多方计算的隐私保护联邦学习框架">
+                  <i class="fa fa-angle-left"></i> 基于链式安全多方计算的隐私保护联邦学习框架
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/09/21/Git%E8%BF%9B%E9%98%B6-%E9%87%8D%E7%BD%AE%E6%8F%AD%E7%A7%98/" rel="next" title="Git进阶-重置揭秘">
+                  Git进阶-重置揭秘 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+<!-- 网站运行时间的设置 -->
+<span id="Welcome">Hello:-)</span>
+<span id="timeDate">载入时间中...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/06/2023 00:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("Welcome").innerHTML = "欢迎访问我的博客，欢迎一起交流学习:-)"
+	document.getElementById("timeDate").innerHTML = "博客始于 "+dnum+" 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒前";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
