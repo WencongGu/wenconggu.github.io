@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文记录一个小问题的查资料与探索的过程和最后结果，是在同一个局域网下几台不同主机之间相互访问的问题。问题不算复杂，但是对于非科班学生来说是很好的锻炼。而且这个问题问了一些计算机系的同学，它们也不全能说明白这个原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="局域网计算机互连">
+<meta property="og:url" content="https://wenconggu.github.io/2023/12/04/%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BA%92%E8%BF%9E/index.html">
+<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:description" content="本文记录一个小问题的查资料与探索的过程和最后结果，是在同一个局域网下几台不同主机之间相互访问的问题。问题不算复杂，但是对于非科班学生来说是很好的锻炼。而且这个问题问了一些计算机系的同学，它们也不全能说明白这个原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wenconggu.github.io/image/Local-Area-Network/%E7%94%BB%E5%9B%BE.002.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Local-Area-Network/%E6%88%AA%E5%B1%8F2024-04-09%2013.30.50.png">
+<meta property="og:image" content="https://wenconggu.github.io/image/Local-Area-Network/%E6%88%AA%E5%B1%8F2024-04-09%2013.11.24.png">
+<meta property="article:published_time" content="2023-12-04T05:32:46.000Z">
+<meta property="article:modified_time" content="2024-04-09T07:51:26.031Z">
+<meta property="article:author" content="GU WENCONG">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/Local-Area-Network/%E7%94%BB%E5%9B%BE.002.png">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2023/12/04/%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BA%92%E8%BF%9E/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2023/12/04/%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BA%92%E8%BF%9E/","path":"2023/12/04/局域网计算机互连/","title":"局域网计算机互连"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>局域网计算机互连 | GU's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GU's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E5%90%8D%EF%BC%8C%E5%9F%9F%E5%90%8D%E5%92%8CIP%E5%9C%B0%E5%9D%80"><span class="nav-number">2.</span> <span class="nav-text">主机名，域名和IP地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#host-hostname"><span class="nav-number">2.1.</span> <span class="nav-text">host &amp; hostname</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E8%A7%A3%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">DNS解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL"><span class="nav-number">4.</span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mDNS"><span class="nav-number">5.</span> <span class="nav-text">mDNS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">5.1.</span> <span class="nav-text">相关命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">遗留问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GU WENCONG</p>
+  <div class="site-description" itemprop="description">May everything goes fine always</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/12/04/%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BA%92%E8%BF%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="局域网计算机互连 | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          局域网计算机互连
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-12-04 13:32:46" itemprop="dateCreated datePublished" datetime="2023-12-04T13:32:46+08:00">2023-12-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-09 15:51:26" itemprop="dateModified" datetime="2024-04-09T15:51:26+08:00">2024-04-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文记录一个小问题的查资料与探索的过程和最后结果，是在同一个局域网下几台不同主机之间相互访问的问题。问题不算复杂，但是对于非科班学生来说是很好的锻炼。而且这个问题问了一些计算机系的同学，它们也不全能说明白这个原理。</p>
+<span id="more"></span>
+
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>我的MacBook上装了Linux虚拟机，用的是Ubuntu。我的很多工作与实践项目都是在Linux环境下进行的，但是文件都存放在MacBook上，所以二者经常需要交换文件。出于各方面考量，使用SSH服务是最为方便的。SSH需要使用 IP地址，为了方便连接，显然都会选择将主机名写入 <code>~/.ssh/config</code> 文件中。</p>
+<p>这样产生了新的问题：</p>
+<p>一般都想要设置虚拟机的IP地址为静态IP，同时为了在Mac连接其他网络时也能访问它，就需要将虚拟机网络模式配置为 host-only 模式，这就导致虚拟机处在Mac这个网关下的一个局域网，其他设备无法访问，这就给测试和debug造成一些麻烦。比如我要搭建一个网站，要查看它在移动端的现实效果。解决办法并不是没有，就是在Mac上做一个端口映射，将虚拟机的端口映射到Mac上，这样就可以通过Mac的IP地址访问虚拟机了，方案也很多，比如SSH的端口转发。但是总感觉这样的应用链条太长，很麻烦。</p>
+<p>但是如果将虚拟机网络设置为桥接模式，在不同网络环境下的IP分配策略不同，就又会导致在某些情况下，虚拟机无法访问互联网。而且时不时会出现IP冲突。（这是路由器的问题吗？）</p>
+<p>作为强迫症，我对这点不完美感到十分不快。就在我无计可施之时，我突然发现了 hostname 这个东西。</p>
+<p>然后就是我遇到的最大的问题了。下面的配置都是DHCP获取IP，防火墙全部关闭，<code>hostname</code>是Linux虚拟机的<code>hostname</code>，就是主机名，没有其他任何操作。</p>
+<ol>
+<li>Mac连接手机（安卓）热点时<br>如果手机接入了互联网，不论手机使用的是 Wi-Fi还是移动数据，都可以使用 <code>ping hostname</code> 命令来ping通虚拟机。<br>如果手机未接入互联网，则会输出 <code>ping: cannot resolve server: Unknown host</code>。</li>
+<li>Mac连接 Wi-Fi 时<br>无论如何无法使用hostname来ping通虚拟机，都只会输出 <code>ping: cannot resolve server: Unknown host</code>。</li>
+</ol>
+<p>然后我就开始满世界找答案。</p>
+<p>很多人都告诉我直接配置 <code>/etc/hosts</code> 文件，然后把 <code>hostname</code> 写入其中，这样就可以通过 <code>ping hostname</code> 来ping通虚拟机了。<strong>但是为什么使用手机热点时可以ping通，而使用 Wi-Fi 时不行呢？而且为什么手机还要联网呢？</strong></p>
+<blockquote>
+<p><strong>20240409更新</strong>：突然发现，<strong>连接手机热点时不需要联网也能解析hostname了</strong>，这样以来问题就小多了。但是最开始需要联网的情况也是千真万确的，可能真的是未解之谜了。而且为什么热点可以解析hostname？</p>
+</blockquote>
+<p>后面的这个问题我仍然<strong>没有解决</strong>。</p>
+<p>不过针对上面配置SSH的问题，我找到了一个解决方案。下面就是整理一下有关知识。</p>
+<h2 id="主机名，域名和IP地址"><a href="#主机名，域名和IP地址" class="headerlink" title="主机名，域名和IP地址"></a>主机名，域名和IP地址</h2><p>计算机之间的相互访问、通信都是使用IP地址的。但是计算机通信的目的是人类要进行信息交流，而IP地址对于人类来说并不友好，所以人们发明了域名，当我们使用域名访问时，在计算机内部会将其解析为IP地址，以实现访问。</p>
+<p>平常我们使用域名访问网站时，并没有指定访问服务器的哪个端口，也不需要指定，因为默认情况下，使用http协议会默认访问80端口，使用https协议会默认访问443端口。如果确实需要访问其他端口才需要指定。</p>
+<p>一个IP地址可以有多个域名，但是一个域名只会被解析到一个IP地址。</p>
+<p>所谓主机名就是「计算机名 + 域名」。比如拿到一个网址，<code>www.example.com</code>，其中的 <code>www</code> 就是服务器名，<code>example.com</code> 是域名。可以直接使用域名来访问一个IP，域名也会有多级结构。服务器名标志使用的是什么服务，常见的<code>www</code>表示网络服务，<code>mail</code>表示邮箱服务，<code>blog</code>表示博客等。二者合起来组成主机名，标志着一个网络内的一台主机，它和域名一样都能唯一标识一个IP地址。</p>
+<p>可能称呼有所不同，有时会将 <code>www</code> 称为「主机名」，<code>www.example.com</code> 称为「域名」，此时域名的结构就有更多层次了。不过其核心都是相同的。</p>
+<h3 id="host-hostname"><a href="#host-hostname" class="headerlink" title="host &amp; hostname"></a><code>host</code> &amp; <code>hostname</code></h3><p>Linux中，<code>host</code>命令可以将IP解析为hostname，将hostname解析为IP。<code>hostname</code>命令可以查看和修改当前的主机名。</p>
+<h2 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h2><p>DNS（Domain Name System）是域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。DNS使用UDP协议，使用端口号53。</p>
+<p>域名的组成有很多部分。</p>
+<ul>
+<li>顶级域名（top-level domain，缩写为TLD）：比如 <code>.com</code>，<code>.cn</code>，<code>.org</code> 等</li>
+<li>二级域名（second-level domain，缩写为SLD）：比如 <code>example.com</code>，<code>baidu.com</code> 等</li>
+</ul>
+<p><img src="/image/Local-Area-Network/%E7%94%BB%E5%9B%BE.002.png" alt="alt text"></p>
+<p>域名是由 <code>.</code> 分割的，所以顶级域名之后也会有一个 <code>.</code>，代表根，不过由于所有的域名都由根统一管理，所以就没有必要再写这个 <code>.</code> 了。这个根是由一群服务器组成的，这群服务器管理着13个不同的域名，它们从a到m开头，比如<code>a.root-servers.net</code>。这13个<em>根域名服务器</em>由12个不同的独立机构运营，目前有1500台左右的服务器。当我们需要与根域名服务器取得联系时，就会采取任播的方式与最近的节点进行联系。 </p>
+<p>所以当我们得到一个域名时，比如 <code>www.example.com</code>，为了查询其IP地址，就依次需要经历这么几个过程：</p>
+<ol>
+<li>首先访问根域名服务器，方式就是上面提到的任播，访问其中一个根域名服务器，得到<em>顶级域名服务器</em>的IP地址，在这里就是 <code>com</code> 顶级域名服务器的IP地址</li>
+<li>访问上一步得到的顶级域名服务器的IP地址，可以查询到 <code>example</code> 二级域名服务器的IP地址，这个二级服务器就是<em>权威域名服务器</em>，它管理着自己下属的众多服务器</li>
+<li>访问上一步得到的权威域名服务器的IP地址，可以查询到它提供的 <code>www</code> 服务器的IP地址</li>
+<li>到此就得到了需要访问的域名的IP地址</li>
+</ol>
+<p><img src="/image/Local-Area-Network/%E6%88%AA%E5%B1%8F2024-04-09%2013.30.50.png" alt="alt text"></p>
+<p>实际情况要更加复杂。在实际使用DNS服务器进行解析之前，浏览器等访问设备还会首先检查本地是否有该域名的缓存记录，如果有的话，就直接使用缓存记录中的IP地址，如果没有，还会检查本地的<code>HOSTS</code>文件，如果<code>HOSTS</code>文件中有该域名的映射记录，也会直接使用该映射记录中的IP地址。在Linux系统下这个文件一般保存在<code>/etc/hosts</code>。如果没有缓存，<code>hosts</code>文件也没有记录，才会使用DNS服务器进行解析。同时这些文件的优先级也是最高的，会覆盖其他设置。如果被恶意修改可能导致访问错误的网站。</p>
+<p>这时浏览器会发送一个解析请求给解析器，其实就是调用一个函数 <code>gethostbyname(&quot;www.example.com&quot;)</code>，不同的系统提供的函数可能不同，比如可能是 <code>getaddrinfo</code>。这个解析器相当于DNS客户端，会向本地的DNS服务器发送解析请求。本地的DNS服务器是自己设置的，在系统设置中可以查到，它一般是离我们最近的节点，一般由ISP管理，即互联网服务提供商，比如中国电信、中国网通。Mac上可以使用 <code>scutil --dns</code> 命令查看当前的DNS配置，Linux可以查看 <code>/etc/resolv.conf</code>（Debian）或者 <code>/etc/sysconfig/network-scripts/ifcfg-&lt;interface_name&gt;</code>（RedHat）文件来查看相关信息。这个DNS服务器会首先查看自己的缓存如果有缓存就直接返回，这个返回结果被标注为 <code>non-authoritative</code>。比如它的缓存会存储有顶级域名服务器的IP地址，那么在域名解析时就不需要再访问根服务器。</p>
+<p>在上面使用DNS服务器逐步解析的过程是迭代进行的，每一步查询域名服务器都可能返回多个IP，这时往往会选择其中一个IP。有些网络服务商会再加一层自己的DNS服务器，因为它们可能有多个服务器，对应多个IP地址，自己的DNS服务器会根据网络情况、负载情况等因素选择一个最优的IP地址返回给用户以加快访问速度。</p>
+<p><img src="/image/Local-Area-Network/%E6%88%AA%E5%B1%8F2024-04-09%2013.11.24.png" alt="alt text"></p>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>URL：Uniform Resource Locator，统一资源定位符，是用位置信息为资源进行编号，是统一资源标识符URI的一种。</p>
+<p>比如</p>
+<p><code>http://www.example.com/index.html</code></p>
+<p><code>http://</code>：协议，也就是HTTP超文本传输协议，也就是网页在网上传输的协议。<br><code>www</code>：是服务器名，用以提供web服务就是 <code>www</code>。<br><code>example.com</code>:是域名，是用来定位网站的独一无二的名字。<br><code>www.example.com</code>：是主机名（网站名），由服务器名+域名组成。<br><code>/</code>：根目录，也就是说，通过网站名找到服务器，然后在服务器存放网页的根目录。<br><code>index.html</code>：这个是根目录下的默认网页（大部分的默认网页都是<code>index.html</code>）<br><code>http://www.example.com/index.html</code>：叫做URL，统一资源定位符，全球性地址，用于定位网上的资源。</p>
+<h2 id="mDNS"><a href="#mDNS" class="headerlink" title="mDNS"></a>mDNS</h2><p>mDNS， multicast DNS，基于 UDP 协议，使用<code>5353</code>端口，组播地址使用的是D类地址，地址范围为：<code>224.0.0.0</code>—<code>239.255.255.255</code>。在一个没有常规DNS服务器的小型网络内，可以使用mDNS来实现类似DNS的编程接口、包格式和操作语义。MDNS协议的报文与DNS的报文结构相同，但有些字段对于MDNS来说有新的含义。</p>
+<p>每个进入局域网的主机，如果开启了mDNS服务的话，都会向局域网内的所有主机组播一个消息，我是谁，和我的IP地址是多少。然后其他也有该服务的主机就会响应，也会告诉你，它是谁，它的IP地址是多少。<strong>mDNS的域名与普通DNS的域名是通过后缀<code>.local</code>区分开来的</strong>。如果一台终端需要访问一个mDNS域名，他就会向局域网内发送组播，询问该域名的IP是多少。</p>
+<p>这个协议解决一个实际问题：在局域网内，你要通过一台主机和其他主机进行通信，你需要知道对方的 ip 地址，但是有些时候，你并不知道对方的 ip 地址，因为一般使用 DHCP 动态分配 ip 地址的局域网内，各个主机的 IP 地址是由 DHCP 服务器来帮你分配 IP 地址的。所以在很多情况下，你要知道对方的 IP 地址是比较麻烦的，而且不能保证同一设备在同一局域网段内的 IP地址每次都相同。</p>
+<p>比如，A主机进入局域网，开启了 mDNS 服务，并向 mDNS 服务注册以下信息：我提供 <code>FTP</code> 服务，我的IP是 <code>192.168.1.101</code>，端口是 <code>21</code>。当B主机进入局域网，并向 B 主机的 mDNS 服务请求，我要找局域网内 <code>FTP</code> 服务器，B主机的 mDNS 就会去局域网内向其他的 mDNS 询问，并且最终告诉你，有一个IP地址为 <code>192.168.1.101</code>，端口号是 <code>21</code> 的主机，也就是 A 主机提供 <code>FTP</code> 服务，所以 B 主机就知道了 A 主机的 IP 地址和端口号了。</p>
+<p>当然实际情况要更加复杂，不过其原理是简单的。</p>
+<p><strong>如果局域网内的设备使用了mDNS，那么如果知道它的主机名（hostname）就可以直接使用 <code>ping hostname.local</code> 来访问它了，而不需要知道它的IP地址。</strong></p>
+<p>这就非常方便了，就非常符合我的需求。</p>
+<h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><p>在Apple 的设备上（电脑，笔记本，iphone，ipad等设备）都提供了这个服务，所以就不需要配置。因此在Mac上想要直接hostname访问虚拟机只需要知道虚拟机的hostname即可，其本地mDNS域名就是 <code>hostname.local</code>。</p>
+<p>但是Linux主机一般不自动支持mDNS，可以使用 <code>sudo apt install avahi-utils</code> 安装 <code>avahi</code> 包，这是一个零配置的mDNS软件，安装好之后设备会自动启用mDNS协议。</p>
+<blockquote>
+<p>systemd系统是否自带有mDNS实现？ubuntu22.04上没有找到。路由器上的配置十分有限，主要还是依赖主机软件实现。</p>
+</blockquote>
+<p>安装完成后，可以使用 <code>avahi-browse</code> 命令来查看局域网内的mDNS服务，这是一个非常常用的命令；使用 <code>avahi-resolve</code> 命令来查看指定mDNS服务的主机名和IP地址。</p>
+<p>比如使用 <code>avahi-browse -artv</code> 来详细列出局域网内所有mDNS服务的IP、hostname、端口、服务等信息。</p>
+<p>Mac上经常使用 Bonjour 浏览器，这是一个图形化的mDNS服务查看工具，系统自带，如果没有自带可以使用 <code>brew install bonjour-browser</code> 安装即可。除此之外还可以使用 <code>dns-sd</code>命令。</p>
+<h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>很多资料说mDNS的配置是在主机上进行的，不过路由器也可以进行一定的配置。比较奇怪的是使用手机热点的时候并没有看到相关配置，而且这时可以直接使用 <code>ping hostname</code> 来访问，甚至不用使用 <code>.local</code>，当然也可以使用，<strong>不清楚这个原理，而网络上关于Android热点的配置信息也是很少，查不到资料，而阅读源码对于不熟悉安卓系统的我来说难度太大</strong>。而最最奇怪的是，如果手机热点没有联网，也是会显示 <code>ping: cannot resolve sss4: Unknown host</code>。</p>
+<blockquote>
+<p><strong>20240409更新</strong>：突然发现，<strong>连接手机热点时不需要联网也能解析hostname了</strong>，这样以来问题就小多了。但是最开始需要联网的情况也是千真万确的，可能真的是未解之谜了。而且为什么热点可以解析hostname？</p>
+</blockquote>
+<p>在查找资料的时候，看到有人提SSDP协议，它会发送两种信息：</p>
+<ol>
+<li><p>发现请求（Discovery request 或查询请求）。SSDP客户端向此地址发送HTTP UDP 发现请求，查询某种类型的服务。SSDP服务在此地址上监听服务发现请求。当服务监听到的HTTP UDP 发现请求和它自己提供的服务匹配时，它以单播方式发送HTTP UDP 响应。</p>
+</li>
+<li><p>存在通知（notification）。SSDP服务向此多播地址发送HTTP UDP 通知消息来宣布自己的存在。</p>
+</li>
+</ol>
+<p>在广播存在同时时通常会包括：通知类型、设备类型、设备标识符、服务类型、设备位置、最大寿命等信息，并没有规定设备需要广播自己的主机名（hostname）。显然，如果使用这个协议可以知道IP地址也是一种解决方案，但是还需要解析主机名等信息，而且如果虚拟机不提供什么服务，很可能不会被发现。<strong>不过协议本身是很有用的，有空可以详细学习一下</strong>。</p>
+<p>在博客「<a target="_blank" rel="noopener" href="https://mogeko.me/zh-cn/posts/zh-cn/104/">如何正确的在 Linux 上配置 mDNS</a>」一文中提到，「事实上你计算机中的 systemd-resolved 已经提供了一个 mDNS 的完整实现了！ … 你根本不需要再额外安装一个“多余”的软件来实现一个已经被实现好了的功能！… 只是大多数 Linux 发行版都没有像 Apple 一样，默认开启 mDNS。」在我的ubuntu22.04LTS中并没有systemd-resolved命令，也没有下文的 <code>systemd-networkd</code>命令，但是它的确是systemd系统，因为它提供了诸如 <code>systemctl</code> 等命令。所以配置时只能通过 <code>sudo apt install avahi-utils</code> 安装avahi了。</p>
+<p>同一个网段内的设备发现也是个很大的坑。比如很多资料说使用 <code>arp -a</code> 可以列出局域网内所有主机，但是我在测试过后发现并不能全部列出。某些遗漏主机，可以使用 <code>ping</code> 命令先ping一下IP，然后就会出现在arp列表中，但是为什么不能自动寻找呢？</p>
+<p>IP4协议中，例如<code>192.168.1.0/24</code>这个网段，<code>192.168.1.255</code>应该是广播地址，但是ping这个地址时也不是所有设备都会回应，是在无法查询所有设备。Linux上有一个<code>nmap 192.168.1.0/24</code>命令同样不起作用。也许是路由器配置问题，或者是我对网络协议理解不到位的问题吧。</p>
+<p>同时，有人提到，虽然VMWare的网络模式是桥接模式，但是实际上路由器上看到的仍然是MacBook的MAC地址，而MacBook申请了两个IP，而路由器不能处理这种情况，使用了DNSmasq的就不行，但是这个无法配置。可以通过开启4addr来解决。即便是虚拟机也有MAC地址也不行。而VMWare只是使用了ARP + NDP Proxy。这主要跟路由器的DHCP服务器能力有关。</p>
+<p>可能问题的症结就在这里，但是这段话我是在看不明白。计算机网络的学习，任重道远啊。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/12/03/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="prev" title="在M1芯片的MacBook Air中配置Linux（ubuntu）">
+                  <i class="fa fa-angle-left"></i> 在M1芯片的MacBook Air中配置Linux（ubuntu）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/05/SSH%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" rel="next" title="SSH端口转发">
+                  SSH端口转发 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+  </div>
+<!-- 网站运行时间的设置 -->
+<span id="Welcome">Hello:-)</span>
+<span id="timeDate">载入时间中...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/06/2023 00:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("Welcome").innerHTML = "欢迎访问我的博客，欢迎一起交流学习:-)"
+	document.getElementById("timeDate").innerHTML = "博客始于 "+dnum+" 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒前";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
