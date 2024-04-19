@@ -87,7 +87,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">12</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">27</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">28</span></a></li>
   </ul>
 </nav>
 
@@ -126,13 +126,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -157,6 +157,92 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/12/03/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GU WENCONG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GU's Blog">
+      <meta itemprop="description" content="May everything goes fine always">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | GU's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/12/03/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/" class="post-title-link" itemprop="url">在M1芯片的MacBook Air中配置Linux（ubuntu）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-12-03 19:17:20" itemprop="dateCreated datePublished" datetime="2023-12-03T19:17:20+08:00">2023-12-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-09 15:58:31" itemprop="dateModified" datetime="2024-04-09T15:58:31+08:00">2024-04-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>前段时间研究隐私计算，涉及联邦学习，要配置环境。我是用的是国内微众银行的FATE框架，设备是m1 MacBook Air。配置过程有两大问题，第一是FATE框架只支持linux，第二是只支持x86处理器架构。感觉就像是对Mac判了死刑。但是经过我一番折腾，发现还是可以在docker中跑起来的，虽然花费一些精力。折腾光是折腾Linux也花了小白不少时间，所以写文来记录一下。</p>
+<p>arm架构的处理器要安装centos实属有些状况，会发现下载来的安装包安装不了。网络上有关于这个问题的探讨可以参考，<a target="_blank" rel="noopener" href="https://blog.csdn.net/feixiang3839/article/details/80857138/">arm64(aarch64)安装centos 7.5.1804</a>。当然可以选择下载民间制作的镜像，只是我觉得centos7官方似乎“不再维护”了，没必要（虽然它的确是目前国内应用最多的linux）；而且我们arm党在装好后就会发现，centos下的包管理器国内镜像源也相对很少。</p>
+<p>于是我来投向Ubuntu。为什么？因为用的人多，社区活跃，配套软件支持丰富，相对也足够稳定。</p>
+<p>总结地讲，遇到的困难主要就是国内网络配置问题，其次就是arm架构的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/12/03/%E5%9C%A8arm-mac%E4%B8%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AElinux%E8%99%9A%E6%8B%9F%E6%9C%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
