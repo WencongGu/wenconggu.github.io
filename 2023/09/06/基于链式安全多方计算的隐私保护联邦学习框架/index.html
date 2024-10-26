@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
@@ -16,18 +16,19 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="摘要： 联邦学习（FL）是物联网智能^[IoT intellegence]领域一项前景广阔的新技术。然而，在 FL 中交换与模型相关的数据可能会泄露参与方的敏感信息。为了解决这个问题，我们基于一种创新的链式安全多方计算技术，提出了一种新型隐私保护联邦学习框架，并将它命名为 chain-PPFL。我们的方案主要利用了两种机制：一种是在多方计算中使用链式安全计算技术；另一种是在多方计算中使用链式安全计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于链式安全多方计算的隐私保护联邦学习框架">
 <meta property="og:url" content="https://wenconggu.github.io/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/index.html">
-<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:site_name" content="G&#39;s Essays">
 <meta property="og:description" content="摘要： 联邦学习（FL）是物联网智能^[IoT intellegence]领域一项前景广阔的新技术。然而，在 FL 中交换与模型相关的数据可能会泄露参与方的敏感信息。为了解决这个问题，我们基于一种创新的链式安全多方计算技术，提出了一种新型隐私保护联邦学习框架，并将它命名为 chain-PPFL。我们的方案主要利用了两种机制：一种是在多方计算中使用链式安全计算技术；另一种是在多方计算中使用链式安全计">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://wenconggu.github.io/image/chain-PPFL/%E7%AE%97%E6%B3%951%E8%81%94%E9%82%A6%E5%B9%B3%E5%9D%87.png">
 <meta property="og:image" content="https://wenconggu.github.io/image/chain-PPFL/chain-PPFL%E7%BB%93%E6%9E%84.png">
 <meta property="og:image" content="https://wenconggu.github.io/image/chain-PPFL/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E7%9A%84chain-PPFL.png">
@@ -37,7 +38,7 @@
 <meta property="og:image" content="https://wenconggu.github.io/image/chain-PPFL/%E5%9B%BE4%E6%B3%84%E6%BC%8F%E9%98%B2%E5%BE%A1%E6%95%88%E6%9E%9C.png">
 <meta property="article:published_time" content="2023-09-06T14:59:22.000Z">
 <meta property="article:modified_time" content="2024-10-02T09:58:10.589Z">
-<meta property="article:author" content="GU WENCONG">
+<meta property="article:author" content="G!">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Pivacy Preserving">
 <meta name="twitter:card" content="summary">
@@ -48,10 +49,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/","path":"2023/09/06/基于链式安全多方计算的隐私保护联邦学习框架/","title":"基于链式安全多方计算的隐私保护联邦学习框架"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wenconggu.github.io/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/","path":"2023/09/06/基于链式安全多方计算的隐私保护联邦学习框架/","title":"基于链式安全多方计算的隐私保护联邦学习框架"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>基于链式安全多方计算的隐私保护联邦学习框架 | GU's Blog</title>
+<title>基于链式安全多方计算的隐私保护联邦学习框架 | G's Essays</title>
   
 
 
@@ -73,7 +74,7 @@
     <div class="column">
       <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
@@ -84,14 +85,14 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">GU's Blog</p>
+      <p class="site-title">G's Essays</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">Hi~ :)</p>
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
     </div>
   </div>
 </div>
@@ -99,7 +100,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">18</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">36</span></a></li>
   </ul>
 </nav>
 
@@ -114,10 +115,10 @@
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          文章目录
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          Overview
         </li>
       </ul>
 
@@ -130,23 +131,23 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
-      src="/images/avatar.png">
-  <p class="site-author-name" itemprop="name">GU WENCONG</p>
-  <div class="site-description" itemprop="description">May everything goes fine always</div>
+    <img class="site-author-image" itemprop="image" alt="G!"
+      src="/images/Tom.jpeg">
+  <p class="site-author-name" itemprop="name">G!</p>
+  <div class="site-description" itemprop="description">You're reading some of my jottings.</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">35</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
         <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
@@ -179,21 +180,21 @@
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2023/09/06/%E5%9F%BA%E4%BA%8E%E9%93%BE%E5%BC%8F%E5%AE%89%E5%85%A8%E5%A4%9A%E6%96%B9%E8%AE%A1%E7%AE%97%E7%9A%84%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GU WENCONG">
+      <meta itemprop="image" content="/images/Tom.jpeg">
+      <meta itemprop="name" content="G!">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GU's Blog">
-      <meta itemprop="description" content="May everything goes fine always">
+      <meta itemprop="name" content="G's Essays">
+      <meta itemprop="description" content="You're reading some of my jottings.">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="基于链式安全多方计算的隐私保护联邦学习框架 | GU's Blog">
+      <meta itemprop="name" content="基于链式安全多方计算的隐私保护联邦学习框架 | G's Essays">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -207,19 +208,26 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">发表于</span>
+      <span class="post-meta-item-text">Posted on</span>
 
-      <time title="创建时间：2023-09-06 22:59:22" itemprop="dateCreated datePublished" datetime="2023-09-06T22:59:22+08:00">2023-09-06</time>
+      <time title="Created: 2023-09-06 22:59:22" itemprop="dateCreated datePublished" datetime="2023-09-06T22:59:22+08:00">2023-09-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-02 17:58:10" itemprop="dateModified" datetime="2024-10-02T17:58:10+08:00">2024-10-02</time>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-10-02 17:58:10" itemprop="dateModified" datetime="2024-10-02T17:58:10+08:00">2024-10-02</time>
     </span>
 
   
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
 </div>
 
         </div>
@@ -372,17 +380,17 @@
 <p>$$<br>\begin{aligned}<br> \text{let} \quad F_d(w)&#x3D;\frac{1}{n_d}\sum_{i\in \mathcal{P}<em>d}f_i(w)&amp;\<br> \text{then} \quad f(w)&#x3D;\sum</em>{d&#x3D;1}^{D}{n_d\over n}F_d(w)&amp;<br>\end{aligned}<br>\tag{2}<br>$$</p>
 <p>FedAVG [1] 作为一种经典的 FL 算法被广泛使用，本文也将其作为基准算法。这里，我们假设有一个聚合节点和 $K$ 个用户，每个用户自己拥有固定的本地数据集。</p>
 <p>在 FedAVG 算法 [1] 中，$K$ 个用户以 $k$ 为索引；$B$ 是 是局部小批次大小；$E$ 是本地循环次数；$\eta$ 是学习率。FedAVG 算法的具体细节见算法 1。</p>
-<p><img src="/image/chain-PPFL/%E7%AE%97%E6%B3%951%E8%81%94%E9%82%A6%E5%B9%B3%E5%9D%87.png" alt="算法1 FedAVG"></p>
+<p><img data-src="/image/chain-PPFL/%E7%AE%97%E6%B3%951%E8%81%94%E9%82%A6%E5%B9%B3%E5%9D%87.png" alt="算法1 FedAVG"></p>
 <p>在算法 1 中，聚合节点的工作包括分发全局模型参数，聚合来自 $m$ 个用户的本地更新。每个用户根据全局模型参数 $w^t_G$ 在本地数据集上完成训练任务，并在本轮上传本地模型更新。用户在本地使用小批次的 SGD（$B$ 个批次）算法。参与用户 $i$ 在第 $t$ 轮的目标是找到本地的最优参数 $w^{t^{*}}_i$，使函数 $f(w^{t}_i)$ 最小化，即</p>
 <p>$$<br>w^{t^{\ast}}<em>i &#x3D; \argmin</em>{w_i^t} f(w_i^t) \tag{3}<br>$$</p>
 <p>实际上，在FedAVG中，服务器会选取 $K$ 个参与者再计算平均聚合值作为全局权重 [25]</p>
 <p>$$<br>w^{t+1}<em>{G}&#x3D;\frac{1}{K}\sum</em>{i&#x3D;1}^{K}w_i^{t^{*}}<br>$$</p>
 <h3 id="B-提出的结构"><a href="#B-提出的结构" class="headerlink" title="B. 提出的结构"></a><em>B. 提出的结构</em></h3><p>我们提出的 chain-PPFL 采用了一种新颖的链式通信机制，通过串行链式结构在参与者之间传输掩码信息。在有中心服务器的基准联邦环境中，如图1展示的，服务器的主要工作包括: 1) 训练之前广播参与用户列表；2) 负责生成随机数用以遮罩（mask）；3) 生成令牌；4) 对从最后一个用户收到的令牌中提取的聚合结果求平均；5) 将全局模型参数反馈给用户。</p>
-<p><img src="/./image/chain-PPFL/chain-PPFL%E7%BB%93%E6%9E%84.png" alt="图1 chain-PPFL的结构"></p>
+<p><img data-src="/./image/chain-PPFL/chain-PPFL%E7%BB%93%E6%9E%84.png" alt="图1 chain-PPFL的结构"></p>
 <p>参与的客户端可以根据从服务器接收到的用户列表创建自己的相邻用户列表。在不同的网络环境中，我们可以利用不同的方法建立相应的邻居列表。例如，我们可以在 LAN （局域网）环境中使用泛洪法^[the flood method]建立邻居列表，也可以在蜂窝网络中使用 Vela 等人提出的方法建立邻居列表 [38]。在 P2P 网络中，我们可以使用 Zhao 等人提出的方法来建立邻居列表 [39]。由于这不是本文讨论的核心问题，我们假设每个参与的用户在训练开始前已经建立好了邻居列表。为了在每一轮中构建链式通信结构，每个参与者（包括服务器）都会从其邻居列表中随机选择一个邻居作为下一个节点。链式通讯结构的构建在 III-C 节有详细介绍。</p>
 <p>每一轮，服务器都会为每个链生成一个独一无二的令牌，该令牌可由每个用户独家拥有，并通过用户间的链式通信机制串行传输。我们的方案使用单一遮罩机制来保护隐私。当前拥有令牌的参与者将在不获取掩码（mask）信息的情况下，从其余邻居中随机选择下一个节点作为后代节点。然后，当前参与者将更新后的令牌发送给后代节点。最后一个参与者将其更新后的令牌（包含同一链条上所有参与者模型参数的聚合）发回服务器。由于单个参与者在链式聚合过程中使用其前者的输出来遮罩处理自己的输出，因此敌手（即好奇节点）在没有事先串通^[collusion]的情况下无法从参与者的输出中获取任何敏感隐私信息。</p>
 <p>图2显示了 chain-PPFL 同样能够被应用在由 Liu 等人讨论的边缘计算^[edge-computing]场景 [40]。多个边缘服务器执行部分模型聚合，中心服务器（或云服务器）聚合来自边缘服务器的全局模型更新。通常，在边缘云中，参与方之间的网络延迟非常小，因此它们可以在链条中快速交换信息。因此，chain-PPFL 可以在通讯和隐私保护方面取得更好的平衡。</p>
-<p><img src="/image/chain-PPFL/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E7%9A%84chain-PPFL.png" alt="图2 边缘计算的chain-PPFL"></p>
+<p><img data-src="/image/chain-PPFL/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E7%9A%84chain-PPFL.png" alt="图2 边缘计算的chain-PPFL"></p>
 <h3 id="C-Chain-PPFL-算法"><a href="#C-Chain-PPFL-算法" class="headerlink" title="C. Chain-PPFL 算法"></a><em>C. Chain-PPFL 算法</em></h3><p>在第二节中，我们讨论了信息交换中隐私保护所面临的挑战。在本文中，我们只考虑所有参与者之间的隐私保护问题，并假设所有节点都是可信任但好奇的^[trust-but-curious]，并且传输通道都是可靠且安全的。第 $i$ 轮的 chain-PPFL 链式程序如下。</p>
 <p><em>步骤 1:</em></p>
 <p><em>聚合节点：</em> 聚合节点将全局参数 $w_G^t$ 广播至全部用户，生成伪随机数 $\mathrm{PRN}^t$（$\mathrm{PRN}^t\in \mathbb{R}^d$，$d$ 是 $w$ 的维度）作为遮罩，令U_0^t&#x3D;$\mathrm{PRN}^t$。然后，聚合节点生成 $token^t_0$$(t, U_t^0, n_p, Time_{limit})$，其中 $n_p$ 是计数器，用来记录参与者的数量；$Time_{limit}$ 是倒计时器，用于控制每个回合的持续时间。根据本文的假设，节点无需检查令牌。服务器将令牌发送到第一个参与者（命名为用户 1），这个参与者是从当前轮次中的邻居用户中随机选取的。</p>
@@ -400,7 +408,7 @@
 <p>$$<br>w^{t+1}<em>G&#x3D;{1\over K}(U^{t}<em>K-U</em>{0}^t)&#x3D;{1\over K}\sum</em>{i&#x3D;1}^{K}w^{t^{*}}_i \tag{8}<br>$$</p>
 <p>转到步骤 1。</p>
 <p>chain-PPFL 算法的细节见算法 2。</p>
-<p><img src="/image/chain-PPFL/%E7%AE%97%E6%B3%952chain-PPFL.png" alt="算法2 Chain-PPFL"></p>
+<p><img data-src="/image/chain-PPFL/%E7%AE%97%E6%B3%952chain-PPFL.png" alt="算法2 Chain-PPFL"></p>
 <h2 id="IV-分析与比较"><a href="#IV-分析与比较" class="headerlink" title="IV. 分析与比较"></a>IV. 分析与比较</h2><p>在本节中，我们将从以下三个方面对 chain-PPFL 进行分析： 1) 训练精度；2) 隐私保护水平；3) 延迟。在分析的基础上，我们将 FedAVG 同 chain-PPFL、DP-based FL 和AHE-based FL 进行比较，详细分析见表 II。</p>
 <p>表 II，同其他方法的比较</p>
 <table>
@@ -460,7 +468,7 @@
 </ol>
 <p>在训练准确率的对比测试中，我们使用了MNIST 数字识别公共数据集。对于整体联邦环境设置^[comprehensive federated setting]，我们采用两种方法将 MNIST 数据划分^[partitoning]给用户[1]：1) IID，数据被洗牌并分成 100 个用户^[partitioned into 100 users]，每个用户接收 600 个示例；2) NonIID，数据按数字标签排序，分成 200 个大小为 300 的子集^[shard]。我们为每 100 个用户分配两个子集。此外，我们使用两个训练模型（类似于 [1] 和 [41]）：1) MLP，一个简单的多层感知系统，包含两个隐藏层，每个层有 200 个单元，使用 ReLU 激活函数；2) CNN，包含两个 5 $$ 5 卷积层、一个包含 512 个单元并使用 ReLU 激活函数的全连接层、以及一个 softmax 输出层的 CNN。我们使用文献 [5] 给出的 DLG 方法对泄漏防御^[leakage defence]分析进行了实验验证。在泄漏防御的对比测试中，我们使用了CIFAR-100 图像分类公共数据集和学习率为 1 的 L-BFGS 模型（与 [5] 中的相同）。我们使用 PyTorch [42] 作为实验平台。用以模拟实验的计算机配置：处理器为英特尔酷睿 i5-4570 CPU @ 3.20 GHz，内存为 8.0 GB，无 GPU。</p>
 <h3 id="B-实验结果"><a href="#B-实验结果" class="headerlink" title="B. 实验结果"></a><em>B. 实验结果</em></h3><p>训练模型测试精度的比较结果如图 3 所示。基于 DP 的 FL 方案通过在原始梯度中添加噪声来保护隐私。为了提高隐私保护水平，有必要添加方差更大的噪声，也就是增加 $\epsilon$ 的值。但是，方差较大的噪声对训练精度有着更加显著的负面影响。从图 3 中的实验结果可以看出，用 chain-PPFL 训练的模型的精度接近于 FedAVG，并且比基于 DP 的 FL 高出 $0.1%-2%$，对于使用 MNIST 集且有 NonIID 划分的模型更是如此。对于 MNIST 集上带有 IID 划分的 MLP 模型，图 3(d) 显示 chain-PPFL 的准确率接近 FedAVG，略高于基于 DP 的 FL $0.2%$ ($\epsilon &#x3D; 8$) 到 $0.4%$ ($\epsilon &#x3D; 1$)。由于可以完全去除掩码信息，从实验评估结果来看 chain-PPFL 算法的训练精度整体上非常接近 FedAVG 且优于基于 DP 的 FL 算法，如图 3 所示。此外，$\epsilon$ 值越小，添加噪声的方差越大，精度下降越明显。</p>
-<p><img src="/images/../image/chain-PPFL/%E5%9B%BE3ab.png" alt="图3 实验结果ab"><br><img src="/images/../image/chain-PPFL/%E5%9B%BE3cd.png" alt="图3 实验结果cd"></p>
+<p><img data-src="/images/../image/chain-PPFL/%E5%9B%BE3ab.png" alt="图3 实验结果ab"><br><img data-src="/images/../image/chain-PPFL/%E5%9B%BE3cd.png" alt="图3 实验结果cd"></p>
 <p>另一方面，由于在模型训练过程中增加了噪声，基于 DP 的 FL 方案不可避免地大幅增加了迭代轮数，导致收敛速度较慢，如表 III 所示。相比之下，chain-PPFL 算法要达到大致相同的精度水平所消耗的训练轮数与 FedAVG 算法基本相同，而远远小于基于 DP 的 FL 算法所消耗的轮数。</p>
 <p>表 III，训练轮次对比（平均值）</p>
 <table>
@@ -510,7 +518,7 @@
 </tr>
 </tbody></table>
 <p>在泄漏防御的对比测试中，我们使用 L-BFGS 匹配 FL 中训练模型所有参数的梯度^[match gradients from all parameters of the training model]，实验使用随机的初始权重。梯度匹配损失^[gradient matching loss]反映了原始样本的差异程度。梯度匹配损失值越小，泄露的信息越多。当匹配损失函数值大于 0.15 时没有信息泄露。图 4 给出了泄漏防御效果的实验结果。从图 4 中可以看出，FedAVG 和基于 DP 的 FL 方案都无法防止敏感信息的泄漏，而我们的方法则成功地实现了隐私保护。</p>
-<p><img src="/images/../image/chain-PPFL/%E5%9B%BE4%E6%B3%84%E6%BC%8F%E9%98%B2%E5%BE%A1%E6%95%88%E6%9E%9C.png" alt="图4 泄漏防御效果"></p>
+<p><img data-src="/images/../image/chain-PPFL/%E5%9B%BE4%E6%B3%84%E6%BC%8F%E9%98%B2%E5%BE%A1%E6%95%88%E6%9E%9C.png" alt="图4 泄漏防御效果"></p>
 <p>总之，上述所有实验结果表明，chain-PPFL 相比于基于 DP 的 FL 能够获得更好的精度。由于 chain-PPFL 能够用掩码信息完美抵消增加的噪声，其性能甚至非常接近未考虑隐私保护的原始 FedAVG 算法。</p>
 <h2 id="VI-结论"><a href="#VI-结论" class="headerlink" title="VI. 结论"></a>VI. 结论</h2><p>本文提出了一种基于链式 SMC 技术的隐私保护 FL 框架：chain-PPFL。分析和实验结果表明，在精度损失和计算复杂度几乎与 FedAVG 算法相当的情况下，chainPPFL 方案也能达到较好的隐私保护水平。此外，chain-PPFL 的架构相对简洁，适用于一些通信环境较好的实际场景，如边缘云、智能物联网或智慧城市等。未来，我们的研究工作将重点关注 chain-PPFL 的优化和在去中心化 FL 环境中的应用。</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
@@ -657,40 +665,43 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+    <span class="author" itemprop="copyrightHolder">G!</span>
   </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 <!-- 网站运行时间的设置 -->
-<span id="Welcome">Hello:-)</span>
-<span id="timeDate">载入时间中...</span>
-<script>
-    var now = new Date();
-    function createtime() {
-        var grt= new Date("05/06/2023 00:00:00"); //此处修改你的建站时间或者网站上线时间
-        now.setTime(now.getTime()+250);
-        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
-        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
-        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
-        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
-        document.getElementById("Welcome").innerHTML = "欢迎访问我的博客，欢迎一起交流学习:-)"
-	document.getElementById("timeDate").innerHTML = "博客始于 "+dnum+" 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒前";
-    }
-setInterval("createtime()",250);
-</script>
+<span id="Welcome">Hello... :-)</span>
+<span id="timeDate">Time Calculating...</span>
+<script src="/js/time-display.js"></script>
 
     </div>
   </footer>
 
   
-  <div class="back-to-top" role="button" aria-label="返回顶部">
+  <div class="back-to-top" role="button" aria-label="Back to top">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
   </div>
   <div class="reading-progress-bar"></div>
   <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
-  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <a href="https://gitee.com/aakashi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -700,17 +711,22 @@ setInterval("createtime()",250);
   
   <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.js" integrity="sha256-+2+qOqR8CKoHh/AsVR9k2qaDBKWjYNC2nozhYmv5j9k=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
 
   
 
 
 
+  <script src="/js/third-party/fancybox.js"></script>
 
   <script src="/js/third-party/pace.js"></script>
 
 
   
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

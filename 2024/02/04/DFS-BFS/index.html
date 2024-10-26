@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
@@ -16,18 +16,19 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="深度优先搜索（Depth First Search，DFS）和广度优先搜索（Breadth First Search，BFS），是图论中非常重要的两种算法，在能够借助图论来描述的问题中能够发挥巨大的作用，它们使用的思想也可以在很多其他搜索算法中找到影子。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DFS &amp; BFS">
 <meta property="og:url" content="https://wenconggu.github.io/2024/02/04/DFS-BFS/index.html">
-<meta property="og:site_name" content="GU&#39;s Blog">
+<meta property="og:site_name" content="G&#39;s Essays">
 <meta property="og:description" content="深度优先搜索（Depth First Search，DFS）和广度优先搜索（Breadth First Search，BFS），是图论中非常重要的两种算法，在能够借助图论来描述的问题中能够发挥巨大的作用，它们使用的思想也可以在很多其他搜索算法中找到影子。">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://wenconggu.github.io/image/DFS-BFS/%E7%94%BB%E5%9B%BE.004.png">
 <meta property="og:image" content="https://wenconggu.github.io/image/DFS-BFS/%E7%94%BB%E5%9B%BE.005.png">
 <meta property="og:image" content="https://wenconggu.github.io/image/DFS-BFS/%E7%94%BB%E5%9B%BE.006.png">
@@ -48,7 +49,7 @@
 <meta property="og:image" content="https://wenconggu.github.io/image/DFS-BFS/%E7%94%BB%E5%9B%BE.020.png">
 <meta property="article:published_time" content="2024-02-04T06:05:54.000Z">
 <meta property="article:modified_time" content="2024-04-15T09:07:31.000Z">
-<meta property="article:author" content="GU WENCONG">
+<meta property="article:author" content="G!">
 <meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wenconggu.github.io/image/DFS-BFS/%E7%94%BB%E5%9B%BE.004.png">
@@ -58,10 +59,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://wenconggu.github.io/2024/02/04/DFS-BFS/","path":"2024/02/04/DFS-BFS/","title":"DFS & BFS"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wenconggu.github.io/2024/02/04/DFS-BFS/","path":"2024/02/04/DFS-BFS/","title":"DFS & BFS"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>DFS & BFS | GU's Blog</title>
+<title>DFS & BFS | G's Essays</title>
   
 
 
@@ -83,7 +84,7 @@
     <div class="column">
       <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
@@ -94,14 +95,14 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">GU's Blog</p>
+      <p class="site-title">G's Essays</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">Hi~ :)</p>
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
     </div>
   </div>
 </div>
@@ -109,7 +110,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">18</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">36</span></a></li>
   </ul>
 </nav>
 
@@ -124,10 +125,10 @@
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          文章目录
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          Overview
         </li>
       </ul>
 
@@ -140,23 +141,23 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="GU WENCONG"
-      src="/images/avatar.png">
-  <p class="site-author-name" itemprop="name">GU WENCONG</p>
-  <div class="site-description" itemprop="description">May everything goes fine always</div>
+    <img class="site-author-image" itemprop="image" alt="G!"
+      src="/images/Tom.jpeg">
+  <p class="site-author-name" itemprop="name">G!</p>
+  <div class="site-description" itemprop="description">You're reading some of my jottings.</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">35</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
         <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
@@ -189,21 +190,21 @@
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/02/04/DFS-BFS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GU WENCONG">
+      <meta itemprop="image" content="/images/Tom.jpeg">
+      <meta itemprop="name" content="G!">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GU's Blog">
-      <meta itemprop="description" content="May everything goes fine always">
+      <meta itemprop="name" content="G's Essays">
+      <meta itemprop="description" content="You're reading some of my jottings.">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="DFS & BFS | GU's Blog">
+      <meta itemprop="name" content="DFS & BFS | G's Essays">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -217,19 +218,26 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">发表于</span>
+      <span class="post-meta-item-text">Posted on</span>
 
-      <time title="创建时间：2024-02-04 14:05:54" itemprop="dateCreated datePublished" datetime="2024-02-04T14:05:54+08:00">2024-02-04</time>
+      <time title="Created: 2024-02-04 14:05:54" itemprop="dateCreated datePublished" datetime="2024-02-04T14:05:54+08:00">2024-02-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-15 17:07:31" itemprop="dateModified" datetime="2024-04-15T17:07:31+08:00">2024-04-15</time>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-15 17:07:31" itemprop="dateModified" datetime="2024-04-15T17:07:31+08:00">2024-04-15</time>
     </span>
 
   
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
 </div>
 
         </div>
@@ -245,9 +253,9 @@
 <p>图的<strong>阶</strong>(<strong>order</strong>)就是图的点的个数，即 $|V(G)|$。</p>
 <p>图的边通常用节点的二元组表示，比如 $(v_1,v_2)\in E$，其中 $v_1,v_2\in V$ 称为这条边的<strong>端点</strong>(<strong>endpoint</strong>)。</p>
 <p>图中的边可以是<strong>无向边</strong>(<strong>undirected edge</strong>)，此时二元组是无序的，这个图称为<strong>有向图</strong>；</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.004.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.004.png" alt="alt text"></p>
 <p>也可以是<strong>有向边</strong>(<strong>directed edge</strong>)，或称为<strong>弧</strong>(<strong>arc</strong>)，此时边是有序二元组，其二元组也常写作 $v_1\to v_2$，表示从节点 $v_1$ 指向 $v_2$，$v_1$ 称为起点（tail，箭头的「尾」），$v_2$ 称为终点（head，箭头的「头」），这个图称为<strong>无向图</strong>(<strong>undirected graph</strong>)，此时也称 $v_1$ 是 $v_2$ 的直接前驱，$v_2$ 是 $v_1$ 的直接后继。</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.005.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.005.png" alt="alt text"></p>
 <p>有时一张图中既有有向边又有无向边，则称之为<strong>混合图</strong>(<strong>mixed graph</strong>)。</p>
 <p>有时这些边还会被赋予权值，这就是<strong>赋权图</strong>。</p>
 <p>在一个图中可能有一个边的两个端点是同一个点，那么这条边就是一个<strong>自环</strong>(<strong>loop</strong>)；有时两条边完全重合，这两条边就称为一组<strong>重边</strong>(<strong>multiple edge</strong>)。如果一个图中存在自环或者重边，这张图就是一个<strong>多重图</strong> (<strong>multigraph</strong>)，否则就是一个<strong>简单图</strong>(<strong>simple graph</strong>)。</p>
@@ -256,7 +264,7 @@
 <p>根据度，可以简单地对点集中的点进行分类。度为0的点称为<strong>孤立点</strong>(<strong>isolated point</strong>)，度为偶数的点称为<strong>偶点</strong>(<strong>even point</strong>)，度为奇数的点称为<strong>奇点</strong>(<strong>odd point</strong>)。</p>
 <p><strong>图论基本定理</strong>（握手定理）：对于任何无向图 $G &#x3D; (V, E)$，有 $\sum_{v \in V} d(v) &#x3D; 2|E|$。</p>
 <p><strong>途径</strong>(<strong>walk</strong>)，是指一个边的序列，$e_1,e_2,\dots,e_n,\dots$，它经过适当排列后（不妨仍记作 $e_1,e_2,\dots,e_n,\dots$），能存在一个点的序列，$v_0, v_1, \dots, v_n,\dots$，满足 $e_i&#x3D;(v_{i-1}, v_i)$，这样的途径还可以写作 $v_0\to v_1\to\dots\to v_n\to\dots$。</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.006.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.006.png" alt="alt text"></p>
 <p>如果途径中的边两两不同，就是一个<strong>迹</strong>(<strong>trail</strong>)。一个迹中如果点两两不同，就是一个<strong>路径</strong>(<strong>path</strong>)。一个迹如果「首尾相接」，即 $v_0&#x3D;v_{last}$，就是一个<strong>回路</strong>(<strong>circiut</strong>)。如果这个回路只有「首尾相接」，而其他的点两两不同，它就是一个<strong>环</strong>&#x2F;<strong>圈</strong>(<strong>cycle</strong>)。</p>
 <p>常见的概念还有连通图。</p>
 <p>对于无向图，称两个点是<strong>连通的</strong>(<strong>connected</strong>)是指它们之间存在一个途径以其中一个为 $v_0$，另一个为 $v_{last}$。一个图的点如果两两连通就是一个<strong>连通图</strong>(<strong>connected graph</strong>)。</p>
@@ -265,7 +273,7 @@
 <h2 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a>图的存储</h2><h3 id="按边直接存储"><a href="#按边直接存储" class="headerlink" title="按边直接存储"></a>按边直接存储</h3><p>按照边的描述方式，直接可以想到把每一条边作为一个二元组直接存储到一个列表中，或者直接按照顺序存储，两两分组。</p>
 <p>比如下面的图可以按照数组存储，数组的每个元素都是一个二元组：</p>
 <p><code>[(1,2),(2,3),(2,4),(3,4),(5,6),(6,6)]</code></p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.007.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.007.png" alt="alt text"></p>
 <p>由于直接存边的遍历效率低下，一般不用于遍历图。</p>
 <p>在 Kruskal 算法中，由于需要将边按边权排序，需要直接存边。</p>
 <p>在有的题目中，需要多次建图（如建一遍原图，建一遍反图），此时既可以使用多个其它数据结构来同时存储多张图，也可以将边直接存下来，需要重新建图时利用直接存下的边来建图。</p>
@@ -274,7 +282,7 @@
 <h3 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h3><p>邻接表存储的是每个节点的关联点。使用一个数组，数组的元素也是一个数组。第一个位置的数组表示与第一个点关联的点的集合，相当于邻域。对于无向图，这样没有什么问题。对于有向图，可以只存储每个点的出边，即以它为起点的边的终点的集合。这样就比邻接矩阵节省空间。</p>
 <p>这种存储方式没有什么明显的缺点，因此很常用。除此之外还有链式前向星的方式。</p>
 <h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>如上面说的，常用的描述方式就是一个一个的二元组，所以在给出数据时经常会给出一个数组表示一个图。比如上面的图用 <code>nums = [1,2,2,3,2,4,3,4,5,6,6,6]</code> 的形式给出。</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.007.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.007.png" alt="alt text"></p>
 <p>使用python读入和遍历时就需要两两一组：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">read_graph</span>(<span class="params">nums</span>):</span><br><span class="line">    n = <span class="built_in">len</span>(nums[<span class="number">0</span>])</span><br><span class="line">    graph = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, n, <span class="number">2</span>):</span><br><span class="line">        graph.append((nums[i], nums[i+<span class="number">1</span>])) <span class="comment"># 存储为元组的数组</span></span><br><span class="line">    <span class="keyword">return</span> graph</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_graph</span>(<span class="params">graph</span>):</span><br><span class="line">    <span class="keyword">for</span> edge <span class="keyword">in</span> graph:</span><br><span class="line">        <span class="built_in">print</span>(edge[<span class="number">0</span>], edge[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">if_exist</span>(<span class="params">graph, a, b</span>): <span class="comment"># 判断某条边是否存在</span></span><br><span class="line">    <span class="keyword">for</span> edge <span class="keyword">in</span> graph:</span><br><span class="line">        <span class="keyword">if</span> edge[<span class="number">0</span>] == a <span class="keyword">and</span> edge[<span class="number">1</span>] == b:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">neighbors</span>(<span class="params">graph, a</span>): <span class="comment"># 获取与a关联的点的集合</span></span><br><span class="line">    neighbors = []</span><br><span class="line">    <span class="keyword">for</span> edge <span class="keyword">in</span> graph:</span><br><span class="line">        <span class="keyword">if</span> edge[<span class="number">0</span>] == a:</span><br><span class="line">            neighbors.append(edge[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">elif</span> edge[<span class="number">1</span>] == a:</span><br><span class="line">            neighbors.append(edge[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">return</span> neighbors</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">degree</span>(<span class="params">graph, a</span>): <span class="comment"># 获取a的度</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(neighbors(graph, a))</span><br></pre></td></tr></table></figure>
 
@@ -287,21 +295,21 @@
 <p>很明显，使用邻接矩阵时的遍历时间复杂度达到 $O(n^2)$。</p>
 <h2 id="深度优先搜索（DFS）"><a href="#深度优先搜索（DFS）" class="headerlink" title="深度优先搜索（DFS）"></a>深度优先搜索（DFS）</h2><p>深度优先，就是指在搜索的时候，某次对一个节点的搜索中，搜索到了另一些节点，下一次搜索就从这些节点中的某一个节点再进行同样的搜索，然后再对搜索到的节点同样地选择一个节点搜索，一直到搜索的节点无法再搜索到新的节点，此时回到上一次搜索的结果中，换一个没有搜索过的节点进行同样的搜索，同样在无法再搜索时回溯。显然这样的操作就是在每一次搜索时都先一条路走到黑，然后再回溯重新一条路走到黑，一直到走完，所以叫「深度优先」。</p>
 <p>以下面的二叉树搜索为例：</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.008.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.008.png" alt="alt text"></p>
 <p>从起点1开始搜索，搜索到节点2和4</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.009.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.009.png" alt="alt text"></p>
 <p>选择其中一个节点，就选择节点2进行同样的搜索，搜索到节点3和4</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.010.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.010.png" alt="alt text"></p>
 <p>从节点3和4中选择一个，选择3搜索，没有搜索到新节点</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.011.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.011.png" alt="alt text"></p>
 <p>于是返回到节点2，对节点2搜索到的另一个节点，即节点4开始搜索</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.012.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.012.png" alt="alt text"></p>
 <p>搜索到节点7，就对它进行搜索</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.013.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.013.png" alt="alt text"></p>
 <p>没有搜索到新节点，于是返回节点4，节点4同样没有新节点，返回节点2，节点2同样没有新节点，于是返回节点1，节点1还有一个节点6，对它进行搜索</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.014.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.014.png" alt="alt text"></p>
 <p>搜索到节点5，对它进行搜索</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.015.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.015.png" alt="alt text"></p>
 <p>初始节点1也没有其他节点了，就搜索结束。</p>
 <h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><p>上面说到的「新的节点」，就是搜索过的节点，通常使用一个数组 <code>visited</code> 来记录某个节点是否被访问过，没有访问过的节点就是「新的节点」，在递归实现时就是下一个递归变量。下面的代码中每个节点都是一个类，这个类有 <code>val</code> 表示节点值，<code>left</code> 表示左子节点，<code>right</code> 表示右子节点。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">visited = [<span class="literal">False</span>] * graph.size()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dfs</span>(<span class="params">graph, node</span>):</span><br><span class="line">    <span class="keyword">if</span> node <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> visited[node.val] == <span class="literal">False</span>:</span><br><span class="line">        <span class="built_in">print</span>(node.val)</span><br><span class="line">        visited[node.val] = <span class="literal">True</span></span><br><span class="line">        dfs(graph, node.left)</span><br><span class="line">        dfs(graph, node.right)</span><br></pre></td></tr></table></figure>
@@ -322,15 +330,15 @@
 <p>$\bullet$<strong>这个题给我最大的启发就是在递归时巧妙地设计返回值</strong>。当然这里函数的抽象也很精彩，这就属于对问题的洞察和抽象能力了。</p>
 <h2 id="广度优先搜索（BFS）"><a href="#广度优先搜索（BFS）" class="headerlink" title="广度优先搜索（BFS）"></a>广度优先搜索（BFS）</h2><p>广度优先，在对某一个节点进行搜索时搜索到一些节点，这时就遍历这些搜索到的节点，每个节点都先搜索一遍，搜索得到一些节点先保存起来，遍历完后再对这次每个节点找到的节点进行同样的操作，搜索之后先保存，遍历完后再搜索这些节点，直到搜索结束。</p>
 <p>第一次搜索起点1，得到节点2和6，于是开始遍历搜索节点2，6</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.016.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.016.png" alt="alt text"></p>
 <p>先搜索节点2，得到节点3和4，保存，继续没进行完的遍历2，6</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.017.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.017.png" alt="alt text"></p>
 <p>遍历到了节点6，搜索得到节点5，保存</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.018.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.018.png" alt="alt text"></p>
 <p>此时第一次遍历结束，于是开始遍历它的搜索结果3，4，5。先搜索节点3，没有子节点，再搜索节点4，得到节点7</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.019.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.019.png" alt="alt text"></p>
 <p>继续遍历，搜索节点5，没有子节点，于是这次遍历结束，遍历它的搜索结果，即节点7，它没有子节点，于是搜索结束</p>
-<p><img src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.020.png" alt="alt text"></p>
+<p><img data-src="/image/DFS-BFS/%E7%94%BB%E5%9B%BE.020.png" alt="alt text"></p>
 <p>仔细思考搜索过程，可以发现每次搜索时得到的节点都是先进先出的。实际上，BFS算法的实现几乎离不开队列。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">graph, node</span>):</span><br><span class="line">    q=queue()</span><br><span class="line">    q.append(start_node) <span class="comment"># 加入初始节点</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> q.isempty():</span><br><span class="line">        node=q.popleft()</span><br><span class="line">        <span class="keyword">if</span> node.left <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            q.append(node.left)</span><br><span class="line">            <span class="built_in">print</span>(node.left.val)</span><br><span class="line">        <span class="keyword">if</span> node.right <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            q.append(node.right)</span><br><span class="line">            <span class="built_in">print</span>(node.right.val)</span><br></pre></td></tr></table></figure>
 
@@ -398,40 +406,43 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">GU WENCONG</span>
+    <span class="author" itemprop="copyrightHolder">G!</span>
   </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 <!-- 网站运行时间的设置 -->
-<span id="Welcome">Hello:-)</span>
-<span id="timeDate">载入时间中...</span>
-<script>
-    var now = new Date();
-    function createtime() {
-        var grt= new Date("05/06/2023 00:00:00"); //此处修改你的建站时间或者网站上线时间
-        now.setTime(now.getTime()+250);
-        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
-        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
-        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
-        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
-        document.getElementById("Welcome").innerHTML = "欢迎访问我的博客，欢迎一起交流学习:-)"
-	document.getElementById("timeDate").innerHTML = "博客始于 "+dnum+" 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒前";
-    }
-setInterval("createtime()",250);
-</script>
+<span id="Welcome">Hello... :-)</span>
+<span id="timeDate">Time Calculating...</span>
+<script src="/js/time-display.js"></script>
 
     </div>
   </footer>
 
   
-  <div class="back-to-top" role="button" aria-label="返回顶部">
+  <div class="back-to-top" role="button" aria-label="Back to top">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
   </div>
   <div class="reading-progress-bar"></div>
   <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
-  <a href="https://gitee.com/aakashi" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <a href="https://gitee.com/aakashi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -441,17 +452,22 @@ setInterval("createtime()",250);
   
   <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.js" integrity="sha256-+2+qOqR8CKoHh/AsVR9k2qaDBKWjYNC2nozhYmv5j9k=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
 
   
 
 
 
+  <script src="/js/third-party/fancybox.js"></script>
 
   <script src="/js/third-party/pace.js"></script>
 
 
   
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
