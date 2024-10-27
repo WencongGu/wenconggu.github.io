@@ -40,4 +40,4 @@ function createtime() {
 	welcome.innerHTML = "交个朋友吧～ :-)<br>Let's be friends! :D"
 	timeDate.innerHTML = "Started: " + dnum + " d " + hnum + " h " + mnum + " m " + snum + " s ago.";
 }
-setInterval("createtime()", 250);
+setInterval(createtime, 250);
