@@ -18,7 +18,7 @@ waline_script.innerHTML = `
 
     init({
       el: '#waline',
-      serverURL: 'https://gessay.vercel.app',
+      serverURL: 'https://gessays.vercel.app',
     });
 `;
 waline_to_body.append(waline_script);
