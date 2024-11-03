@@ -29,11 +29,13 @@
 <meta property="og:site_name" content="G&#39;s Essays">
 <meta property="og:description" content="Some uncommon linux commands usages.  Heredoc sudo bash -c lvm static IP if eval screen shopt(bash) uid &amp; user namespace …  to be continued…">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wenconggu.github.io/image/non-basic-linux/image.png">
 <meta property="article:published_time" content="2023-10-06T23:06:00.000Z">
-<meta property="article:modified_time" content="2024-11-02T18:53:57.841Z">
+<meta property="article:modified_time" content="2024-11-03T06:05:18.681Z">
 <meta property="article:author" content="G!">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wenconggu.github.io/image/non-basic-linux/image.png">
 
 
 <link rel="canonical" href="https://wenconggu.github.io/2023/10/06/Linux%E4%B8%8D%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/">
@@ -91,7 +93,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">18</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">37</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">17</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">39</span></a></li>
   </ul>
 </nav>
 
@@ -131,13 +133,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -208,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-02 18:53:57" itemprop="dateModified" datetime="2024-11-02T18:53:57+00:00">2024-11-02</time>
+      <time title="Modified: 2024-11-03 06:05:18" itemprop="dateModified" datetime="2024-11-03T06:05:18+00:00">2024-11-03</time>
     </span>
 
   
@@ -261,7 +263,7 @@
 <h2 id="磁盘管理：lvm"><a href="#磁盘管理：lvm" class="headerlink" title="磁盘管理：lvm"></a>磁盘管理：lvm</h2><p>听说磁盘管理对于企业而言似乎不重要，因为企业一般一次买一大块硬盘够用好几年。但是我觉得磁盘管理是很重要的，万一磁盘坏了怎么办？有时候想存一些东西又不想影响其他数据怎么办？对于个人用户怎么办？毕竟我还是很喜欢linux的。</p>
 <p>物理磁盘管理很简单：找到对应设备，通常命名是sda、sdb…，使用<code>fdisk sda</code>按照提示操作分区，写入文件系统再挂载就可以了。</p>
 <p>比较有意思的是lvm，它的结构如下:</p>
-<img data-src=image.png title="图片来源 linux中国">
+<img data-src='/image/non-basic-linux/image.png' title="图片来源 linux中国">
 
 <p>多了几层比较抽象的概念，但是很好理解：我们有一块硬盘，首先类似地需要对其进行分区，使得系统能够识别这块硬盘，这就是PV；为了使得lvm能够扩容，而且更重要的是，lvm可以使用不同的物理硬盘，我们需要将这些物理硬盘统一起来，告诉系统，下次lvm要扩容，就从这些硬盘里面抽空间，这就是卷组；创建好卷组之后，就可以从卷组中创建lvm。</p>
 <p>理解了抽象概念之后就可以很好地理解相关的命令了：</p>
@@ -460,9 +462,9 @@
 <h2 id="uid-user-namespace"><a href="#uid-user-namespace" class="headerlink" title="uid &amp; user namespace"></a>uid &amp; user namespace</h2><p>简单用自己的话总结一下，就是说uid由内核管理，而内核只会管理一套uid、gid。一个用户由uid唯一标识，至于作为字符串的username则由用户级的应用比如passwd提供。</p>
 <p>uid的重要性主要体现在权限管理上，内核在访问资源时会通过操作的uid来确定其是否有相应权限。</p>
 <p>user namespace则是对uid的显示上封装在一个独立环境中，比如uid&#x3D;1000的用户创建了ns，它在这个ns中的uid就是0，也就是root。但是对于内核而言它依然只是同一个用户，只是权限发生了一些变化。</p>
+<p>上面的过程还牵扯到用户映射的概念，很好理解，字面意思。但是不是很理解的是ns的资源是什么意思。暂且抽象地想象成一个集合，对应一些文件，一些命令。</p>
 <p>说到权限，有一个概念是capability。如果没有这个概念，可以想像我们的权限就只剩了，root或者非root，这是非常危险的。所以将root的权限拆分为capabilities，在执行操作时只赋予对应的capability，限制恶意程序。</p>
 <p>在namespace中，一个namespace的创建者具有它的全部capabilities，但是这个创建者在这个namespace中不具有任何父ns中的任何capabilities，也就是说，在一个ns中的root用户，即便对于内核而言它的确是系统的root，它也不能访问ns资源之外的资源。用户在同一个namespace中的权限则视实际执行环境而定。</p>
-<p>还有一个用户映射的概念，很好理解，字面意思。但是不是很理解的是ns的资源是什么意思。暂且抽象地想象成一个集合，对应一些文件，一些命令。</p>
 <p>这些内容在docker容器中会比较有实际价值。虽然docker默认并不启用内核的ns，但是实际运行模式类似，不同之处在于docker是直接在容器内限制了其他资源的可见性。有时还是需要考虑docker容器进程运行的用户问题，就需要清楚uid的有关概念了。</p>
 
     </div>

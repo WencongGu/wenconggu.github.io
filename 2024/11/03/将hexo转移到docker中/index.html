@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="自己瞎折腾的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将hexo转移到docker中">
+<meta property="og:url" content="https://wenconggu.github.io/2024/11/03/%E5%B0%86hexo%E8%BD%AC%E7%A7%BB%E5%88%B0docker%E4%B8%AD/index.html">
+<meta property="og:site_name" content="G&#39;s Essays">
+<meta property="og:description" content="自己瞎折腾的。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-03T13:40:49.000Z">
+<meta property="article:modified_time" content="2024-11-03T06:26:24.253Z">
+<meta property="article:author" content="G!">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/11/03/%E5%B0%86hexo%E8%BD%AC%E7%A7%BB%E5%88%B0docker%E4%B8%AD/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wenconggu.github.io/2024/11/03/%E5%B0%86hexo%E8%BD%AC%E7%A7%BB%E5%88%B0docker%E4%B8%AD/","path":"2024/11/03/将hexo转移到docker中/","title":"将hexo转移到docker中"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>将hexo转移到docker中 | G's Essays</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">G's Essays</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">17</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">39</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-run-u-id-u-%E2%80%A6"><span class="nav-number">1.</span> <span class="nav-text">Docker run -u $(id -u) …</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E8%A6%81%E4%BF%9D%E8%AF%81%E8%83%BD%E4%BD%BF%E7%94%A8https%E7%9A%84%E6%BA%90%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">先要保证能使用https的源：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt%E6%BA%90%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">apt源配置文件：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%E8%BF%90%E8%A1%8Capt%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">非交互式运行apt：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85git%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">安装git需要使用：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8heredoc%E4%B8%80%E6%AC%A1%E5%B0%86%E5%A4%9A%E8%A1%8C%E5%86%99%E5%85%A5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">无法使用heredoc一次将多行写入配置文件，解决方案：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85node%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">安装node：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85neovim%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E7%94%A8apt%EF%BC%8C%E5%9B%A0%E4%B8%BA%E4%B8%8D%E6%98%AF%E6%9C%80%E6%96%B0%E7%89%88%EF%BC%9A"><span class="nav-number">8.</span> <span class="nav-text">安装neovim不能直接用apt，因为不是最新版：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E9%9C%80%E8%A6%81%E6%9F%A5%E7%9C%8Bip"><span class="nav-number">9.</span> <span class="nav-text">可能需要查看ip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E9%9C%80%E8%A6%81ssh"><span class="nav-number">10.</span> <span class="nav-text">可能需要ssh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker%E5%AE%B9%E5%99%A8%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98"><span class="nav-number">11.</span> <span class="nav-text">Docker容器用户权限问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker%E9%95%9C%E5%83%8F%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5%EF%BC%9A"><span class="nav-number">12.</span> <span class="nav-text">Docker镜像的导出导入：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%96%87%E4%BB%B6"><span class="nav-number">13.</span> <span class="nav-text">完整文件</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="G!"
+      src="/../image/about/Tom.jpeg">
+  <p class="site-author-name" itemprop="name">G!</p>
+  <div class="site-description" itemprop="description">You're reading some of my jottings.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/11/03/%E5%B0%86hexo%E8%BD%AC%E7%A7%BB%E5%88%B0docker%E4%B8%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../image/about/Tom.jpeg">
+      <meta itemprop="name" content="G!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="G's Essays">
+      <meta itemprop="description" content="You're reading some of my jottings.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="将hexo转移到docker中 | G's Essays">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          将hexo转移到docker中
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-11-03 13:40:49 / Modified: 06:26:24" itemprop="dateCreated datePublished" datetime="2024-11-03T13:40:49+00:00">2024-11-03</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>自己瞎折腾的。</p>
+<span id="more"></span>
+
+<h3 id="Docker-run-u-id-u-…"><a href="#Docker-run-u-id-u-…" class="headerlink" title="Docker run -u $(id -u) …"></a>Docker run -u $(id -u) …</h3><p>Docker用户管理默认使用的root的uid，这不好，牵扯到的权限问题很麻烦，所以尽量用 <code>-u $(id -u)</code> 指定一个普通用户。</p>
+<p>一个经典的运行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --name hexo -v ~/Document/blog:/blog -p 4000:4000 -u $(<span class="built_in">id</span> -u) hexo</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意这会创建一个匿名卷，拷贝了<code>~/Document/blog</code>的内容。虽然会造成内存浪费，但是也算是一种备份，而且完全自动的。如果不需要这个备份，使用–rm标签，同时手动删除匿名卷，可以使用<code>docker volume prune</code>。</p>
+<blockquote>
+<p>20241103纠正，上面的命令会使用bind mount，因此不会创建匿名卷。</p>
+</blockquote>
+</blockquote>
+<p>官方的ubuntu镜像中直接存在一个ubuntu用户，用户uid是1000，所以可以使用<code>USER ubuntu</code>指令切换用户。此外，在<code>RUN</code>指令中如果使用<code>useradd -u 1111</code>那么创建的用户在运行时在主机的真实uid也会是1111。所以运行时不必指定uid也可以，指定错了反而可能导致文件没有访问权限。</p>
+<h3 id="先要保证能使用https的源："><a href="#先要保证能使用https的源：" class="headerlink" title="先要保证能使用https的源："></a>先要保证能使用https的源：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt update &amp;&amp; apt install -y ca-certificates</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="apt源配置文件："><a href="#apt源配置文件：" class="headerlink" title="apt源配置文件："></a>apt源配置文件：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/apt/sources.list.d/ubuntu.sources</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="非交互式运行apt："><a href="#非交互式运行apt：" class="headerlink" title="非交互式运行apt："></a>非交互式运行apt：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEBIAN_FRONTEND=noninteractive apt ...`</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装git需要使用："><a href="#安装git需要使用：" class="headerlink" title="安装git需要使用："></a>安装git需要使用：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs git`</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="无法使用heredoc一次将多行写入配置文件，解决方案："><a href="#无法使用heredoc一次将多行写入配置文件，解决方案：" class="headerlink" title="无法使用heredoc一次将多行写入配置文件，解决方案："></a>无法使用heredoc一次将多行写入配置文件，解决方案：</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="language-bash">	<span class="built_in">echo</span> <span class="string">&quot;#!/bin/sh\nset -e\n\n# This script get the latest (hopefully) version of neo-vim and make &#x27;~/.config/nvim&#x27;, &#x27;~/.config/nvim/lua&#x27; folder, \n# along with an empty &#x27;~/.config/nvim/init.lua&#x27; file. \napt install -y software-properties-common dirmngr apt-transport-https lsb-release ca-certificates\nadd-apt-repository ppa:neovim-ppa/stable -y \napt update \napt install -y neovim \nmkdir -p /root/.config/nvim&quot;</span> &gt;&gt; /root/get_neovim.sh \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">chmod</span> +x get_neovim.sh</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>The following does NOT working!：</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&quot;\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Types: deb \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Suites: noble noble-updates noble-backports \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Components: main restricted universe multiverse \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">\n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Types: deb \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">URIs: http://ports.ubuntu.com/ubuntu-ports/ \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Suites: noble-security \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Components: main restricted universe multiverse \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg \n\</span></span></span><br><span class="line"><span class="string"><span class="language-bash">&quot;</span> &gt;&gt; /etc/apt/sources.list.d/ubuntu.sources</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以支持heredoc语法，需要在Dockerfile文件首加上<code># syntax=docker/dockerfile:1</code>：</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># syntax=docker/dockerfile:1</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> &lt;&lt;<span class="string">FILE1 cat &gt; file1 &amp;&amp; &lt;&lt;FILE2 cat &gt; file2</span></span></span><br><span class="line">I am</span><br><span class="line">first</span><br><span class="line">FILE1</span><br><span class="line">I am</span><br><span class="line">second</span><br><span class="line">FILE2</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装node："><a href="#安装node：" class="headerlink" title="安装node："></a>安装node：</h3><pre><code>[https://deb.nodesource.com/](https://deb.nodesource.com/)
+
+[https://github.com/nodesource/distributions](https://github.com/nodesource/distributions)
+</code></pre>
+<ul>
+<li>配置npm淘宝源命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装neovim不能直接用apt，因为不是最新版："><a href="#安装neovim不能直接用apt，因为不是最新版：" class="headerlink" title="安装neovim不能直接用apt，因为不是最新版："></a>安装neovim不能直接用apt，因为不是最新版：</h3><pre><code>参考：https://linuxcapable.com/how-to-install-neovim-on-ubuntu-linux/
+
+neovim仓库：https://github.com/neovim/neovim
+</code></pre>
+<ul>
+<li>Import either the stable√ or unstable (nightly) version directly from the Neovim LaunchPAD PPA(建议，但仍然不是最新版，暂缓)：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt install -y software-properties-common dirmngr apt-transport-https lsb-release ca-certificates <span class="comment"># 安装add-apt-repository</span></span><br><span class="line">add-apt-repository ppa:neovim-ppa/stable -y</span><br><span class="line">apt update</span><br><span class="line">apt install -y neovim</span><br><span class="line"><span class="comment"># apt-cache policy neovim # Verify the installation of the PPA version</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>或者用snapd(容器里似乎运行不了，但是虚拟机是成功了的)：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt install -y snapd</span><br><span class="line"><span class="built_in">ln</span> -s /var/lib/snapd/snap /snap</span><br><span class="line">snap install core</span><br><span class="line">snap install nvim --classic <span class="comment"># 非沙箱模式下安装软件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="可能需要查看ip"><a href="#可能需要查看ip" class="headerlink" title="可能需要查看ip"></a>可能需要查看ip</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y iproute2</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="可能需要ssh"><a href="#可能需要ssh" class="headerlink" title="可能需要ssh"></a>可能需要ssh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y openssh-server openssh-client</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Docker容器用户权限问题"><a href="#Docker容器用户权限问题" class="headerlink" title="Docker容器用户权限问题"></a>Docker容器用户权限问题</h3><p>设计Linux和Docker的一些底层概念比如uid，user namespace，使用git时也会遇到无权限的问题，即便是已经在<code>~/.ssh</code>中复制了密钥。这不像是容器的问题，更应该是Linux文件权限管理和git的问题，因为在主机上使用普通用户是可以部署的，但切换了root就不行，即使有了密钥文件。</p>
+<p>应该是ssh的问题。正常情况下使用ssh连接一个ip，ssh会寻找<code>~/.ssh/config</code>文件，按照配置连接。</p>
+<p>但是问题来了，使用<code>git push/pull</code>的时候怎么读配置的呢？当然说的是用公私钥连接。这个我没有找到资料支持，不过经过探索可以发现一些行为。当在本地使用<code>ssh—keygen</code>命令生成公私钥对后使用git，会在<code>~/.ssh/config</code>文件中添加一个<code>Host github</code>的词条，当前用户使用<code>git push/pull</code>的时候会按照这个配置。</p>
+<p>但是，在docker容器中（即便使用了uid映射）或者使用root用户使用git时不会使用这个配置！而在host中新建一个用户却可以使用。很怪。</p>
+<p>原因未知，但是 GitHub<a target="_blank" rel="noopener" href="https://docs.github.com/zh/">官方文档</a>关于ssh debug的论述中有“<a target="_blank" rel="noopener" href="https://docs.github.com/zh/authentication/troubleshooting-ssh/error-permission-denied-publickey?platform=linux">Should the sudo command or elevated privileges be used with Git?</a>”的小节，内容如下：</p>
+<blockquote>
+<p>You should not be using the sudo command or elevated privileges, such as administrator permissions, with Git.</p>
+<p>If you have a very good reason you must use sudo, then ensure you are using it with every command. If you generate SSH keys without sudo and then try to use a command like sudo git push, you won’t be using the same keys that you generated.</p>
+</blockquote>
+<p>就是说的确，配置文件只对一个用户生效。</p>
+<p>可以使用命令<code>ssh -vT git@github.com</code>验证是否能与GitHub建立连接。</p>
+<p>也许有其他更好的办法解决这个问题，比如对使用完全同名同uid的用户。这里使用了更简单的做法，因为不想费劲了。就是将~&#x2F;.ssh&#x2F;config中的Host github改成<code>Host github.com</code>，有效。git，hexo都能用了。</p>
+<h3 id="Docker镜像的导出导入："><a href="#Docker镜像的导出导入：" class="headerlink" title="Docker镜像的导出导入："></a>Docker镜像的导出导入：</h3><p>使用 export 和 import 通过容器来导入、导出镜像</p>
+<p>使用 save 和 load 通过镜像来保存、加载镜像文件</p>
+<p>两个方式的差异：</p>
+<p>如果使用 import 导入 save 产生的文件，虽然导入不提示错误，但是启动容器时会提示失败，会出现类似”docker: Error response from daemon: Container command not found or does not exist”的错误。</p>
+<ol>
+<li><p>文件大小不同</p>
+<p> export 导出的镜像文件体积小于 save 保存的镜像</p>
+</li>
+<li><p>是否可以对镜像重命名</p>
+<p> docker import 可以为镜像指定新名称</p>
+<p> docker load 不能对载入的镜像重命名</p>
+</li>
+<li><p>是否可以同时将多个镜像打包到一个文件中</p>
+<p> docker export 不支持</p>
+<p> docker save 支持</p>
+</li>
+<li><p>是否包含镜像历史</p>
+<p> export 导出（import 导入）是根据容器拿到的镜像，再导入时会丢失镜像所有的历史记录和元数据信息（即仅保存容器当时的快照状态），所以无法进行回滚操作。</p>
+<p> save 保存（load 加载）的镜像，没有丢失镜像的历史，可以回滚到之前的层（layer）。</p>
+</li>
+<li><p>应用场景不同</p>
+<p> docker export 的应用场景：主要用来制作基础镜像，比如我们从一个 ubuntu 镜像启动一个容器，然后安装一些软件和进行一些设置后，使用 docker export 保存为一个基础镜像。然后，把这个镜像分发给其他人使用，比如作为基础的开发环境。</p>
+<p> docker save 的应用场景：如果我们的应用是使用 docker-compose.yml 编排的多个镜像组合，但我们要部署的客户服务器并不能连外网。这时就可以使用 docker save 将用到的镜像打个包，然后拷贝到客户服务器上使用 docker load 载入。</p>
+</li>
+</ol>
+<h3 id="完整文件"><a href="#完整文件" class="headerlink" title="完整文件"></a><strong>完整文件</strong></h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/ubuntu</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash">	apt update \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; apt install -y ca-certificates \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">mv</span> /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.bak \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;\nTypes: deb\nURIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports\nSuites: noble noble-updates noble-backports\nComponents: main restricted universe multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\n# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释\n# Types: deb-src\n# URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports\n# Suites: noble noble-updates noble-backports\n# Components: main restricted universe multiverse\n# Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\n# 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换\nTypes: deb\nURIs: http://ports.ubuntu.com/ubuntu-ports/\nSuites: noble-security\nComponents: main restricted universe multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\n# Types: deb-src\n# URIs: http://ports.ubuntu.com/ubuntu-ports/\n# Suites: noble-security\n# Components: main restricted universe multiverse\n# Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\n# 预发布软件源，不建议启用\n\n# Types: deb\n# URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports\n# Suites: noble-proposed\n# Components: main restricted universe multiverse\n# Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\n# # Types: deb-src\n# # URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports\n# # Suites: noble-proposed\n# # Components: main restricted universe multiverse\n# # Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n&quot;</span> &gt;&gt; /etc/apt/sources.list.d/ubuntu.sources \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; apt update &amp;&amp; apt upgrade -y</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash">	apt-get install -y curl \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; curl -fsSL https://deb.nodesource.com/setup_lts.x -o ./nodesource_setup.sh \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; bash ./nodesource_setup.sh \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs git</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash">	npm config <span class="built_in">set</span> registry https://registry.npmmirror.com \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; npm install hexo-cli -g \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">echo</span> <span class="string">&#x27;PATH=&quot;$PATH:./node_modules/.bin&quot;&#x27;</span> &gt;&gt; ./.profile \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; npm install hexo-deployer-git --save</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> .gitconfig ./</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> help.md ./help.md</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> .ssh ./.ssh</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;PATH=&quot;$PATH:./node_modules/.bin&quot;&#x27;</span> &gt;&gt; ./.profile \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;#!/bin/sh\nset -e\n\n# This script get the latest (hopefully) version of neo-vim and make &#x27;~/.config/nvim&#x27;, &#x27;~/.config/nvim/lua&#x27; folder, \n# along with an empty &#x27;~/.config/nvim/init.lua&#x27; file.  \n\napt install -y software-properties-common dirmngr apt-transport-https lsb-release ca-certificates\nadd-apt-repository ppa:neovim-ppa/stable -y \napt update \napt install -y neovim \nmkdir -p ~/.config/nvim \n&quot;</span> &gt;&gt; ./get_neovim.sh \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">chmod</span> +x get_neovim.sh \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;alias hxc=&#x27;hexo clean&#x27; \nalias hxg=&#x27;hexo generate&#x27; \nalias blog=&#x27;cd /blog &amp;&amp; pwd&#x27; \nalias hxd=&#x27;blog &amp;&amp; hexo clean &amp;&amp; hexo deploy &amp;&amp; cd -&#x27; \nalias hxs=&#x27;blog &amp;&amp; hxc &amp;&amp; hxg &amp;&amp; hexo server &amp;&amp; cd -&#x27; \nalias blogmd=&#x27;blog &amp;&amp; cd source/_posts &amp;&amp; pwd&#x27; \n&quot;</span> &gt;&gt; ./.bashrc \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;Host github.com\nHostname github.com\nPreferredAuthentications publickey\nIdentityFile ~/.ssh/github\nUser git\n&quot;</span> &gt; ./.ssh/config \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">chown</span> -R ubuntu:ubuntu .</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> [ <span class="string">&quot;/blog&quot;</span> ]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">USER</span> ubuntu</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/11/03/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="正则表达式">
+                  <i class="fa fa-angle-left"></i> 正则表达式
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">G!</span>
+  </div>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.js" integrity="sha256-+2+qOqR8CKoHh/AsVR9k2qaDBKWjYNC2nozhYmv5j9k=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+<script type="module" src="/js/customize/main.js"></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
