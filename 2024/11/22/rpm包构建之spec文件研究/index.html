@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="初工作时常用到rpm包，不妨看看它是怎么构建的。而且它可以通过CPack与CMake无缝衔接，可以窥见稍大一些的项目都是怎么组织构建的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rpm包构建之spec文件研究">
+<meta property="og:url" content="https://wenconggu.github.io/2024/11/22/rpm%E5%8C%85%E6%9E%84%E5%BB%BA%E4%B9%8Bspec%E6%96%87%E4%BB%B6%E7%A0%94%E7%A9%B6/index.html">
+<meta property="og:site_name" content="G&#39;s Essays">
+<meta property="og:description" content="初工作时常用到rpm包，不妨看看它是怎么构建的。而且它可以通过CPack与CMake无缝衔接，可以窥见稍大一些的项目都是怎么组织构建的。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-22T17:19:28.000Z">
+<meta property="article:modified_time" content="2024-11-23T17:05:47.671Z">
+<meta property="article:author" content="G!">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/11/22/rpm%E5%8C%85%E6%9E%84%E5%BB%BA%E4%B9%8Bspec%E6%96%87%E4%BB%B6%E7%A0%94%E7%A9%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wenconggu.github.io/2024/11/22/rpm%E5%8C%85%E6%9E%84%E5%BB%BA%E4%B9%8Bspec%E6%96%87%E4%BB%B6%E7%A0%94%E7%A9%B6/","path":"2024/11/22/rpm包构建之spec文件研究/","title":"rpm包构建之spec文件研究"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>rpm包构建之spec文件研究 | G's Essays</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">G's Essays</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">20</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">44</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#rpm%E5%8C%85%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">rpm包结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B6%E4%BD%9Crpm%E5%8C%85%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">制作rpm包项目结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BUILDROOT"><span class="nav-number">2.1.</span> <span class="nav-text">BUILDROOT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4"><span class="nav-number">2.2.</span> <span class="nav-text">命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spec%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">Spec文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Preamble-Items"><span class="nav-number">3.1.</span> <span class="nav-text">Preamble Items</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Body-Items"><span class="nav-number">3.2.</span> <span class="nav-text">Body Items</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scriptlets"><span class="nav-number">3.3.</span> <span class="nav-text">Scriptlets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8"><span class="nav-number">3.4.</span> <span class="nav-text">注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%9C%89%E7%94%A8%E7%9A%84%E5%AE%8F"><span class="nav-number">4.</span> <span class="nav-text">一些有用的宏</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="G!"
+      src="/../image/about/Tom.jpeg">
+  <p class="site-author-name" itemprop="name">G!</p>
+  <div class="site-description" itemprop="description">You're reading some of my jottings.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/11/22/rpm%E5%8C%85%E6%9E%84%E5%BB%BA%E4%B9%8Bspec%E6%96%87%E4%BB%B6%E7%A0%94%E7%A9%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../image/about/Tom.jpeg">
+      <meta itemprop="name" content="G!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="G's Essays">
+      <meta itemprop="description" content="You're reading some of my jottings.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="rpm包构建之spec文件研究 | G's Essays">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          rpm包构建之spec文件研究
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-11-22 17:19:28" itemprop="dateCreated datePublished" datetime="2024-11-22T17:19:28+00:00">2024-11-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-23 17:05:47" itemprop="dateModified" datetime="2024-11-23T17:05:47+00:00">2024-11-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>初工作时常用到rpm包，不妨看看它是怎么构建的。而且它可以通过CPack与CMake无缝衔接，可以窥见稍大一些的项目都是怎么组织构建的。</p>
+<span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://docs.redhat.com/zh-cn/documentation/red_hat_enterprise_linux/7/pdf/rpm_packaging_guide/Red_Hat_Enterprise_Linux-7-RPM_Packaging_Guide-zh-CN.pdf">rpm打包指南</a></p>
+<p>软件包管理工具rpm，和rpm包的制作。</p>
+<h2 id="rpm包结构"><a href="#rpm包结构" class="headerlink" title="rpm包结构"></a>rpm包结构</h2><p>RPM 软件包是包含其它文件和元数据的文件（系统所需文件的信息）。</p>
+<p>具体地，RPM 软件包由 cpio 归档组成。cpio归档除了程序文件，还包含RPM 标头（软件包元数据），rpm 软件包管理器使用此元数据来确定依赖项、安装文件的位置和其他信息。</p>
+<p>rpm包分为两种SRPM和RPM，除了程序文件和cpio归档，二者的不同之处在于：</p>
+<ul>
+<li>SRPM 包含源代码和 SPEC 文件，也可以包括补丁文件</li>
+<li>二进制 RPM 包含构建得到的二进制文件</li>
+</ul>
+<h2 id="制作rpm包项目结构"><a href="#制作rpm包项目结构" class="headerlink" title="制作rpm包项目结构"></a>制作rpm包项目结构</h2><p>制作一个rpm的项目结构如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">目录</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">BUILD</td>
+<td align="center">%build阶段构建的根目录，默认的%setup就是将压缩包文件复制到这里。</td>
+</tr>
+<tr>
+<td align="center">RPMS</td>
+<td align="center">一级子目录是架构，二级子目录就是二进制rpm包</td>
+</tr>
+<tr>
+<td align="center">SOURCES*</td>
+<td align="center">构建过程中的源代码和布丁，<strong>注意，rpm包构建的源代码必须是打包压缩文件</strong>，使用rpmbuild时的最开始查找源文件就在这个目录下。</td>
+</tr>
+<tr>
+<td align="center">SPECS</td>
+<td align="center">在此目录下查找spec文件</td>
+</tr>
+<tr>
+<td align="center">SRPMS</td>
+<td align="center">如果不生成二进制rpm时，就生成srpm，在此目录下。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>*<strong>注意，rpm包构建的源代码必须是打包压缩文件</strong>，存放在SOURCES目录下，这样更方便使用内置宏的各种默认值，因为rpmbuild会自动地创建一些对应的目录，使用压缩包会自动处理这些。也许可以直接把源码和目录结构放在BUILD中，但是没必要。</p>
+<p>更新以补丁的形式发布。</p>
+</blockquote>
+<h3 id="BUILDROOT"><a href="#BUILDROOT" class="headerlink" title="BUILDROOT"></a>BUILDROOT</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">BUILDROOT*</td>
+<td align="center">运行rpmbuild命令之后会自动创建，一级子目录会是rpm版本信息结合CPU架构或noarch，二级子目录会是一个linux环境的fs，在%install过程中会在这个二级子目录中模拟真实运行的linux主机的目录，以此来定义安装等行为。二级子目录使用变量<code>$RPM_BUILD_ROOT</code>或者宏<code>%&#123;buildroot&#125;</code>引用，它模拟了最终用户的文件系统。定义为<code>%&#123;_buildrootdir&#125;/%&#123;name&#125;-%&#123;version&#125;-%&#123;release&#125;.%&#123;_arch&#125;</code>，其中<code>%&#123;_buildrootdir&#125;</code>就是这个BUILD目录。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>*注意，上面的描述是基于ubuntu构建的，而且redhat官网也是这么说的。</p>
+<p>但是，在fedora上观察到了不同的行为（是我自己翻rpmbuild的输出看的，也许不准？），即BUILDROOT创建为BUILD的一个二级子目录，比如解压源代码后得到目录project-build，BUILDROOT就在这个目录下，且BUILDROOT就是模拟用户fs环境，在打包完成后会自动删除。<br>但是不重要，只要使用默认宏就不许关注具体位置，理解工作原理，即使用一个目录模拟最终用户文件系统这个逻辑就行。</p>
+</blockquote>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><p>需要安装软件包：<code>yum install rpmdevtools</code></p>
+<p>创建工作区：<code>rpmdev-setuptree</code></p>
+<p>创建spec文件模版：<code>rpmdev-newspec</code></p>
+<p>构建：<code>rpmbuild -bb xxx.spec</code></p>
+<h2 id="Spec文件"><a href="#Spec文件" class="headerlink" title="Spec文件"></a>Spec文件</h2><p>Sepc文件分为三部分：preamble items，正文，Scriptlets，每个部分又分为几个阶段。最重要的是正文中的内容。</p>
+<h3 id="Preamble-Items"><a href="#Preamble-Items" class="headerlink" title="Preamble Items"></a>Preamble Items</h3><p>定义rpm的一些基本属性，有很多，比如Name, Version, Release, License, URL等。挑一些比较有实质影响的：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">描述内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Source0</td>
+<td align="center">源代码路径，或者url，比如<code>%&#123;name&#125;-boost-%&#123;version&#125;.tar.gz</code>，可以添加更多，比如<code>Source1</code>,<code>Source2</code>,etc. 也可以使用Source RPM</td>
+</tr>
+<tr>
+<td align="center">Patch0</td>
+<td align="center">补丁，类似于Source0</td>
+</tr>
+<tr>
+<td align="center">BuildArch</td>
+<td align="center">软件包的架构依赖</td>
+</tr>
+<tr>
+<td align="center">BuildRequires</td>
+<td align="center">构建阶段需要目标机器上安装的软件包，比如gcc</td>
+</tr>
+<tr>
+<td align="center">Requires</td>
+<td align="center">安装本rpm包的依赖软件包，比如python</td>
+</tr>
+</tbody></table>
+<h3 id="Body-Items"><a href="#Body-Items" class="headerlink" title="Body Items"></a>Body Items</h3><table>
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">任务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>%description</code></td>
+<td align="center">RPM 中打包的软件的完整描述，可跨越多行，并且可以分为几个段落</td>
+</tr>
+<tr>
+<td align="center"><code>%prep</code></td>
+<td align="center">用于准备要构建的软件的命令或一系列命令，例如，在 Source0 中解压缩存档，通常使用宏<code>%setup -q</code>就足够了，自动解压代码到<code>%&#123;_builddir&#125;</code>下，也可以包含shell脚本</td>
+</tr>
+<tr>
+<td align="center"><code>%build</code></td>
+<td align="center">正常的编译阶段，比如gcc编译，比如将java、python等编译为字节码，工作目录是<code>%&#123;_builddir&#125;</code>，即BUILD</td>
+</tr>
+<tr>
+<td align="center"><code>%install</code>*</td>
+<td align="center">安装软件包，可能是%build阶段生成的机器码，也可能是一些脚本，简而言之就是把相关程序从 <code>%&#123;_builddir&#125;</code> （构建发生位置）复制到<code>%buildroot</code> 目录（其中包含要打包文件的目录结构），使用<code>rpm -ivh</code>安装软件包时也会在用户机器上对应在BUILDROOT的实际文件系统中运行</td>
+</tr>
+<tr>
+<td align="center"><code>%check</code></td>
+<td align="center">用于测试软件的命令或一系列命令。这通常包括单元测试等内容，不常用</td>
+</tr>
+<tr>
+<td align="center"><code>%files</code></td>
+<td align="center">将在最终用户系统中安装的文件列表，它会检查在%install中安装了的但是没有使用%files描述的文件。<code>rpm -ql</code>命令查看</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>*查看“注”部分讨论</p>
+</blockquote>
+<h3 id="Scriptlets"><a href="#Scriptlets" class="headerlink" title="Scriptlets"></a>Scriptlets</h3><p>定义了一组在安装或删除软件包之前或之后执行的 RPM 指令，包括：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Scriptlet</th>
+<th align="center">执行时机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>%pretrans</code></td>
+<td align="center">在安装或删除任何软件包之前执行</td>
+</tr>
+<tr>
+<td align="center"><code>%pre</code></td>
+<td align="center">在目标系统上安装软件包之前执行</td>
+</tr>
+<tr>
+<td align="center"><code>%post</code></td>
+<td align="center">仅在目标系统上安装软件包后执行</td>
+</tr>
+<tr>
+<td align="center"><code>%preun</code></td>
+<td align="center">在从目标系统卸载软件包前执行</td>
+</tr>
+<tr>
+<td align="center"><code>%postun</code></td>
+<td align="center">在软件包从目标系统卸载后执行</td>
+</tr>
+<tr>
+<td align="center"><code>%posttrans</code></td>
+<td align="center">在事务结束时执行</td>
+</tr>
+</tbody></table>
+<h3 id="注"><a href="#注" class="headerlink" title="注"></a>注</h3><p>就这么简单。在工程目录RPMS或者SRPMS下得到rpm后安装，所有的行为会按照spec文件的指令执行。</p>
+<p>%build阶段也许太麻烦，当然可以直接编译好，直接讲二进制文件打包到rpm中即可，就无需build了。当然很麻烦。</p>
+<p>遗留小问题：</p>
+<ul>
+<li><p>build阶段工作目录到底是什么？</p>
+<ul>
+<li>默认是BUILD目录，可以cd到其他文件夹下，比如虚拟用户的文件系统BUILDROOT中。</li>
+</ul>
+</li>
+<li><p>%setup宏到底会将文件复制到什么目录下？</p>
+<ul>
+<li>BUILD目录中。</li>
+</ul>
+</li>
+<li><p>？？？%install阶段“这仅在创建软件包时运行，而不是当最终用户安装软件包时。”是翻译错误吧？要不然真就“乌云”了。</p>
+<ul>
+<li>没翻译错，英文也是这么说的，但是很奇怪，在最终用户安装rpm包时的安装动作的确是按照%install中的指令执行的。如若不然，不知道在哪里指定安装阶段的行为，当然Scriptlets更是不涉及。暂时找不到其他资料。暂时先说服自己就当是安装时执行的命令，不必再浪费时间了。</li>
+</ul>
+</li>
+</ul>
+<p>就这些问题了，安心。</p>
+<p>整个过程是很清晰的，能够满足软件包管理的需求。</p>
+<h2 id="一些有用的宏"><a href="#一些有用的宏" class="headerlink" title="一些有用的宏"></a>一些有用的宏</h2><p>全部的宏使用<code>rpm --showrc</code>查看。在<code>~/.rpmmacros</code>文件中也可查看一些，不建议修改这个文件。宏的默认值也是可以被修改的，用户也可以自定义宏并使用。</p>
+<table>
+<thead>
+<tr>
+<th align="center">宏</th>
+<th align="center">值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>%&#123;_sysconfdir&#125;</code></td>
+<td align="center"><code>/etc</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_prefix&#125;</code></td>
+<td align="center"><code>/usr</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_exec_prefix&#125;</code></td>
+<td align="center"><code>%&#123;_prefix&#125;</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_bindir&#125;</code></td>
+<td align="center"><code>%&#123;_exec_prefix&#125;/bin</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_lib&#125;</code></td>
+<td align="center"><code>lib (lib64 on 64bit systems)</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_libdir&#125;</code></td>
+<td align="center"><code>%&#123;_exec_prefix&#125;/%&#123;_lib&#125;</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_libexecdir&#125;</code></td>
+<td align="center"><code>%&#123;_exec_prefix&#125;/libexec</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_sbindir&#125;</code></td>
+<td align="center"><code>%&#123;_exec_prefix&#125;/sbin</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_sharedstatedir&#125;</code></td>
+<td align="center"><code>/var/lib</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_datadir&#125;</code></td>
+<td align="center"><code>%&#123;_prefix&#125;/share</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_includedir&#125;</code></td>
+<td align="center"><code>%&#123;_prefix&#125;/include</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_oldincludedir&#125;</code></td>
+<td align="center"><code>/usr/include</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_infodir&#125;</code></td>
+<td align="center"><code>/usr/share/info</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_mandir&#125;</code></td>
+<td align="center"><code>/usr/share/man</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_localstatedir&#125;</code></td>
+<td align="center"><code>/var</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_initddir&#125;</code></td>
+<td align="center"><code>%&#123;_sysconfdir&#125;/rc.d/init.d </code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_topdir&#125;</code></td>
+<td align="center"><code>%&#123;getenv:HOME&#125;/rpmbuild</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_builddir&#125;</code></td>
+<td align="center"><code>%&#123;_topdir&#125;/BUILD</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_rpmdir&#125;</code></td>
+<td align="center"><code>%&#123;_topdir&#125;/RPMS</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_sourcedir&#125;</code></td>
+<td align="center"><code>%&#123;_topdir&#125;/SOURCES</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_specdir&#125;</code></td>
+<td align="center"><code>%&#123;_topdir&#125;/SPECS</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_srcrpmdir&#125;</code></td>
+<td align="center"><code>%&#123;_topdir&#125;/SRPMS</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_buildrootdir&#125;</code></td>
+<td align="center"><code>%&#123;_topdir&#125;/BUILDROOT</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_var&#125;</code></td>
+<td align="center"><code>/var</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_tmppath&#125;</code></td>
+<td align="center"><code>%&#123;_var&#125;/tmp</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_usr&#125;</code></td>
+<td align="center"><code>/usr</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_usrsrc&#125;</code></td>
+<td align="center"><code>%&#123;_usr&#125;/src</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;_docdir&#125;</code></td>
+<td align="center"><code>%&#123;_datadir&#125;/doc</code></td>
+</tr>
+<tr>
+<td align="center"><code>%&#123;buildroot&#125;</code></td>
+<td align="center"><code>%&#123;_buildrootdir&#125;/%&#123;name&#125;-%&#123;version&#125;-%&#123;release&#125;.%&#123;_arch&#125;</code></td>
+</tr>
+<tr>
+<td align="center"><code>$RPM_BUILD_ROOT</code></td>
+<td align="center"><code>%&#123;buildroot&#125;</code></td>
+</tr>
+</tbody></table>
+<p>完</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/11/03/%E5%B0%86hexo%E8%BD%AC%E7%A7%BB%E5%88%B0docker%E4%B8%AD/" rel="prev" title="将hexo转移到docker中">
+                  <i class="fa fa-angle-left"></i> 将hexo转移到docker中
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/11/22/Makefile%E5%B0%8F%E6%80%BB%E7%BB%93/" rel="next" title="Makefile小总结">
+                  Makefile小总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">G!</span>
+  </div>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.js" integrity="sha256-+2+qOqR8CKoHh/AsVR9k2qaDBKWjYNC2nozhYmv5j9k=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+<script type="module" src="/js/customize/main.js"></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>

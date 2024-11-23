@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="初学时的草稿型笔记，杂乱地记录下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NeoVim学习笔记">
+<meta property="og:url" content="https://wenconggu.github.io/2024/11/22/vim%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="G&#39;s Essays">
+<meta property="og:description" content="初学时的草稿型笔记，杂乱地记录下。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-22T17:25:06.000Z">
+<meta property="article:modified_time" content="2024-11-22T17:37:12.184Z">
+<meta property="article:author" content="G!">
+<meta property="article:tag" content="NeoVim">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wenconggu.github.io/2024/11/22/vim%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wenconggu.github.io/2024/11/22/vim%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","path":"2024/11/22/vim学习笔记/","title":"NeoVim学习笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>NeoVim学习笔记 | G's Essays</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">G's Essays</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi~ :)</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">20</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">44</span></a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration"><span class="nav-number">1.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-Paths"><span class="nav-number">2.</span> <span class="nav-text">Standard Paths</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux%E7%9A%84XDG%EF%BC%88X-Desktop-Group%EF%BC%89%E5%9F%BA%E6%9C%AC%E7%9B%AE%E5%BD%95%E8%A7%84%E8%8C%83"><span class="nav-number">3.</span> <span class="nav-text">linux的XDG（X Desktop Group）基本目录规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E8%A7%81%E5%90%8D%E7%9F%A5%E4%B9%89%E7%AC%A6%E5%8F%B7"><span class="nav-number">4.</span> <span class="nav-text">非见名知义符号</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number"></span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">标识符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BD%AE%E6%8D%A2%E7%BC%93%E5%86%B2%E5%8C%BA%E3%80%82"><span class="nav-number"></span> <span class="nav-text">轮换缓冲区。</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="G!"
+      src="/../image/about/Tom.jpeg">
+  <p class="site-author-name" itemprop="name">G!</p>
+  <div class="site-description" itemprop="description">You're reading some of my jottings.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/aakashi" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;aakashi" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2806933728@qq.com" title="E-Mail → mailto:2806933728@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wenconggu.github.io/2024/11/22/vim%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../image/about/Tom.jpeg">
+      <meta itemprop="name" content="G!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="G's Essays">
+      <meta itemprop="description" content="You're reading some of my jottings.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="NeoVim学习笔记 | G's Essays">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NeoVim学习笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-11-22 17:25:06 / Modified: 17:37:12" itemprop="dateCreated datePublished" datetime="2024-11-22T17:25:06+00:00">2024-11-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>初学时的草稿型笔记，杂乱地记录下。</p>
+<span id="more"></span>
+
+
+
+<p>neovim</p>
+<p>cmd mode: %s&#x2F;pattern&#x2F;new&#x2F;g 表示替换：s-&gt;substitution g-&gt;global</p>
+<p>help命令：:h cmd, or :h ‘setopt’</p>
+<p>lua调用vimscript：vim.cmd “set number”</p>
+<h2 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h2><p>User configuration and data files are found in standard base-directories (see also $NVIM_APPNAME). Note in particular:</p>
+<ul>
+<li>Use <code>$XDG_CONFIG_HOME/nvim/init.vim</code> instead of <code>.vimrc</code> for your config.</li>
+<li>Use <code>$XDG_CONFIG_HOME/nvim</code> instead of <code>.vim</code> to store configuration files.</li>
+<li>Use <code>$XDG_STATE_HOME/nvim/shada/main.shada</code> instead of <code>.viminfo</code> for persistent session information. shada</li>
+</ul>
+<p>Note: 用<code>init.lua</code>和<code>init.vim</code>都可，不过一个用lua语法，一个用vim的专用语法。建议用<code>init.lua</code>。</p>
+<h2 id="Standard-Paths"><a href="#Standard-Paths" class="headerlink" title="Standard Paths"></a>Standard Paths</h2><p>Nvim stores configuration, data, and logs in standard locations. Plugins are<br>strongly encouraged to follow this pattern also. Use stdpath() to get the<br>paths.</p>
+<p>The “base” (root) directories conform to the XDG Base Directory Specification.<br><a target="_blank" rel="noopener" href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html</a></p>
+<p>The <code>$XDG_CONFIG_HOME</code>, <code>$XDG_DATA_HOME</code>, <code>$XDG_RUNTIME_DIR</code>, <code>$XDG_STATE_HOME</code>, <code>$XDG_CACHE_HOME</code>, <code>$XDG_CONFIG_DIRS</code> and <code>$XDG_DATA_DIRS</code> environment variables are used if defined, else default values (listed below) are used.</p>
+<ul>
+<li>CONFIG DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_CONFIG_HOME </code>           Nvim: stdpath(“config”)</p>
+<pre><code>Unix:         `~/.config`                   `~/.config/nvim`
+
+Windows:      `~/AppData/Local`             `~/AppData/Local/nvim`
+</code></pre>
+<ul>
+<li>DATA DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_DATA_HOME</code>              Nvim: stdpath(“data”)</p>
+<pre><code>Unix:         `~/.local/share`              `~/.local/share/nvim`
+
+Windows:      `~/AppData/Local`             `~/AppData/Local/nvim-data`
+</code></pre>
+<ul>
+<li>RUN DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_RUNTIME_DIR</code>            Nvim: stdpath(“run”)</p>
+<pre><code>Unix:         `/tmp/nvim.user/xxx`          `/tmp/nvim.user/xxx`
+
+Windows:      `$TMP/nvim.user/xxx`          `$TMP/nvim.user/xxx`
+</code></pre>
+<ul>
+<li>STATE DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_STATE_HOME</code>             Nvim: stdpath(“state”)</p>
+<pre><code>Unix:         `~/.local/state`              `~/.local/state/nvim`
+Windows:      `~/AppData/Local`             `~/AppData/Local/nvim-data`
+</code></pre>
+<ul>
+<li>CACHE DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_CACHE_HOME</code>             Nvim: stdpath(“cache”)</p>
+<pre><code>Unix:         `~/.cache`                    `~/.cache/nvim`
+
+Windows:      `~/AppData/Local/Temp`        `~/AppData/Local/Temp/nvim-data`
+</code></pre>
+<ul>
+<li>LOG FILE (DEFAULT)</li>
+</ul>
+<p><code>$NVIM_LOG_FILE</code>              Nvim: stdpath(“log”)&#x2F;log</p>
+<pre><code>Unix:         `~/.local/state/nvim`         `~/.local/state/nvim/log`
+
+Windows:      `~/AppData/Local/nvim-data`   `~/AppData/Local/nvim-data/log`
+</code></pre>
+<blockquote>
+<p>Note that stdpath(“log”) is currently an alias for stdpath(“state”).</p>
+</blockquote>
+<ul>
+<li>ADDITIONAL CONFIGS DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_CONFIG_DIRS</code>            Nvim: stdpath(“config_dirs”)</p>
+<pre><code>Unix:         `/etc/xdg/`                   `/etc/xdg/nvim`
+
+Windows:      `Not applicable`              `Not applicable`
+</code></pre>
+<ul>
+<li>ADDITIONAL DATA DIRECTORY (DEFAULT)</li>
+</ul>
+<p><code>$XDG_DATA_DIRS</code>              Nvim: stdpath(“data_dirs”)</p>
+<pre><code>Unix:         `/usr/local/share`            `/usr/local/share/nvim`
+              `/usr/share`                  `/usr/share/nvim`
+
+Windows:      Not applicable              Not applicable
+</code></pre>
+<h2 id="linux的XDG（X-Desktop-Group）基本目录规范"><a href="#linux的XDG（X-Desktop-Group）基本目录规范" class="headerlink" title="linux的XDG（X Desktop Group）基本目录规范"></a>linux的XDG（X Desktop Group）基本目录规范</h2><p>XDG基本目录规范基于以下概念：</p>
+<ul>
+<li>有一个用于写入特定用户数据文件的基本目录: <code>$XDG_DATA_HOME</code></li>
+<li>有一个用于写入特定用户的配置文件基本目录: <code>$XDG_CONFIG_HOME</code></li>
+<li>有一组首选的基本数据目录: <code>$XDG_DATA_DIRS</code></li>
+<li>有一组首选的基本配置目录: <code>$XDG_CONFIG_DIRS</code></li>
+<li>有一个用于写入用户特定的非必要（缓存）数据的基本目录: <code>$XDG_CACHE_HOME</code></li>
+<li>有一个用户放置特定于用户的运行时文件和其他文件对象: <code>$XDG_RUNTIME_DIR</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">XDG环境变量</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>$XDG_DATA_HOME</code></td>
+<td align="center"><code>$HOME/.local/share</code></td>
+</tr>
+<tr>
+<td align="center"><code>$XDG_CONFIG_HOME</code></td>
+<td align="center"><code>$HOME/.config</code></td>
+</tr>
+<tr>
+<td align="center"><code>$XDG_DATA_DIRS</code></td>
+<td align="center"><code>/usr/local/share/:/usr/share/</code></td>
+</tr>
+<tr>
+<td align="center"><code>$XDG_CONFIG_DIRS</code></td>
+<td align="center"><code>/etc/xdg</code></td>
+</tr>
+<tr>
+<td align="center"><code>$XDG_CACHE_HOME</code></td>
+<td align="center"><code>$HOME/.cache</code></td>
+</tr>
+<tr>
+<td align="center"><code>$XDG_RUNTIME_DIR</code></td>
+<td align="center">用户特定的不重要的运行时文件和其他文件对象（例如套接字，命名管道…）存储的基本目录。该目录必须由用户拥有，并且他必须是唯一具有读写访问权限的目录。它的Unix访问模式必须是0700。</td>
+</tr>
+</tbody></table>
+<p>参考规范</p>
+<table>
+<thead>
+<tr>
+<th align="center">文件</th>
+<th align="center">参考规范：subdir应该为软件名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">数据文件</td>
+<td align="center"><code>$datadir/subdir/filename</code></td>
+</tr>
+<tr>
+<td align="center">配置文件</td>
+<td align="center"><code>$confdir/subdir/filename</code></td>
+</tr>
+</tbody></table>
+<p><code>$config</code>默认为<code>～/.config:/etc</code></p>
+<p>命令：</p>
+<p>基本移动：<br>hjkl<br>gg&#x2F;G<br><Ctrl-u>&#x2F;<Ctrl-d> &#x3D; pageUp&#x2F;pagrDown half page<br><Ctrl-b>&#x2F;<Ctrl-f> &#x3D; full page<br>zz&#x2F;zt&#x2F;zb</p>
+<p>f: forward<br>b: backward<br>u: pageup<br>d: pagedown</p>
+<p>?反向查找</p>
+<h2 id="非见名知义符号"><a href="#非见名知义符号" class="headerlink" title="非见名知义符号"></a>非见名知义符号</h2><ul>
+<li>%</li>
+</ul>
+<p>跳转：跳到匹配的配对符（括号等）处<br>命令：range，所有行<br>寄存器：当前文件名，只用于put<br>跳转：{x}%表示跳转到当前文档百分之x的位置</p>
+<ul>
+<li>“</li>
+</ul>
+<p>寄存器：前缀，指定某次操作使用的寄存器<br>mark：上次离开这个文件的位置</p>
+<ul>
+<li>‘ or &#96;</li>
+</ul>
+<p>跳转：mark，标记位置</p>
+<ul>
+<li>.</li>
+</ul>
+<p>普通：重复上一次修改。宏中仅对最后一个修改有用。<br>命令模式：address，表示光标所在行<br>寄存器：上一次插入内容，只用于put<br>mark：上次修改的位置</p>
+<ul>
+<li>,</li>
+</ul>
+<p>查找：重复上一次的f查找（;用于F查找）!f查找用于本行查找！</p>
+<ul>
+<li>&amp;</li>
+</ul>
+<p>命令：重复上次:s操作</p>
+<ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>查找：当前所在WORD为{pattern}，等价于&#x2F;{pattern}，正向查找<br>range：使用上次可视区域</p>
+<ul>
+<li><h1 id=""><a href="#" class="headerlink" title=""></a></h1></li>
+</ul>
+<p>查找：当前所在WORD为{pattern}，等价于&#x2F;{pattern}，反向查找<br>寄存器：包含当前窗口能使用的文件名，只用于put</p>
+<ul>
+<li>:</li>
+</ul>
+<p>普通：√<br>寄存器：上一次执行的命令，只用于put</p>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标识</th>
+<th>读写者</th>
+<th>是否为只读</th>
+<th>包含的字符来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unnamed</td>
+<td><code>&quot;</code></td>
+<td>vim</td>
+<td>否</td>
+<td>最近一次的复制或删除操作 (<code>d</code>, <code>c</code>, <code>s</code>, <code>x</code>, <code>y</code>)</td>
+</tr>
+<tr>
+<td>Numbered</td>
+<td><code>0</code>至<code>9</code></td>
+<td>vim</td>
+<td>否</td>
+<td>寄存器 <code>0</code>: 最近一次复制。寄存器 <code>1</code>: 最近一次删除。寄存器 <code>2</code>: 倒数第二次删除，以此类推。对于寄存器 <code>1</code> 至 <code>9</code>，他们其实是只读的最多包含 9 个元素的队列。这里的队列即为数据类型 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">queue</a></td>
+</tr>
+<tr>
+<td>Small delete</td>
+<td><code>-</code></td>
+<td>vim</td>
+<td>否</td>
+<td>最近一次行内删除</td>
+</tr>
+<tr>
+<td>Named</td>
+<td><code>a</code>至<code>z</code>, <code>A</code>至<code>Z</code></td>
+<td>用户</td>
+<td>否</td>
+<td>如果你通过复制操作存储文本至寄存器 <code>a</code>，那么 <code>a</code> 中的文本就会被完全覆盖。如果你存储至 <code>A</code>，那么会将文本添加给寄存器 <code>a</code>，不会覆盖之前已有的文本</td>
+</tr>
+<tr>
+<td>Read-only</td>
+<td><code>:</code>与<code>.</code>和<code>%</code></td>
+<td>vim</td>
+<td>是</td>
+<td><code>:</code>: 最近一次使用的命令，<code>.</code>: 最近一次添加的文本，<code>%</code>: 当前的文件名</td>
+</tr>
+<tr>
+<td>Alternate buffer</td>
+<td><code>#</code></td>
+<td>vim</td>
+<td>否</td>
+<td>大部分情况下，这个寄存器是当前窗口中，上一次访问的缓冲区。请参阅 <code>:h alternate-file</code> 来获取更多帮助</td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>=</code></td>
+<td>用户</td>
+<td>否</td>
+<td>复制 VimL 代码时，这个寄存器用于存储代码片段的执行结果。比如，在插入模式下复制 <code>&lt;c-r&gt;=5+5&lt;cr&gt;</code>，那么这个寄存器就会存入 10</td>
+</tr>
+<tr>
+<td>Selection</td>
+<td><code>+</code>和<code>*</code></td>
+<td>vim</td>
+<td>否</td>
+<td><code>*</code> 和 <code>+</code> 是 <a href="#%E5%89%AA%E8%B4%B4%E6%9D%BF">剪贴板</a> 寄存器</td>
+</tr>
+<tr>
+<td>Drop</td>
+<td><code>~</code></td>
+<td>vim</td>
+<td>是</td>
+<td>最后一次拖拽添加至 Vim 的文本（需要 “+dnd” 支持，暂时只支持 GTK GUI。请参阅 <code>:help dnd</code> 及 <code>:help quote~</code>）</td>
+</tr>
+<tr>
+<td>Black hole</td>
+<td><code>_</code></td>
+<td>vim</td>
+<td>否</td>
+<td>一般称为黑洞寄存器。对于当前操作，如果你不希望在其他寄存器中保留文本，那就在命令前加上 <code>_</code>。比如，<code>&quot;_dd</code> 命令不会将文本放到寄存器 <code>&quot;</code>、<code>1</code>、<code>+</code> 或 <code>*</code> 中</td>
+</tr>
+<tr>
+<td>Last search pattern</td>
+<td><code>/</code></td>
+<td>vim</td>
+<td>否</td>
+<td>最近一次通过 <code>/</code>、<code>?</code> 或 <code>:global</code> 等命令调用的匹配条件</td>
+</tr>
+</tbody></table>
+<h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><ul>
+<li><Nul> : 0 &#x3D; CTRL-@ <Nul> </li>
+<li><BS> : 退格键 &#x3D; CTRL-H backspace </li>
+<li><Tab> : 制表符 &#x3D; CTRL-I , tab   Tab linefeed </li>
+<li><NL> : 换行符 &#x3D; CTRL-J , (用作 <Nul>)</li>
+<li><CR> : 回车符 &#x3D; CTRL-M , carriage-return <ul>
+<li><Return>  同 <CR> </li>
+<li><Enter>   同 <CR></li>
+</ul>
+</li>
+<li><Esc> : 转义 &#x3D; CTRL-[ , escape   <Esc></li>
+<li><lt> : 小于号 &#x3D; &lt; , <lt> </li>
+<li><Bslash> : 反斜杠 &#x3D; \ , backslash   <Bslash> </li>
+<li><Bar> : 竖杠 &#x3D; | , <Bar> </li>
+<li><CSI> : 命令序列引入 &#x3D; ALT-Esc , <CSI> </li>
+<li><EOL> : 行尾 (可以是 <CR>、<NL> 或 <CR><NL>，根据不同的系统和 ‘fileformat’ 而定)</li>
+<li>&lt;S-…&gt; : Shift＋键 &#x3D; shift , &lt;S- </li>
+<li>&lt;C-…&gt; : Control＋键 &#x3D; control , ctrl   &lt;C- </li>
+<li>&lt;M-…&gt; : Alt＋ 或 Meta＋键 , meta  alt   &lt;M- </li>
+<li>&lt;A-…&gt; :  同 &lt;M-…&gt; , &lt;A- </li>
+<li>&lt;D-…&gt; : Command＋键 (只用于 Macintosh) ,  &lt;D-</li>
+</ul>
+<p>操作符与命令补充</p>
+<ul>
+<li>gu &#x2F;gU &#x2F;g~  ：操作符，                转小写&#x2F;转大写&#x2F;翻转大小写</li>
+<li>J ：join，连接两行</li>
+<li><Ctrl-a> &#x2F;<Ctrl-x> ：增加数字&#x2F;减少数字</li>
+<li>g<Ctrl-A> ：创建递增序列</li>
+<li>&lt; &#x2F;&gt; ：左&#x2F;右缩进</li>
+</ul>
+<p>:f[ile][!] {name}       设置当前文件名为 {name}。可选的 ! 避免截短消息，就像<br>                         :file  那样。</p>
+<p><a target="_blank" rel="noopener" href="https://yianwillis.github.io/vimcdoc/doc/editing.html#editing.txt">https://yianwillis.github.io/vimcdoc/doc/editing.html#editing.txt</a></p>
+<p>:center|left|right 默认以80列</p>
+<p>:e[dit] {filename} 编辑文件</p>
+<p>buffer:</p>
+<p> buffer的三种状态：a：active，已加载到内存并显示，h：hidden，已加载到内存但未显示，i：inactive，未加载</p>
+<p> <code>hidden</code></p>
+<p> 一般修改后的buffer切换时要:bn!，此时变为h状态。选项hidden就是允许直接hide。</p>
+<p>:edit :e<br>:buffers :ls<br>:bn&#x2F;bp    切换：next&#x2F;previous&lt;C-^&gt;<br>:b[bufferno] &#x2F;b [buffername] 切换到指定buffer<br>:badd<br>:bd </p>
+<p>:bufdo {cmd} 对所有的buffer做cmd，多个cmd用管道符隔开，这里和Linux中含义不同</p>
+<p>:explorer :E 打开文件夹，这也是一个buffer</p>
+<p>:sp :split <C-W>s 水平分割，跟一个文件<br>:vs :vsplit <C-W>v 垂直分割 </p>
+<p>todo：尝试将alt&#x2F;option键+↑↓←→ ️改成像vs code中一样的移动，思路是剪切+粘贴</p>
+<p><strong>多窗口三个主题：buffer、window、tab，附加一个args，另外就是目录操作：netrw，文档P4336</strong><br>bufdo,windo,tabdo,argdo</p>
+<ul>
+<li>args<ul>
+<li>:args {filenames}</li>
+<li>:n[ext]</li>
+<li>:p[revious]</li>
+<li>:w(rite)n</li>
+<li>:w(rite)p<br>跳转：</li>
+<li>&#96;” 上次离开这个文件的位置</li>
+<li>&#96;. 上次修改的位置</li>
+<li>&#96;[A-Z] 大写字母对所有文件生效，小写mark对当前文件生效<br>动：</li>
+<li>argdo</li>
+</ul>
+</li>
+<li>window<br>增：<ul>
+<li>:new</li>
+<li>:vnew &#x3D; :vertical new</li>
+<li>:sp[plit] {filename}</li>
+<li>:vs[plit] {filename}<br>删：</li>
+<li>:clo[se] &#x3D; :q</li>
+<li>:on[ly]</li>
+<li>:hide<br>改：<br><C-W>系列命令</li>
+<li><C-W>w</li>
+<li><C-W>↑↓←→<br>动：</li>
+<li>windo<br>预览窗口：</li>
+<li>:pc[lose]</li>
+</ul>
+</li>
+<li>tab<br>增：<ul>
+<li>:tabe[dit] &#x3D; :tabnew</li>
+<li>:tab split<br>删：</li>
+<li>:tabc[lose]<br>改：</li>
+<li>:tabo[nly]</li>
+<li>:tabn[ext] &#x3D; gt（普通模式命令）</li>
+<li>:tabp[revious] &#x3D; gT（——）<br>查：</li>
+<li>:tabs<br>动：</li>
+<li>:tabd[o] {cmd} 可以用|连接多条命令</li>
+<li>:tab {Ex cmd} (eg. :tab h tab)</li>
+</ul>
+</li>
+<li>buffer<br>增：<ul>
+<li>:e[dit] {filename}</li>
+<li>:hide</li>
+<li>:b[uffer] {no&#x2F;filename}</li>
+<li>:sb[uffer] {no&#x2F;filename} 新窗口打开某个buffer </li>
+<li>:sbn&#x2F;sbp<br>删：</li>
+<li>:bd[elete] 区别 :bw[ipeout]<br>改：</li>
+<li>:bn[ext]</li>
+<li>:bp[revious]<br>查：</li>
+<li>:ls &#x3D; buffers</li>
+</ul>
+</li>
+<li>netrw<ul>
+<li>:Ex[plore]<br>跳转：<br>进入后。要回到浏览器，再用一次 “:edit .” 或”:Explore” “:Rexplore” 即可，按 &lt;CTRL‑O&gt;（回到之前的位置）也行。</li>
+<li><CR> 进入</li>
+<li>-或u或<C-O>返回<br>增：</li>
+<li>d 新建目录<br>删：</li>
+<li>D 删除<br>改：</li>
+<li>R 改名<br>查：</li>
+<li>o 水平新窗口打开</li>
+<li>v 垂直新窗口</li>
+<li>p preview-window</li>
+<li>t 使用新tab打开</li>
+<li>mb&#x2F;gb 建立&#x2F;转到bookmark</li>
+</ul>
+</li>
+</ul>
+<p>如果寄存器存放着诸如 <BS> 或其它特殊字符，这些字符就被解释成好像它们本来是从键<br>盘键入的。如果你不要这样解释 (你确实要在文本中插入 <BS>)，那么要命令 CTRL‑R<br>CTRL‑R {register}。</p>
+<ul>
+<li>u 列表外缓冲区 unlisted‑buffer 。</li>
+<li>% 当前缓冲区。</li>
+<li><h1 id="轮换缓冲区。"><a href="#轮换缓冲区。" class="headerlink" title="轮换缓冲区。"></a>轮换缓冲区。</h1></li>
+<li>a 激活缓冲区，缓冲区被加载且显示。</li>
+<li>h 隐藏缓冲区，缓冲区被加载但不显示。</li>
+<li>&#x3D; 只读缓冲区。</li>
+<li>‑ 不可改缓冲区，’modifiable’ 选项不置位。</li>
+<li><ul>
+<li>已修改缓冲区。</li>
+</ul>
+</li>
+</ul>
+<p>Path to a Vim configuration file. If unset, it will check for <code>$HOME/.vscodevimrc</code>, <code>$HOME/.vimrc</code>, <code>$HOME/_vimrc</code>, and <code>$HOME/.config/nvim/init.vim</code>, in that order.</p>
+<p>24</p>
+<p>想要输入真的<ESC>之类的字符串，可以用&lt;ESC&gt;</p>
+<p>&#x2F;查找之后普通模式下用n下一个，N上一个<br><strong>回到之前位置用<C-O>，新位置用<C-I></strong></p>
+<p>实际上还可以使用大写字母标记，这种标记是全局的，它们可以在任何文件中使用。</p>
+<p>:r {filename or !cmd} 提前内容</p>
+<p>R进入替换模式</p>
+<p><C-A>add<br><C-X>减</p>
+<p>键盘映射 n,i,v,o(操作符等待),c,x,t,l,s</p>
+<p>有七种映射存在</p>
+<ul>
+<li>用于普通模式: 输入命令时。</li>
+<li>用于可视模式: 可视区域高亮并输入命令时。</li>
+<li>用于选择模式: 类似于可视模式，但键入的字符对选择区进行替换。</li>
+<li>用于操作符等待模式: 操作符等待中 (“d”，”y”，”c” 等等之后)。<br>-下: omap‑info 。</li>
+<li>用于插入模式: 也用于替换模式。</li>
+<li>用于命令行模式: 输入 “:” 或 “&#x2F;“ 命令时。</li>
+<li>用于终端模式: 在 :terminal 缓冲区里输入时。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NeoVim/" rel="tag"><i class="fa fa-tag"></i> NeoVim</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/11/22/Makefile%E5%B0%8F%E6%80%BB%E7%BB%93/" rel="prev" title="Makefile小总结">
+                  <i class="fa fa-angle-left"></i> Makefile小总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/11/22/JavaScript%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/" rel="next" title="JavaScript学习心得">
+                  JavaScript学习心得 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">G!</span>
+  </div>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://gitee.com/aakashi" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="80" alpha="0.2" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.js" integrity="sha256-+2+qOqR8CKoHh/AsVR9k2qaDBKWjYNC2nozhYmv5j9k=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+<script type="module" src="/js/customize/main.js"></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+  
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
