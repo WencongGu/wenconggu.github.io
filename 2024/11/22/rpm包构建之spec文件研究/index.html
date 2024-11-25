@@ -30,7 +30,7 @@
 <meta property="og:description" content="初工作时常用到rpm包，不妨看看它是怎么构建的。而且它可以通过CPack与CMake无缝衔接，可以窥见稍大一些的项目都是怎么组织构建的。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-11-22T17:19:28.000Z">
-<meta property="article:modified_time" content="2024-11-23T17:05:47.671Z">
+<meta property="article:modified_time" content="2024-11-25T14:49:30.765Z">
 <meta property="article:author" content="G!">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -208,7 +208,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-23 17:05:47" itemprop="dateModified" datetime="2024-11-23T17:05:47+00:00">2024-11-23</time>
+      <time title="Modified: 2024-11-25 14:49:30" itemprop="dateModified" datetime="2024-11-25T14:49:30+00:00">2024-11-25</time>
     </span>
 
   
@@ -279,7 +279,7 @@
 </tbody></table>
 <blockquote>
 <p>*注意，上面的描述是基于ubuntu构建的，而且redhat官网也是这么说的。</p>
-<p>但是，在fedora上观察到了不同的行为（是我自己翻rpmbuild的输出看的，也许不准？），即BUILDROOT创建为BUILD的一个二级子目录，比如解压源代码后得到目录project-build，BUILDROOT就在这个目录下，且BUILDROOT就是模拟用户fs环境，在打包完成后会自动删除。<br>但是不重要，只要使用默认宏就不许关注具体位置，理解工作原理，即使用一个目录模拟最终用户文件系统这个逻辑就行。</p>
+<p>但是，在fedora上观察到了不同的行为（是我自己翻rpmbuild的输出看的，也许不准？），即BUILDROOT创建为BUILD的一个二级子目录，比如解压源代码后得到目录project-build，BUILDROOT就在这个目录下，且BUILDROOT就是模拟用户fs环境，在打包完成后会自动删除。<br>简而言之就是BUILDROOT的位置并不确定。没找到怎么修改相关宏的方法。但是文档中明确表示如果修改这些宏会导致不可预知的后果，最好还是使用默认值，不会太离谱。<br>但是不重要，只要使用默认宏就不许关注具体位置，理解工作原理，即使用一个目录模拟最终用户文件系统这个逻辑就行。</p>
 </blockquote>
 <h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><p>需要安装软件包：<code>yum install rpmdevtools</code></p>
 <p>创建工作区：<code>rpmdev-setuptree</code></p>
@@ -389,7 +389,7 @@
 <ul>
 <li><p>build阶段工作目录到底是什么？</p>
 <ul>
-<li>默认是BUILD目录，可以cd到其他文件夹下，比如虚拟用户的文件系统BUILDROOT中。</li>
+<li>默认是BUILD目录，通常会默认进入%setup解压源码得到的文件夹中。可以cd到其他文件夹下，比如虚拟用户的文件系统BUILDROOT中。</li>
 </ul>
 </li>
 <li><p>%setup宏到底会将文件复制到什么目录下？</p>

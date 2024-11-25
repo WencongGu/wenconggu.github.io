@@ -7,6 +7,11 @@ if (window.location.hostname != "wenconggu.github.io") {
 } else {
 	import("./upload.js")
 }
+
+
+import "./fancy.js";
+
+
 // alert(window.location.hostname=="localhost");
 
 // alert("main.js here");
