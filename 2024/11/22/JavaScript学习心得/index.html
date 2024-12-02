@@ -22,15 +22,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"wenconggu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="学习JS时的一些简单的思考，或者经过思考后获得的相对更深的理解">
+    <meta name="description" content="学JS随想录。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript学习心得">
 <meta property="og:url" content="https://wenconggu.github.io/2024/11/22/JavaScript%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/index.html">
 <meta property="og:site_name" content="G&#39;s Essays">
-<meta property="og:description" content="学习JS时的一些简单的思考，或者经过思考后获得的相对更深的理解">
+<meta property="og:description" content="学JS随想录。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-11-22T17:34:52.000Z">
-<meta property="article:modified_time" content="2024-11-23T17:13:43.202Z">
+<meta property="article:modified_time" content="2024-12-02T16:31:12.558Z">
 <meta property="article:author" content="G!">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
@@ -91,7 +91,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">20</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">44</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">20</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">45</span></a></li>
   </ul>
 </nav>
 
@@ -130,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -207,7 +207,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-23 17:13:43" itemprop="dateModified" datetime="2024-11-23T17:13:43+00:00">2024-11-23</time>
+      <time title="Modified: 2024-12-02 16:31:12" itemprop="dateModified" datetime="2024-12-02T16:31:12+00:00">2024-12-02</time>
     </span>
 
   
@@ -219,9 +219,39 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>学习JS时的一些简单的思考，或者经过思考后获得的相对更深的理解</p>
+    <div class="post-body" itemprop="articleBody"><p>学JS随想录。</p>
+<!-- 学习JS时的一些简单的思考，或者经过思考后获得的相对更深的理解 -->
+
 <span id="more"></span>
 
+<p>JS的函数式编程非常舒适，比python好很多，因为保留了<code>&#123;&#125;</code>，代码结构更加清晰，尤其是使用代码块儿的时候更加方便。</p>
+<p>被人诟病的地方我反正不大在意。</p>
+<p>整体设计的一致性很好，一个“对象”贯穿始终，连函数、类也是一个“对象”。当然有一些内部稍作区分的不完全一致，但这个可以讲清楚是JS引擎内部的特殊处理，这种不一致完全可以接受。又比如什么把<code>super()</code>当作关键字而非函数，能够讲清楚的，感觉十分舒心。</p>
+<p>原型链很重要，要花点时间熟悉，但是不难。不过感觉很好玩。</p>
+<p>但是JS把this指针又放任自流，就是说它不自动绑定到创建者，要花不少心思。原理参见<a target="_blank" rel="noopener" href="https://zh.javascript.info/reference-type">现代javascript教程-Reference Type</a></p>
+<p>学习过程中引入的“词法环境”的概念，感觉很有帮助，还有对闭包、变量作用域、匿名函数的讲解十分获益。</p>
+<p>promise的设计，还有任务队列这部分，花了点时间理解，对于异步编程的学习，很获益。</p>
+<p>JS十分强调异步编程，所以这块可以说很核心了。我也借此机会学习了不少同步、异步、多进程、多线程、单线程相关的一些知识，感觉触及到CS领域稍微又些门槛和质量的内容了，一感觉有收获，二心里很满足。</p>
+<p>异步编程很好用的<code>setTimeout</code>和<code>setInterval</code>函数。</p>
+<p><a target="_blank" rel="noopener" href="https://zh.javascript.info/currying-partials">柯里化（Currying）</a></p>
+<p>Symbolic type，很有趣，JS很多时候用于设置一些不暴露给用户的特性，感觉像是在解剖某个特定对象。第一次见还是在ruby里呢，但是ruby没深入看，在JS这儿才感到妙处。</p>
+<p>属性可配置getter&#x2F;setter，感觉是在配置元编程了。还有属性描述和属性标志符，新鲜玩意儿。</p>
+<p><a target="_blank" rel="noopener" href="https://zh.javascript.info/garbage-collection">垃圾回收算法</a>也稍有见面。</p>
+<p>还有很重要的一点，JS天然的与web交互的能力，算是触及到web领域的山脚了，感觉这是未来发展的热门领域。学的不亏！</p>
+<p>JS的几个不一致的地方：</p>
+<ul>
+<li><code>this</code>不能直接赋值</li>
+<li>原型的几个行为：<ul>
+<li><code>__proto__</code></li>
+<li>有时不能确定这个对象属性是引擎内部创建的还是继承自原型链顶部的Object</li>
+<li>内部类继承链有些默认行为的缺失</li>
+</ul>
+</li>
+</ul>
+<p>总体而言是让我十分舒服的语言，加上解释性语言中数一数二的性能，我感觉良好。</p>
+<blockquote>
+<p>真是很舒服的学习旅程，有好教材真的能把学习变成一件很让人感到享受的事。十分称赞<a target="_blank" rel="noopener" href="https://zh.javascript.info/">现代 JavaScript 教程</a>，中文互联网中少见的极高质量的教程，看完整个编程思想也有不小的进步。</p>
+</blockquote>
 
     </div>
 
