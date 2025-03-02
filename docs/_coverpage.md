@@ -1,11 +1,13 @@
-This is the cover page
+You're reading some of my jottings.
 
 <!-- _coverpage.md -->
-![logo](https://docsify.js.org/_media/icon.svg)
-# docsify <small>3.5</small>
+# Hi~ :)  <small>G's Essays</small>
+![logo](_posts/image/about/Tom_.png)
 
-![logo](https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8.png)[GitHub](https://github.com/docsifyjs/docsify/)
-![logo](https://github.githubassets.com/images/icons/emoji/unicode/2764.png?v8.png)[Get Started](README)
+<!-- ![logo](https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png?v8.png) -->
+[GitHub](https://github.com/)[Get Started](README)
+<!-- ![logo](https://github.githubassets.com/images/icons/emoji/unicode/2764.png?v8.png) -->
+
 
 <!-- background image -->
 

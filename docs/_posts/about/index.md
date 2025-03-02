@@ -17,14 +17,14 @@ May everything goes fine always.
 
 <!-- <img src="avatar.png" width="15%"> -->
 
-<img src="../image/about/Tom.jpeg" width="25%">
+<img src="_posts/image/about/Tom.jpeg" width="25%">
 
 <!-- | - | - | -->
 |NAME    |       the G!|
 |:-:|:-:|
 |MAJOR           |   Mathematics & Applied Mathematics|
 |MAIN INTEREST   |   AI, Pravicy-Preserving ML, DL Algorithms...|
-|SCHOOL  |       Hogwarts School of Witchcraft and Wizardry <img src="../image/about/Hogwarts.jpeg" width="15%"> |
+|SCHOOL  |       Hogwarts School of Witchcraft and Wizardry <img src="_posts/image/about/Hogwarts.jpeg" width="15%"> |
 |SKILLS  |       DL & ML & Pravicy Preserving: $\star\star\star\star\star$<br/>Python: $\star\star\star\star\star$<br/>Java: $\star\star\star\star$<br/>Docker: $\star\star\star\star\star$<br/>JavaScript: $\star\star\star\star\star$<br/>Nginx: $\star\star\star$<br/>|
 |OTHERS  |       C++, mySQL, Linux, Git: $\surd$<br/>DL &... by Python Mainly Using `pytorch`<br/>Federated Learning|
 <!-- |TEL     |       15139840269| -->
