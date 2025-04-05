@@ -1,9 +1,7 @@
 ---
 title: leetcode刷题小总结
 date: 2023-11-30 21:26:43
-tags: 
-    - Coding
-    - Algorithm
+tags: Coding, Algorithm
 mathjax: true
 ---
 

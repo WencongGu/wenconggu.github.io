@@ -1,9 +1,7 @@
 ---
 title: VNC+noVNC+Docker->Portable Desktop(Xfce4)
 date: 2024-01-09 17:33:35
-tags: 
-	- Linux
-	- Docker
+tags: Linux, Docker
 ---
 
 在大多数时候，容器项目不需要gui环境。但是某些特殊情况下使用gui环境会方便很多。虽然容器运行桌面环境收到诸多限制，但是即便是演示性质，仅仅是其可行性就显示出容器技术的巨大威力。

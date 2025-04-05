@@ -1,9 +1,7 @@
 ---
 title: Mac完全卸载Docker
 date: 2024-09-21 12:13:15
-tags: 
-	- Docker
-	- MacBook
+tags: Docker, MacBook
 ---
 
 在Mac上彻底卸载Docker: [https://yqqy.top/blog/2022/uninstall-docker-on-macos](https://yqqy.top/blog/2022/uninstall-docker-on-macos)

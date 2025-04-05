@@ -1,9 +1,7 @@
 ---
 title: 简述Docker架构与容器生态
 date: 2024-01-07 16:39:39
-tags: 
-    - Docker
-    - Kubernetes
+tags: Docker, Kubernetes
 ---
 
 自 Docker 开启了使用容器的爆发式增长，有越来越多的工具和标准来帮助管理和使用这项容器化技术，与此同时也造成了有很多术语让人感到困惑。

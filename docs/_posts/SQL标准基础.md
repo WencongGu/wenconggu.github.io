@@ -1,8 +1,7 @@
 ---
 title: SQL标准基础
 date: 2023-12-15 17:12:14
-tags:
-    - SQL
+tags: SQL
 mathjax: true
 ---
 
